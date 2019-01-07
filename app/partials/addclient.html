@@ -1,0 +1,211 @@
+<div class="modal-dialog" role="document">
+            <div class="modal-content modal-content-one">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">×</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <section class="row justify-content-md-center">
+                        <div class="col-md-auto col-md-4 p-4">
+                            <div class="loginForm p-3 m-3">
+                                <p class="m-0 issueIcon text-center">
+                                    <span>
+                                        <img src="../assets/images/reportimgs/Line 67.png"/>
+                                        <img src="../assets/images/reportimgs/Group 743.png"/>
+                                        <img src="../assets/images/reportimgs/Line 68.png"/>
+                                    </span>
+                                </p>
+                                <h5 class="text-center text-uppercase"style="
+                                padding-top: 13px;">CREATE CLIENT</h5>
+                                <form name="clientForm" class="mt-4" novalidate>
+                                    <div class="form-group">
+                                         <input type="text" class="form-control"  style="color: #fff; padding-left: 5%" id="name" name="name" ng-model="vm.clientData.clientName" placeholder="Name" required
+                                           />
+                                        <p class="red has-error" ng-show="clientForm.name.$touched">
+                                            <span ng-show="clientForm.name.$error.required">Name is required.</span>
+                                        </p>
+                                    </div>
+                                    <label class="labeldesign">Company Contact</label>
+                                <div class="row">
+                                  
+                                   <div class="form-group col">
+                                    <select ui-select2 ng-model="vm.clientData.clientContact.dialCode" class="form-control"
+                                        ng-options="cc.dialCode for cc in vm.getCountryCode" placeholder="dial Code"></select>
+
+                                    <!-- <multiselect ng-model="vm.clientData.clientContact.dialCode" id-prop="dialCode" display-prop="dialCode" 
+                                        options="vm.getCountryCode" show-search="true" search-limit="6"
+                                            selection-limit="1" classes-btn="'btn btn-light btn-block'"placeholder="dial Code" required>
+                                    </multiselect> -->
+
+                                    <!-- <select class="custom-select" ng-model="vm.clientData.clientContact.dialCode" ng-options="c.dialCode for c in vm.getCountryCode">
+                                        <option style="display:none;" value="">Select dialCode</option>
+                                    </select> -->
+                                   </div>
+                                    <div class="form-group col">
+                                        <input type="number" class="form-control"  style="color: #fff; padding-left: 5%"id="contact" name="contact" ng-model="vm.clientData.clientContact.phoneNumber" placeholder="contact number" required
+                                          />
+                                       <p class="red has-error" ng-show="clientForm.name.$touched">
+                                           <span ng-show="clientForm.name.$error.required">Contact number is required.</span>
+                                       </p>
+                                   </div>
+                                </div>
+                                
+                               <div class="form-group">
+                                     
+                                <input type="text" class="form-control"  style="color: #fff; padding-left: 5%;"id="email" name="email" ng-model="vm.clientData.email" placeholder="E-mail" required
+                                  />
+                              
+                           
+                               <p class="red has-error" ng-show="clientForm.name.$touched">
+                                   <span ng-show="clientForm.name.$error.required">email is required.</span>
+                               </p>
+                           </div>
+                            <div class="form-group">
+                                <label class="labeldesign">Primary Address</label>
+                                <input type="text" class="form-control"  style="color: #fff; padding-left: 5%;"id="line1" name="line1" ng-model="vm.clientData.address1.line1" placeholder="line1" 
+                                />
+                                <br />
+                                <input type="text" class="form-control"  style="color: #fff;padding-left: 5%;"id="line2" name="line2" ng-model="vm.clientData.address1.line2" placeholder="line2"
+                                />
+                                <br />
+                                <input type="text" class="form-control"  style="color: #fff;padding-left: 5%;"id="line3" name="line3" ng-model="vm.clientData.address1.line3" placeholder="line3" 
+                                />
+                                <br />
+                                <input type="text" class="form-control"  style="color: #fff;padding-left: 5%;"id="city" name="city" ng-model="vm.clientData.address1.city" placeholder="city" 
+                                />
+                                <br />
+                                <input type="text" class="form-control"  style="color: #fff;padding-left: 5%;"id="postalcode" name="postalcode" ng-model="vm.clientData.address1.postalCode" placeholder="postal Code" 
+                                />
+                                <br />
+                                <select ui-select2 ng-model="vm.clientData.address1.countryCode" class="form-control"  placeholder="country Code"
+                                    ng-options="cc.code for cc in vm.getCountryCode"></select>
+
+                                <!-- <multiselect ng-model="vm.clientData.address1.countryCode" id-prop="code" display-prop="code"
+                                    options="vm.getCountryCode" show-search="true" search-limit="6" selection-limit="1" classes-btn="'btn btn-light btn-block'" placeholder="country Code">
+                                </multiselect> -->
+                                <!-- <select class="custom-select" ng-model="vm.clientData.address1.countryCode" ng-options="c.code for c in vm.getCountryCode">
+                                    <option style="display:none;" value="">Select country Code</option>
+                                </select> -->
+                            </div><br />
+                            <div clas="form-group">
+                                <label class="labeldesign">Secondary Address</label>
+                                <input type="text" class="form-control"  style="color: #fff;padding-left: 5%;"id="lineadd1" name="lineadd1" ng-model="vm.clientData.address2.line1" placeholder="line1" 
+                                />
+                                <br />
+                                <input type="text" class="form-control"  style="color: #fff;padding-left: 5%;"id="lineadd2" name="lineadd2" ng-model="vm.clientData.address2.line2" placeholder="line2"
+                                />
+                                <br />
+                                <input type="text" class="form-control"  style="color: #fff;padding-left: 5%;"id="lineadd3" name="lineadd3" ng-model="vm.clientData.address2.line3" placeholder="line3" 
+                                />
+                                <br />
+                                <input type="text" class="form-control"  style="color: #fff;padding-left: 5%;"id="city" name="city" ng-model="vm.clientData.address2.city" placeholder="city" 
+                                />
+                                <br />
+                                <input type="text" class="form-control"  style="color: #fff;padding-left: 5%;"id="postalcode" name="postalcode" ng-model="vm.clientData.address2.postalCode" placeholder="postal Code" 
+                                />
+                                <br />
+                                <select ui-select2 ng-model="vm.clientData.address2.countryCode" class="form-control" placeholder="country code"
+                                    ng-options="cc.code for cc in vm.getCountryCode"></select>
+
+                                <!-- <multiselect ng-model="vm.clientData.address2.countryCode" 
+                                    id-prop="code" display-prop="code" options="vm.getCountryCode" show-search="true" search-limit="6"
+                                    selection-limit="1" classes-btn="'btn btn-light btn-block'" placeholder="country code">
+                                </multiselect> -->
+
+                                <!-- <select class="custom-select" ng-model="vm.clientData.address2.countryCode" ng-options="c.code for c in vm.getCountryCode">
+                                    <option style="display:none;" value="">Select country Code</option>
+                                </select> -->
+                                <br />
+                            </div>
+                            <div><br /></div>
+                            <div class="form-group">
+                                <input type="text" class="form-control"  style="color: #fff;padding-left: 5%;"id="website" name="website" ng-model="vm.clientData.clientWebsite" placeholder="website url"
+                                  />
+                           </div>
+                           <div class="form-group">
+                            <input type="text" class="form-control"  style="color: #fff;padding-left: 5%;"id="year" name="year" ng-model="vm.clientData.yearFounded" placeholder="Year Founded" 
+                              />
+                           </div>
+                                   
+                           <div class="form-group">
+                            <input type="text" class="form-control"  style="color: #fff;padding-left: 5%;"id="description" name="description" ng-model="vm.clientData.description" placeholder="Description" 
+                              />
+                           </div>
+                             <div class="form-group">
+                                <select ui-select2 multiple ng-model="vm.clientData.industry" class="form-control"  placeholder="select Industries" 
+                                    ng-options="cc.type for cc in vm.getIndustries"></select>
+
+                                <!-- <multiselect ng-model="vm.clientData.industry" 
+                                    id-prop="type" display-prop="type" options=" vm.getIndustries" show-search="true" search-limit="6"
+                                    selection-limit="4" classes-btn="'btn btn-light btn-block'" placeholder="select Industries">
+                                  </multiselect> -->
+
+                                <!-- <select class="custom-select" ng-model="vm.clientData.industry" ng-options="c.type for c in vm.getIndustries">
+                                    <option style="display:none;" value="">Select industries</option>
+                                </select> -->
+                             </div>
+                             <div class="form-group">
+                                <input type="text" class="form-control"  style="color: #fff;padding-left: 5%;"id="annual" name="annual" ng-model="vm.clientData.annualRevenue.value" placeholder="annual Revenue" 
+                                /><br/>
+                                <select ui-select2 ng-model="vm.clientData.annualRevenue.currencyCode"  placeholder="select Currency"
+                                     class="form-control" ng-options="cc.cc +' - '+cc.name for cc in vm.getCurrencies"></select>
+
+                                <!-- <multiselect ng-model="vm.clientData.annualRevenue.currencyCode" 
+                                    id-prop="name" display-prop="name" options=" vm.getCurrencies" show-search="true" search-limit="6"
+                                    selection-limit="1" classes-btn="'btn btn-light btn-block'" placeholder="select Currency">
+                                </multiselect> -->
+
+                                <!-- <select class="custom-select" ng-model="vm.clientData.annualRevenue.currencyCode" ng-options="c.symbol for c in vm.getCurrencies">
+                                    <option style="display:none;" value="">Select Currency</option>
+                                </select> -->
+                             </div>
+                             <div class="form-group">
+                                 <label class="labeldesign">Client Contact</label>
+                                 <input type="text" class="form-control"  style="color: #fff;padding-left: 5%;"id="fn" name="fn" ng-model="vm.clientData.clientContactPerson.firstName" placeholder="first Name" 
+                                /><br/>
+                                <input type="text" class="form-control"  style="color: #fff;padding-left: 5%;"id="mn" name="mn" ng-model="vm.clientData.clientContactPerson.middleName" placeholder="middle Name" 
+                                /><br/>
+                                <input type="text" class="form-control"  style="color: #fff;padding-left: 5%;"id="ln" name="ln" ng-model="vm.clientData.clientContactPerson.lastName" placeholder="last Name" 
+                                /><br/>
+                                <input type="text" class="form-control"  style="color: #fff;padding-left: 5%;"id="clientemail" name="clientemail" ng-model="vm.clientData.clientContactPerson.email" placeholder="Email" 
+                                /><br/>
+                                <!-- <multiselect ng-model="vm.clientData.clientContact.dialCode" 
+                                id-prop="dialCode" display-prop="code" options="vm.getCountryCode" show-search="true" search-limit="6"
+                                selection-limit="1" classes-btn="'btn btn-light btn-block'">
+                              </multiselect> -->
+                                    <div class="row">
+                                      <div class="form-group col">
+                                        <select ui-select2 ng-model="vm.clientData.clientContactPerson.dialCode" placeholder="dial code"
+                                             class="form-control" ng-options="cc.dialCode for cc in vm.getCountryCode"></select>
+                                        
+                                        <!-- <multiselect ng-model="vm.clientData.clientContactPerson.dialCode" 
+                                            id-prop="dialCode" display-prop="dialCode" options="vm.getCountryCode" show-search="true" search-limit="6"
+                                            selection-limit="1" classes-btn="'btn btn-light btn-block'" placeholder="dial code">
+                                        </multiselect> -->
+                                      <!-- <select class="custom-select" ng-model="vm.clientData.clientContactPerson.dialCode" ng-options="c.dialCode for c in vm.getCountryCode">
+                                              <option style="display:none;" value="">Select dialCode</option>
+                                       </select> -->
+                                       </div>
+                                       <div class="form-group col">
+                                      <input type="number" class="form-control"  style="color: #fff;padding-left: 5%;"id="contactclient" name="contactclient" ng-model="vm.clientData.clientContactPerson.phoneNumber" placeholder="contact number" 
+                                            /></div>
+                                    </div>
+                                   
+                                    
+                                  
+                             </div>
+                    
+                                    <button type="button" class="btn btn-default btn-block mt-3" ng-click="vm.addNewClient(clientForm.$valid, vm.clientData)" 
+                                        ng-disabled="clientForm.$invalid || clientForm.$pending">CREATE</button>
+
+                                </form>
+                               
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+  

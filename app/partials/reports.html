@@ -1,0 +1,99 @@
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" crossorigin="anonymous">
+<div ng-include="'/partials/header.html'"></div>
+<div id="reports" class="page-content pt-4 page-layout simple fullwidth">
+    <section class="container-fluid">
+        <div class="row justify-content-between" id="issuesList" ng-cloak>
+            <div class="col-3">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <span class="fas fa-search"></span>
+                        </span>
+                    </div>
+                    <input type="search" class="form-control rounded-30 searchTable" placeholder="Search product" ng-model="vm.searchText" ng-change="vm.searchIssues (vm.searchText)"
+                        aria-controls="DataTables_Table_0">
+                </div>
+            </div>
+            <div class="col-3 text-right">
+                <button type="button" class="btn btn-gray rounded-30" data-toggle="modal" data-target="#reportModal">Add Report</button>
+            </div>
+            <div class="w-100"></div>
+            <div class="col-12">
+                <table ng-cloak class="table-bordered hover" >
+                    <thead class="bg-success text-white">
+                        <tr ng-cloak style="height: 40px;">
+                            <th class="secondary-text" style="width: 150px;">
+                                <div class="table-header">
+                                    <span class="column-title">Images</span>
+                                </div>
+                            </th>
+                            <th class="secondary-text" style="width: 300px;">
+                                <div class="table-header">
+                                    <span class="column-title">Title</span>
+                                   
+                                </div>
+                            </th>
+                            <th class="secondary-text" style="width: 150px;">
+                                <div class="table-header">
+                                    <span class="column-title">System Tag</span>
+                                  
+                                </div>
+                            </th>
+                            <th class="secondary-text"  style="width: 300px;">
+                                <div class="table-header">
+                                    <span class="column-title">Description</span>
+                                    
+                                </div>
+                            </th>
+                            <th class="secondary-text" style="width: 200px;">
+                                <div class="table-header">
+                                    <span class="column-title">Project Name</span>
+                                    
+                                </div>
+                            </th>
+                            <th class="secondary-text" style="width: 200px;">
+                                <div class="table-header">
+                                    <span class="column-title">Created date</span>
+                                   
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ui-sref="reportsDetail({id:1})">
+                            <td  class="table-data text-center">IMAGE</td>
+                            <td class="table-data">test title for reports</td>
+                            <td class="table-data">test system tag for reports</td>
+                            <td class="table-data">test description for reports</td>
+                            <td class="table-data">test project name here</td>
+                            <td class="table-data">test created date input</td>
+                        </tr>
+                        <tr ui-sref="reportsDetail({id:2})">
+                            <td  class="table-data text-center">IMAGE</td>
+                            <td class="table-data">test title for reports</td>
+                            <td class="table-data">test system tag for reports</td>
+                            <td class="table-data">test description for reports</td>
+                            <td class="table-data">test project name here</td>
+                            <td class="table-data">test created date input</td>
+                        </tr>
+                        <tr ui-sref="reportsDetail({id:3})">
+                            <td  class="table-data text-center">IMAGE</td>
+                            <td class="table-data">test title for reports</td>
+                            <td class="table-data">test system tag for reports</td>
+                            <td class="table-data">test description for reports</td>
+                            <td class="table-data">test project name here</td>
+                            <td class="table-data">test created date input</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+                
+              
+            </div>
+        </div>
+    </section>
+    
+    <div class="modal fade" id="reportModal" tabindex="-1" role="dialog">
+        <div ng-include="'/partials/addreports.html'"></div>
+    </div>

@@ -1,0 +1,92 @@
+<div class="modal fade p-0 m-0" id="loadMaterial" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content modal-content-one">
+            <div class="modal-header">
+                <h5>Load Material</h5>
+                <button type="button" class="close">
+                    <span class="btn btn-primary mb-0 mr-3" ng-click="assignMaterial(currentShape.name , selectedMaterial._id , entityType)">Assign material</span>
+                    <span data-dismiss="modal">×</span>
+                    <span class="sr-only">Close</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row justify-content-center mb-2" ng-if="selectedMaterial != ''">
+                    <div class="col-3">
+                        <div class="card materialItem">
+                            <img class="card-img-top" src="{{selectedMaterial.files[0].secure_url}}" ng-hide="selectedMaterial.files.length == 0 || !selectedMaterial.files">
+                            <img class="card-img-top" src="/assets/images/loadMaterialIcon.jpg" ng-show="selectedMaterial.files.length == 0 || !selectedMaterial.files"
+                                alt="No Image">
+                            <div class="card-body">
+                                <h5 class="card-title m-0 text-center">{{selectedMaterial.name}}</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <uib-tabset>
+                    <uib-tab index="0" select="resetSelectedMaterial(0)">
+                        <uib-tab-heading class="costItem"> Materials </uib-tab-heading>
+                        <section class="container-fluid pt-0">
+                            <div class="form-group searchMaterial">
+                                <label for="">Search Material</label>
+                                <input type="text" ng-model="searchMaterial" class="form-control" id="" placeholder="search material">
+                            </div>
+                            <div class="row materialList">
+                                <div class="col-4 mb-2" ng-repeat="item in materialList | filter: {name: searchMaterial}">
+                                    <div class="card materialItem" ng-click="materialSelection(item)">
+                                        <img class="card-img-top" src="{{item.files[0].secure_url}}" ng-hide="item.files.length == 0 || !item.files">
+                                        <img class="card-img-top" src="/assets/images/loadMaterialIcon.jpg" ng-show="item.files.length == 0 || !item.files" alt="No Image">
+                                        <div class="card-body">
+                                            <h5 class="card-title m-0 text-center">{{item.name}}</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </uib-tab>
+                    <uib-tab index="1" select="resetSelectedMaterial(1)">
+                        <uib-tab-heading class="costItem"> DCP </uib-tab-heading>
+                        <section class="container-fluid pt-0">
+                            <div class="form-group searchMaterial">
+                                <label for="">Search DCP</label>
+                                <input type="text" ng-model="searchDcp" class="form-control" id="" placeholder="search material">
+                            </div>
+                            <div class="row materialList">
+                                <div class="col-4  mb-2" ng-repeat="item in dcpList | filter: {name: searchDcp}">
+                                    <div class="card materialItem" ng-click="materialSelection(item)">
+                                        <img class="card-img-top" src="{{item.files[0].secure_url}}" ng-hide="item.files.length == 0 || !item.files">
+                                        <img class="card-img-top" src="/assets/images/loadMaterialIcon.jpg" ng-show="item.files.length == 0 || !item.files" alt="No Image">
+                                        <div class="card-body">
+                                            <h5 class="card-title m-0 text-center">{{item.name}}</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </uib-tab>
+                    <uib-tab index="2" select="resetSelectedMaterial(2)">
+                        <uib-tab-heading class="costItem"> Equipment </uib-tab-heading>
+                        <section class="container-fluid pt-0">
+                            <div class="form-group  searchMaterial">
+                                <label for="">Search Equipment</label>
+                                <input type="text" ng-model="searchEquipment" class="form-control" id="" placeholder="search material">
+                            </div>
+                            <div class="row materialList">
+                                <div class="col-4 text-center mb-2" ng-repeat="item in equipmentList | filter: {name: searchEquipment}">
+                                    <div class="card materialItem" ng-click="materialSelection(item)">
+                                        <img class="card-img-top" src="{{item.files[0].secure_url}}" ng-hide="item.files.length == 0 || !item.files">
+                                        <img class="card-img-top" src="/assets/images/loadMaterialIcon.jpg" ng-show="item.files.length == 0 || !item.files" alt="No Image">
+                                        <div class="card-body">
+                                            <h5 class="card-title m-0 text-center">{{item.name}}</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </uib-tab>
+                </uib-tabset>
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,573 @@
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" crossorigin="anonymous">
+<div ng-include="'/partials/header.html'"></div>
+<div class="loader">
+    <img src="/assets/images/loader.gif" alt="">
+</div>
+<div id="materials" class="page-content pt-4 page-layout simple fullwidth">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <uib-tabset active="vm.activeTab">
+                    <uib-tab index="0">
+                        <uib-tab-heading class="costItem"> Materials </uib-tab-heading>
+                        <section class="container-fluid pt-4">
+                            <div class="row justify-content-between" id="materialList" ng-cloak>
+                                <div class="col-3">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" ng-if="vm.searchText.length == 0">
+                                                <span class="fas fa-search"></span>
+                                            </span>
+                                            <span class="input-group-text" style="cursor: pointer;" ng-click="vm.searchText = ''; vm.sortMaterials('name', 'material')" ng-if="vm.searchText.length > 0">
+                                                <span class="fas fa-times"></span>
+                                            </span>
+                                        </div>
+                                        <input type="search" class="form-control rounded-30 searchTable" placeholder="Search product" ng-model="vm.searchText" ng-change="vm.searchMaterials (vm.searchText, 'material')"
+                                            aria-controls="DataTables_Table_0">
+                                    </div>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <button type="button" class="btn btn-gray rounded-30" data-backdrop="static" data-toggle="modal" data-target="#addMaterial" data-keyboard="false">Add Material</button>
+                                </div>
+                                <div class="w-100"></div>
+                                <div class="col-12">
+                                    <table ng-cloak class="dataTable table-bordered" datatable="ng" dt-options="vm.dtOptions">
+                                        <thead class="bg-success text-white">
+                                            <tr ng-cloak>
+                                                <th class="secondary-text" style="width: 100px;">
+                                                    <div class="table-header" ng-click="vm.sortMaterials('name', 'material')">
+                                                        <span class="column-title">Image </span>
+                                                    </div>
+                                                </th>
+                                                <th class="secondary-text" style="cursor:pointer">
+                                                    <div class="table-header" ng-click="vm.sortMaterials('name',  'material')">
+                                                        <span class="column-title">Name</span>
+                                                        <span class="float-right">
+                                                            <i class="fa" ng-class="vm.toggleObj.material.name ? 'fa-angle-up' : 'fa-angle-down'"></i>
+                                                        </span>
+                                                    </div>
+                                                </th>
+                                                <th class="secondary-text" style="cursor:pointer">
+                                                    <div class="table-header" ng-click="vm.sortMaterials('systemTag',  'material')">
+                                                        <span class="column-title">System Tag</span>
+                                                        <span class="float-right">
+                                                            <i class="fa" ng-class="vm.toggleObj.material.systemTag ? 'fa-angle-up' : 'fa-angle-down'"></i>
+                                                        </span>
+                                                    </div>
+                                                </th>
+                                                <th class="secondary-text">
+                                                    <div class="table-header" ng-click="vm.sortMaterials('materialCost',  'material')">
+                                                        <span class="column-title">Material Cost</span>
+                                                        <span class="float-right">
+                                                            <i class="fa" ng-class="{{vm.toggleObj.material.materialCost}} ? 'fa-angle-up' : 'fa-angle-down'"></i>
+                                                        </span>
+                                                    </div>
+                                                </th>
+                                                <th class="secondary-text">
+                                                    <div class="table-header" ng-click="vm.sortMaterials('rooferCost',  'material')">
+                                                        <span class="column-title">Worker Cost</span>
+                                                        <span class="float-right">
+                                                            <i class="fa" ng-class="{{vm.toggleObj.material.rooferCost}} ? 'fa-angle-up' : 'fa-angle-down'"></i>
+                                                        </span>
+                                                    </div>
+                                                </th>
+                                                <th class="secondary-text" style="cursor:pointer">
+                                                    <div class="table-header" ng-click="vm.sortMaterials('createdAt',  'material')">
+                                                        <span class="column-title">Created date</span>
+                                                        <span class="float-right">
+                                                            <i class="fa" ng-class="{{vm.toggleObj.material.createdAt}} ? 'fa-angle-up' : 'fa-angle-down'"></i>
+                                                        </span>
+                                                    </div>
+                                                </th>
+                                                <th class="secondary-text">
+                                                    <div class="table-header text-center">
+                                                        <span class="column-title">See Details</span>
+                                                    </div>
+                                                </th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr ng-cloak ng-repeat="material in vm.material" style="background-color: #ffffff;">
+                                                <td class="table-data text-center">
+                                                    <img ng-src="{{ material.files[0].url }}" style="max-width: 90px;" alt="">
+                                                </td>
+                                                <td class="table-data">
+                                                    {{ material.name }}
+                                                </td>
+                                                <td class="table-data">{{ material.systemTag }}</td>
+                                                <td class="table-data">{{ material.currentRate.materialCost.value | roundNum:2}} &nbsp;{{material.currentRate.materialCost.currencyCode}}
+
+                                                </td>
+                                                <td class="table-data">{{ material.currentRate.rooferCost.value | roundNum:2}}&nbsp;{{material.currentRate.rooferCost.currencyCode}}
+
+                                                </td>
+                                                <td class="table-data">{{ material.createdAt | date : 'MM/dd/yyyy HH:MM:ss' }}</td>
+                                                <td class="table-data text-center">
+                                                    <a href="#!material/{{ material._id }}">
+                                                        <i class="fa fa-eye" aria-hidden="true"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td></td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+
+                                </div>
+                                <div id="materialPagination" class="mt-3"></div>
+                            </div>
+                        </section>
+                    </uib-tab>
+                    <uib-tab index="1">
+                        <uib-tab-heading class="costTemplate"> DCP </uib-tab-heading>
+                        <section class="container-fluid pt-4">
+                            <div class="row justify-content-between" id="materialList" ng-cloak>
+                                <div class="col-3">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" ng-if="vm.searchText.length == 0">
+                                                <span class="fas fa-search"></span>
+                                            </span>
+                                            <span class="input-group-text" style="cursor: pointer;" ng-click="vm.searchText = ''; vm.sortMaterials('name', 'combo')" ng-if="vm.searchText.length > 0">
+                                                <span class="fas fa-times"></span>
+                                            </span>
+                                        </div>
+                                        <input type="search" class="form-control rounded-30 searchTable" placeholder="Search product" ng-model="vm.searchText" ng-change="vm.searchMaterials (vm.searchText, 'combo')"
+                                            aria-controls="DataTables_Table_0">
+                                    </div>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <button type="button" class="btn btn-gray rounded-30" data-toggle="modal" data-target="#addComboMaterial">Add Combo Material</button>
+                                </div>
+
+                                <div class="w-100"></div>
+                                <div class="col-12">
+                                    <table ng-cloak class="dataTable table-bordered hover" datatable="ng" dt-options="vm.dtOptions">
+                                        <thead class="bg-success text-white">
+                                            <tr ng-cloak>
+                                                <th class="secondary-text" style="width: 100px;">
+                                                    <div class="table-header">
+                                                        <span class="column-title">Image</span>
+                                                    </div>
+                                                </th>
+                                                <th class="secondary-text">
+                                                    <div class="table-header" ng-click="vm.sortMaterials('name', 'combo')">
+                                                        <span class="column-title">Name</span>
+                                                        <i class="fa" ng-class="vm.toggleObj.combo.name ? 'fa-angle-up' : 'fa-angle-down'"></i>
+                                                    </div>
+                                                </th>
+                                                <th class="secondary-text">
+                                                    <div class="table-header" ng-click="vm.sortMaterials('systemTag', 'combo')">
+                                                        <span class="column-title">System Tag</span>
+                                                        <i class="fa" ng-class="vm.toggleObj.combo.systemTag ? 'fa-angle-up' : 'fa-angle-down'"></i>
+                                                    </div>
+                                                </th>
+                                                <th class="secondary-text">
+                                                    <div class="table-header">
+                                                        <span class="column-title">Material Cost</span>
+                                                    </div>
+                                                </th>
+                                                <th class="secondary-text">
+                                                    <div class="table-header">
+                                                        <span class="column-title">Worker Cost</span>
+                                                    </div>
+                                                </th>
+                                                <th class="secondary-text">
+                                                    <div class="table-header" ng-click="vm.sortMaterials('createdAt', 'combo')">
+                                                        <span class="column-title">Created date</span>
+                                                        <i class="fa" ng-class="vm.toggleObj.combo.createdAt ? 'fa-angle-up' : 'fa-angle-down'"></i>
+                                                    </div>
+                                                </th>
+                                                <th class="secondary-text">
+                                                    <div class="table-header text-center">
+                                                        <span class="column-title">See Details</span>
+                                                    </div>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-cloak ng-repeat="combo in vm.combo">
+                                                <td class="table-data text-center">
+                                                    <img ng-src="{{ material.files[0].url }}" style="max-width: 90px;" alt="">
+                                                </td>
+                                                <td class="table-data">
+                                                    {{ combo.name }}
+                                                </td>
+                                                <td class="table-data">{{ combo.systemTag }}</td>
+                                                <td class="table-data">{{ combo.materialTotal.value | roundNum:2}}
+                                                </td>
+                                                <td class="table-data">{{ combo.rooferTotal.value | roundNum:2}}
+                                                </td>
+                                                <td class="table-data">{{ combo.createdAt | date : 'MM/dd/yyyy HH:MM:ss' }}</td>
+                                                <td class="table-data text-center">
+                                                    <a href="#!combo_material/{{ combo._id }}">
+                                                        <i class="fa fa-eye" aria-hidden="true"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                    <div id="comboPagination" class="mt-3"></div>
+                                </div>
+                            </div>
+                        </section>
+                    </uib-tab>
+                </uib-tabset>
+            </div>
+        </div>
+    </div>
+    <!-- Add material modal -->
+    <div class="modal fade" id="addMaterial" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Create Cost Item </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>   
+                </div>
+                <form name="vm.addMaterialForm" ng-model="vm.addMaterial" novalidate>
+                    <div class="modal-body">
+                        <uib-tabset active="activeJustified" justified="true">
+                            <uib-tab index="0">
+                                <uib-tab-heading class="info">
+                                    <i class="far fa-file-alt" aria-hidden="true"></i>
+                                    Material Info
+                                </uib-tab-heading>
+                                <div class="row mt-5">
+                                    <div class="form-group col">
+                                        <label for="materialName">Name</label>
+                                        <input type="text" class="form-control" ng-change="vm.tabStyle()" ng-model="vm.addMaterial.materialName" name="materialName"
+                                            maxlength="100" ng-minlength="2" required>
+                                    </div>
+                                    <div class="form-group col">
+                                        <label for="materialUnit">Unit</label>
+                                        <select class="form-control" ng-change="vm.tabStyle()" ng-model="vm.addMaterial.materialUnit" name="materialUnit" id="materialUnit">
+                                            <option ng-repeat="unit in vm.mUnits" value="{{unit.value}}">{{unit.name}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="form-group col">
+                                        <label for="currency">Currency</label>
+
+                                        <select ui-select2 ng-model="vm.addMaterial.currency" class="form-control" ng-change="vm.showConversionRate(vm.companyData.currentCurrency.currencyCode, vm.addMaterial.currency.cc)"
+                                            ng-options="currency.cc +' - '+ currency.name for currency in vm.currencies"></select>
+
+                                        <!-- <multiselect ng-model="vm.addMaterial.currency" ng-change="vm.showConversionRate(vm.companyData.currentCurrency.currencyCode, vm.addMaterial.currency[0].cc)"
+                                            id-prop="cc" display-prop="name" options="vm.currencies" show-search="true" search-limit="6"
+                                            selection-limit="1" classes-btn="'btn btn-light btn-block'">
+                                        </multiselect> -->
+
+                                        <!-- <select class="form-control" ng-model="vm.addMaterial.currency" ng-change="vm.showConversionRate(vm.companyData.currentCurrency.currencyCode, vm.addMaterial.currency)">
+                                            <option value="">Select your currency</option>
+                                            <option ng-repeat="currency in vm.currencies" value="{{currency.cc}}">{{currency.name}}</option>
+                                        </select> -->
+                                        <!-- <input auto-complete class="form-control" ui-items="currency" ng-init="currency='no currency selected'" ng-model="currency"> -->
+                                    </div>
+                                    <div class="form-group col">
+                                        <label for="conversionFactor">Conversion Factor</label>
+                                        <span class="form-control">{{vm.addMaterial.conversionFactor | roundNum:2}}</span>
+                                        <!-- <input type="number" class="form-control" ng-model="vm.addMaterial.conversionFactor" name="conversionFactor" required ng-change="vm.changeConversionFactor()"> -->
+                                    </div>
+                                </div>
+
+                            </uib-tab>
+                            <uib-tab index="1" disable="true">
+                                <uib-tab-heading class="cost">
+                                    <i class="far fa-file-alt" aria-hidden="true"></i>
+                                    Set Cost
+                                </uib-tab-heading>
+                                <div class="row mt-5">
+                                    <div class="form-group col">
+                                        <label for="materialCost">Material Cost ({{vm.addMaterial.currency.cc}})</label>
+                                        <input type="number" class="form-control" ng-change="vm.changeCost(vm.addMaterial.materialCostValue)" name="materialCost"
+                                            ng-model="vm.addMaterial.materialCostValue" required>
+                                    </div>
+                                    <div class="form-group col">
+                                        <label for="rooferCost">Worker Cost ({{vm.addMaterial.currency.cc}})</label>
+                                        <input type="number" class="form-control" ng-model="vm.addMaterial.rooferCostValue" name="rooferCost" ng-change="vm.changeCost(vm.addMaterial.rooferCostValue)"
+                                            type="number" required>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="form-group col">
+                                        <div class="btn btn-success bg-success border-0" ngf-select ng-model="vm.inputFiles" name="file" ngf-pattern="'image/*'"
+                                            ngf-multiple="true" ngf-accept="'image/*'">Upload Images</div>
+                                        <div>
+                                            <span ng-repeat="filename in vm.inputFiles">{{filename.$ngfName}}, </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col text-center">
+                                        <p>
+                                            <strong>Conversion Factor</strong>
+                                        </p>
+                                        <p>{{vm.addMaterial.conversionFactor | roundNum:2}}</p>
+                                    </div>
+                                    <div class="col text-center">
+                                        <p>
+                                            <strong>Actual Material Cost ({{vm.companyData.currentCurrency.currencyCode}})</strong>
+                                        </p>
+                                        <p>{{vm.addMaterial.materialCostValue | convertCurrency:vm.addMaterial.conversionFactor
+                                            | roundNum:2}}</p>
+                                    </div>
+                                    <div class="col text-center">
+                                        <p>
+                                            <strong>Actual Worker Cost ({{vm.companyData.currentCurrency.currencyCode}})</strong>
+                                        </p>
+                                        <p>{{vm.addMaterial.rooferCostValue | convertCurrency:vm.addMaterial.conversionFactor
+                                            | roundNum:2}}</p>
+                                    </div>
+                                </div>
+                            </uib-tab>
+                        </uib-tabset>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" ng-hide="active = activeJustified" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-success bg-success border-0 next" disabled ng-hide="active = activeJustified" ng-click="vm.addMaterialNext()">Next</button>
+                        <button type="button" class="btn btn-primary btn-gray" ng-show="active = activeJustified" ng-click="activeJustified = 0">Previous</button>
+                        <button type="submit" class="btn btn-success bg-success border-0" ng-click="vm.addMaterialDetails()" ng-show="active = activeJustified">Done</button>
+                    </div>
+                </form>
+                <!-- ng-hide="activeJustified = 0"
+                 ng-show="activeJustified = 1" -->
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="addComboMaterial" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Create Combo Material </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form ng-model="vm.addComboMaterial" novalidate>
+
+                    <div class="modal-body">
+                        <uib-tabset active="comboActiveJustified" justified="true">
+                            <uib-tab index="0">
+                                <uib-tab-heading class="info">
+                                    <i class="far fa-file-alt" aria-hidden="true"></i>
+                                    Description
+                                </uib-tab-heading>
+                                <div class="row my-4">
+                                    <div class="col">
+                                        <h5>Fill the Name of Material</h5>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col">
+                                        <label for="name">Name of Combo Material</label>
+                                        <input type="text" class="form-control" ng-change="vm.tabStyle()" placeholder="" ng-model="vm.addComboMaterialForm.name"
+                                            name="name" maxlength="100" ng-minlength="2" required>
+                                    </div>
+                                    <div class="form-group col">
+                                        <label for="unitSymbol">Unit</label>
+                                        <select class="form-control" ng-change="vm.tabStyle()" ng-model="vm.addComboMaterialForm.unitSymbol" name="unitSymbol" id="unitSymbol"
+                                            required>
+                                            <option ng-repeat="unit in vm.mUnits" value="{{unit.value}}">{{unit.name}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col">
+                                        <label for="description">Description</label>
+                                        <textarea placeholder="" class="form-control" ng-change="vm.tabStyle()" ng-model="vm.addComboMaterialForm.description" name="description"
+                                            maxlength="500"></textarea>
+                                    </div>
+                                </div>
+                            </uib-tab>
+                            <uib-tab index="1">
+                                <uib-tab-heading class="cost">
+                                    <i class="far fa-file-alt" aria-hidden="true"></i>
+                                    Combination
+                                </uib-tab-heading>
+                                <div class="row mt-4">
+                                    <div class="form-group col">
+                                        <label for="comboMaterialList">Material List</label>
+                                        <select ui-select2 ng-model="vm.addComboMaterialForm.comboMaterial" class="form-control" ng-change="vm.getMaterialInfo(vm.addComboMaterialForm.comboMaterial)"
+                                            ng-options="material.name for material in vm.allmaterilaList">
+                                        </select>
+
+                                        <!-- <multiselect ng-model="vm.addComboMaterialForm.comboMaterial" ng-change="vm.getMaterialInfo(vm.addComboMaterialForm.comboMaterial)"
+                                            id-prop="_id" display-prop="name" options="vm.allmaterilaList" show-search="true"
+                                            search-limit="6" selection-limit="1" classes-btn="'btn btn-light btn-block'">
+                                        </multiselect> -->
+
+                                        <!-- <select class="form-control" ng-change="vm.tabStyle(); vm.getMaterialInfo(vm.addComboMaterialForm.comboMaterial)" ng-options="material.name for material in vm.allmaterilaList" 
+                                            ng-model="vm.addComboMaterialForm.comboMaterial" name="comboMaterialList" id="comboMaterialList" required></select> -->
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col">
+                                        <label for="comboMaterialQty">Quantity</label>
+                                        <input type="number" class="form-control" ng-change="vm.QtyChange(vm.comboList.quantity, vm.addComboMaterialForm.comboMaterial)"
+                                            placeholder="" ng-model="vm.comboList.quantity" name="comboMaterialQty" required>
+                                    </div>
+                                    <div class="form-group col">
+                                        <label for="comboMaterialCost">Material Cost</label>
+                                        <input type="text" class="form-control" ng-change="vm.tabStyle()" placeholder="" ng-model="vm.comboList.materialCost"
+                                            name="comboMaterialCost">
+                                    </div>
+                                    <div class="form-group col">
+                                        <label for="comboRooferCost">Worker Cost</label>
+                                        <input type="text" class="form-control" ng-change="vm.tabStyle()" placeholder="" ng-model="vm.comboList.rooferCost"
+                                            name="comboRooferCost">
+                                    </div>
+                                    <div class="form-group col">
+                                        <label for="">&nbsp; &nbsp;</label>
+                                        <button class="btn btn-gray" ng-click="vm.addPercentageValue()">Add Percentage Addition</button>
+                                    </div>
+                                </div>
+                                <div class="row" ng-if="vm.percentageAddition.length > 0">
+                                    <div class="col">
+                                        <table class="table-bordered table addPercentageValue">
+                                            <thead class="bg-success text-white">
+                                                <tr>
+                                                    <td>Percentage Type</td>
+                                                    <td>Percentage Value</td>
+                                                    <td>Action</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="percent in vm.percentageAddition">
+                                                    <td>
+                                                        <div class="form-group col">
+                                                            <input type="text" class="form-control" ng-change="vm.tabStyle()" placeholder="Percentage Type" ng-model="percent.percentageType"
+                                                                name="percentageType">
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="form-group col">
+                                                            <input type="number" class="form-control" ng-change="vm.tabStyle()" placeholder="Percentage Value" ng-model="percent.percentageValue"
+                                                                name="percentageValue">
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="form-group col">
+                                                            <button class="btn-danger btn remove" ng-click="vm.removePercentageAddition($index)">X</button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+                                <p class="text-center my-2">
+                                    <button class="btn btn-success" ng-click="vm.materialCombination(vm.addComboMaterialForm.comboMaterial)">Insert</button>
+                                </p>
+                                <ul ng-if="vm.comboMaterialList.length > 0" class="p-0">
+                                    <li class="chip mr-3" ng-repeat="chip in vm.comboMaterialList">{{chip.name}}
+                                        <a ng-click="vm.removeMateril($index)">
+                                            <i class="fa fa-times ml-2"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <!-- <div class="row" ng-if="vm.comboMaterialList.length > 0">
+                                    <div class="col">
+                                        <chips ng-model="vm.comboMaterialList">
+                                            <chip-tmpl>
+                                                <div class="default-chip">
+                                                    {{chip.name}}
+                                                    <i class="fa fa-times" remove-chip></i>
+                                                </div>
+                                            </chip-tmpl>
+                                            <input chip-control></input>
+                                        </chips>
+                                    </div>
+                                </div> -->
+                            </uib-tab>
+                            <uib-tab index="2">
+                                <uib-tab-heading class="cost">
+                                    <i class="far fa-file-alt" aria-hidden="true"></i>
+                                    Summary
+                                </uib-tab-heading>
+                                <div class="row mt-4">
+                                    <div class="col">
+                                        <p>
+                                            <strong>Name: </strong>{{vm.addComboMaterialForm.name}}</p>
+                                        <p>
+                                            <strong>Description: </strong>
+                                            {{vm.addComboMaterialForm.description}}
+                                        </p>
+                                    </div>
+                                    <div class="col">
+                                        <p>
+                                            <strong>Total material cost: </strong>
+                                            {{vm.TotalMC}}
+                                        </p>
+                                        <p>
+                                            <strong>Total worker cost : </strong>
+                                            {{vm.TotalRC}}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Material Cost</th>
+                                                    <th>Worker Cost</th>
+                                                    <th>Quantity</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="mc in vm.comboMaterialList">
+                                                    <td>{{mc.name}}</td>
+                                                    <td>{{mc.materialCost}}</td>
+                                                    <td>{{mc.rooferCost}}</td>
+                                                    <td>{{mc.quantity}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col">
+                                        <div class="btn btn-success bg-success border-0" ngf-select ng-model="vm.inputFiles" ngf-change="vm.fileUpdated($files, $event)"
+                                            name="file" ngf-pattern="'image/*'" ngf-multiple="true" ngf-accept="'image/*'">Upload Images</div>
+                                    </div>
+                                    <div class="w-100">
+                                        <span ng-repeat="f in vm.fileNames ">{{f}}, </span>
+                                    </div>
+                                </div>
+
+
+                            </uib-tab>
+                        </uib-tabset>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" ng-if="comboActiveJustified == 0" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-success bg-success border-0 next" disabled ng-if="comboActiveJustified == 0" ng-click="vm.addComboMaterialNext(1)">Next</button>
+
+                        <button type="button" class="btn btn-primary btn-gray" ng-if="comboActiveJustified == 1" ng-click="vm.addComboMaterialNext(0)">Previous</button>
+                        <button type="button" class="btn btn-success bg-success border-0 next" ng-if="comboActiveJustified == 1" ng-click="vm.addComboMaterialNext(2)">Next</button>
+
+                        <button type="button" class="btn btn-primary btn-gray" ng-if="comboActiveJustified == 2" ng-click="vm.addComboMaterialNext(1)">Previous</button>
+                        <button type="submit" class="btn btn-success bg-success border-0" ng-if="comboActiveJustified == 2" ng-click="vm.createComboMaterialList()">Done</button>
+                    </div>
+                </form>
+                <!-- ng-hide="activeJustified = 0"
+                     ng-show="activeJustified = 1" -->
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,39 @@
+<!-- <div class="row no-gutters py-2">
+    <div class="col-md-12"> -->
+        <a href="" class="file-listing d-flex align-items-center">
+            <i class="fas fa-equals mr-2" ng-show="vm.editEnabled"></i>
+            <img alt="folder" src="/assets/images/folder.png" ng-click="this.toggle()" ng-if="this.collapsed">
+            <img alt="folder" src="/assets/images/folderopen.png" ng-click="this.toggle()" ng-if="!this.collapsed">
+            <!-- <i class="fas" ng-class="{'fa-folder' : this.collapsed, 'fa-folder-open' : !this.collapsed}" ng-click="this.toggle()"></i> -->
+            <div class="flex-one ml-3" ng-click="vm.toggleFolder(this, true, node)">{{node.name}}</div>
+            <span class="addChildFolder">
+                <span href="" ng-click="vm.openAddModal('child', node)" class="file-listing">
+                    <i class="fas fa-plus-circle"></i>
+                </span>
+            </span>
+        </a>
+
+    <!-- </div>
+
+</div> -->
+
+<ol ui-tree-nodes="" ng-model="node.children" ng-class="{'angular-ui-tree-hidden': collapsed}">
+    <li ng-repeat="node in node.children" ui-tree-node ng-include="'/partials/treeView.html'">
+    </li>
+    <!-- <li ui-tree-node ng-repeat="file in node.files">
+
+        <div class="row">
+            <div class="col-10">
+                <a href="" class="file-listing text-truncate">
+                    <i class="fas fa-equals mr-2" ui-tree-handle ng-show="vm.editEnabled"></i>
+                    <span>
+                        <i class="fas fa-file mr-2"></i> {{file.assetName}}
+                    </span>
+                </a>
+            </div>
+            <div class="col-2">
+                &nbsp;
+            </div>
+        </div>
+    </li> -->
+</ol>

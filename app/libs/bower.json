@@ -1,0 +1,46 @@
+{
+  "name": "cloudes assets",
+  "authors": [
+    "Leo Allen <leo@askpundit.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^4.1.1",
+    "angular-ui-router": "^1.0.18",
+    "angular-sanitize": "1.5.11",
+    "angular-local-storage": "^0.7.1",
+    "ngprogress": "^1.1.3",
+    "angular-ui-notification": "^0.3.6",
+    "ngmap": "^1.18.4",
+    "angular-color-picker": "angularjs-color-picker#^3.4.8",
+    "ngInfiniteScroll": "1.0.0",
+    "ng-file-upload": "^12.2.13",
+    "angular-ui-select": "^0.19.8",
+    "popper.js": "^1.14.3",
+    "angular-ui-tree": "^2.22.6",
+    "angular": "1.6.5",
+    "angular-auto-complete": "^1.7.3",
+    "angular-bootstrap-multiselect": "https://github.com/bentorfs/angular-bootstrap-multiselect.git#^1.1.11",
+    "ng-tags-input": "3.2.0",
+    "angular-save-html-to-pdf": "*",
+    "angular-chips": "^1.0.11",
+    "cloudinary_ng": "1.x",
+    "select2": "~3.4",
+    "angular-ui-select2": "~0.0.5",
+    "evaporatejs": "^2.1.4",
+    "angular-filesaver": "^0.1.0",
+    "file-saver.js": "^1.20150507.2",
+    "sendbird": "^3.0.82",
+    "ng-drag-to-reorder": "^1.0.8"
+  }
+}

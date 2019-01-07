@@ -1,0 +1,141 @@
+<link
+  rel="stylesheet"
+  href="/css/src/economicStyle.css"
+  crossorigin="anonymous"
+/>
+
+<div class="wrapper add_item2">
+  <div ng-include="'/partials/economicSidemenu.html'"></div>
+
+  <div class="wrapper_body">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="col-12">
+                <h3 class="mt-5 mb-4">Invoice List</h3>
+            </div>
+            <header class="header1 p-0">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12">
+                        <ul class="search_roofing">
+                            <li>
+                                <input type="text" class="searchbox" name="" placeholder="Search" />
+                            </li>
+                            <li class="float-right">
+                                <div class="dropdown save_approve">
+                                    <button class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="true">
+                                        Roofing
+                                        <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+                                        <li><a href="#">Action</a></li>
+                                        <li><a href="#">Another</a></li>
+                                        <li><a href="#">Something</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </header>
+            <div class="supplier_details_sec">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Client</th>
+                                <th>Invoice No</th>
+                                <th>Amount</th>
+                                <th>See Invoice</th>
+                                <th>Decline Invoice</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="invoice in vm.invoiceList">
+                                <td>{{ $index + 1 }}</td>
+                                <td>{{ invoice.client.clientName }}</td>
+                                <td>{{ invoice.invoiceTag }}</td>
+                                <td>{{ invoice.totalValue | roundNum: 2 }}</td>
+                                <td>
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                </td>
+                                <td>
+                                    <i class="fa fa-times-circle-o" aria-hidden="true"></i>
+                                </td>
+                                <td class="paidclr">paid</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="createInvoice" class="modal fade popup2" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title text-white">Create Invoice</h4>
+        <button type="button" class="close text-white" data-dismiss="modal">
+          &times;
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="issue_form">
+          <div class="f_block">
+            <p class="fsize18 f500 txtgrey c_space space15">Title</p>
+            <select
+              ui-select2
+              ng-model="vm.projectData.client"
+              placeholder="dial code"
+              class="form-control"
+              ng-options="cc.clientName for cc in vm.clients"
+            ></select>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.1.3/owl.carousel.min.js"></script>
+<script>
+  $(".add_row_items").click(function() {
+    $(".mytbl1 > tbody tr:last").after(
+      "<tr class='rpt_row'><td><a href='#'><img src='/assets/images/icon8.png' alt='...'></a></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td><a href='#'>x</a></td></tr>"
+    );
+  })(function($) {
+    $(".owl-carousel").owlCarousel({
+      loop: true,
+      margin: 10,
+      nav: true,
+      navText: [
+        "<img src='/assets/images/icon_left.png' alt='...'>",
+        "<img src='/assets/images/icon_right.png' alt='...'>"
+      ],
+      autoplay: true,
+      autoplayHoverPause: true,
+      responsive: {
+        0: {
+          items: 1
+        },
+        600: {
+          items: 2
+        },
+        1000: {
+          items: 3
+        }
+      }
+    });
+  })(jQuery);
+</script>

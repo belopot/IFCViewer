@@ -1,0 +1,11 @@
+<div class="media space25 reverse2 flex-wrap flex-md-nowrap">
+    <div class="media-body">
+        <p class="person_name mb-1 c_space dark f500 text-right">{{m._sender.nickname}}</p>
+        <img ng-src="{{m.url}}" ng-if="showPreview(m.type)" class="d-block ml-auto c_space mb-3" alt="media">
+        <p class="chat_msg mb-0 whitebg_chat">
+            <a href="{{m.url}}">{{m.name}} (Download)</a>
+        </p>
+        <p class="time_tag mt-1 c_space mb-0">{{m.createdAt | date:'short'}}</p>
+    </div>
+    <img class="ml-auto ml-md-3" ng-src="{{m._sender.profileUrl}}" height="30px" alt="Generic placeholder image">
+</div>

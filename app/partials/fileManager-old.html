@@ -1,0 +1,553 @@
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" crossorigin="anonymous">
+<div ng-include="'/partials/header.html'"></div>
+
+<div id="file_manager" class="page-content pt-4 page-layout simple fullwidth">
+    <div class="container-fluid m-top-70 px-5">
+        <div class="row">
+            <div class="col-md-4 leftSideView">
+                <div class="rounded-top bg-success px-2 py-1">
+                    <div class="file-listing p-2">
+                        <a href="" ng-click="vm.navigate(false)" class="mr-1" data-toggle="tooltip" data-placement="top" title="Backward">
+                            <i class="fas fa-arrow-circle-left"></i>
+                        </a>
+                        <a href="" ng-click="vm.navigate(true)" class="mr-1" data-toggle="tooltip" data-placement="top" title="Forward">
+                            <i class="fas fa-arrow-circle-right"></i>
+                        </a>
+                        <a href="" class="mr-1" data-toggle="tooltip" data-placement="top" title="Settings">
+                            <i class="fas fa-cog"></i>
+                        </a>
+                        <a href="" class="mr-1" data-toggle="tooltip" data-placement="top" title="Export">
+                            <i class="fas fa-upload"></i>
+                        </a>
+                        <a href="" class="mr-1" data-toggle="modal" data-target="#saveTemplateModal" data-toggle="tooltip" data-placement="top" title="Save Template">
+                            <i class="far fa-save"></i>
+                        </a>
+                        <a href="" class="mr-1" data-toggle="modal" data-target="#assignTemplateModal" data-toggle="tooltip" data-placement="top"
+                            title="Choose Template">
+                            <i class="far fa-file"></i>
+                        </a>
+
+                        <a href="JavaScript:Void(0);" class="float-right ml-1" ng-click='vm.openAddModal("root", this)'>
+                            Create +
+                        </a>
+                        <!-- <a href="#" class="mr-1">
+                            <i class="fas fa-undo"></i>
+                        </a>
+                        <a href="#" class="mr-1">
+                            <i class="fas fa-redo"></i>
+                        </a> -->
+                    </div>
+                </div>
+                <div class="rounded-bottom bg-light px-2 py-1">
+                    <div class="file-listing p-2">
+                        <!-- <h5 class="text-black mb-0">P0553 ATEW Tolente</h5> -->
+                        <select name="projects" id="" ng-model="vm.selectedProject" class="form-control" ng-options="item._id as item.projectName for item in vm.projectList.list"
+                            ng-change="vm.getPrimaryFolders(vm.selectedProject, vm.projectList.list)"></select>
+                    </div>
+                </div>
+                <div class="border rounded bg-white px-2 py-1 mt-3">
+                    <div class="file-listing p-1">
+                        <i class="fas fa-user text-warning"></i> {{vm.userData.displayName}}</div>
+                </div>
+                <div class="box-shadow p-2 rounded-10 mt-3 scrollw max-h-70vh fileLeftView">
+                    <!-- <div class="list-files-wrap">
+                        <ol class="list-unstyled">
+                            <li class="angular-ui-tree-node">
+                                <a href="" class="file-listing">
+                                    <i class="fas" ng-class="{'fa-folder' : !vm.showBackupFiles, 'fa-folder-open' : vm.showBackupFiles}" ng-click="vm.toggleBookmarks (vm.showBackupFiles, 'showBackupFiles')"></i> Backup Files</a>
+                                <ol class="nostyle" ng-show="vm.showBackupFiles">
+                                    <li class="angular-ui-tree-node" ng-repeat="file in vm.backupFiles">
+                                        <div class="file-listing text-truncate">
+                                            <i class="fas fa-file"></i> {{file.name}}
+                                        </div>
+                                    </li>
+                                </ol>
+                            </li>
+                        </ol>
+                    </div> -->
+
+
+                    <!-- <div ui-tree="vm.treeOptions" ng-if="vm.backupFiles">
+                        <ol ui-tree-nodes="" ng-model="vm.backupFiles" id="tree-root">
+                            <li ng-repeat="node in vm.backupFiles" ui-tree-node ng-include="'/partials/simpleTreeView.html'"></li>
+                        </ol>
+                    </div> -->
+                    <!-- <hr class="my-1" /> -->
+                    <div class="list-files-wrap">
+                        <ol class="list-unstyled">
+                            <li class="angular-ui-tree-node">
+                                <a href="" class="file-listing">
+                                    <i class="fas" ng-class="{'fa-folder' : !vm.showRecentFiles, 'fa-folder-open' : vm.showRecentFiles}" ng-click="vm.toggleBookmarks (vm.showRecentFiles, 'showRecentFiles')"></i>Recent Files</a>
+                                <ol class="nostyle" ng-show="vm.showRecentFiles">
+                                    <li class="angular-ui-tree-node" ng-repeat="file in vm.projectFiles">
+                                        <div class="file-listing text-truncate">
+                                            <i class="fas fa-file"></i> {{file.assetName}}
+                                        </div>
+                                    </li>
+                                </ol>
+                            </li>
+                        </ol>
+                    </div>
+                    <hr class="my-2" />
+                    <!--<a href="" class="file-listing">
+                        <i class="fas fa-cube"></i> 3D Projects</a>
+                    <a href="#" class="file-listing">
+                        <i class="fas fa-square"></i> 2D Projects</a>
+                    <a href="#" class="file-listing">
+                        <i class="fas fa-folder"></i> Other Folder</a>
+                    <a href="" class="file-listing">
+
+                        <i class="fas fa-folder "></i> Project files</a>
+                     <ul style="list-style:none;padding-left:10px; ">
+                        <li ng-repeat="file in vm.projectFiles">
+                            <a href="" class="file-listing ">
+                                <i class="fas fa-file "></i>&nbsp;&nbsp;{{file.assetName}}</a>
+                        </li>
+                    </ul> 
+                    <hr>-->
+                    <!-- Nested node template -->
+                    <button type="button" class="fileEdit btn btn-cyan" ng-hide="vm.editEnabled" ng-click='vm.toggleEdit(true)'>
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button type="button" class="fileDone btn btn-cyan py-1 px-2" ng-show="vm.editEnabled" ng-click='vm.toggleEdit(false)'>
+                        <i class="fas fa-check mr-2"></i>Done
+                    </button>
+                    <div ng-hide="vm.showTree">
+                        <img src="/assets/images/loader.gif" class="d-block m-auto " alt="">
+                    </div>
+                    <div class="connector-list" ui-tree="vm.treeOptions" ng-show="vm.showTree" ng-init="vm.setRootFolder(this)">
+                        <!-- Button trigger modal -->
+                        <ol ui-tree-nodes="" ng-model="vm.rootFolders" id="tree-root">
+                            <li ng-repeat="node in vm.rootFolders" ui-tree-node ng-include="'/partials/treeView.html'"></li>
+                        </ol>
+                    </div>
+
+                    <div class="connector-list" ui-tree="vm.treeOptions" ng-show="vm.backupFolders.length > 0 && vm.showTree">
+                        <!-- Button trigger modal -->
+                        <ol ui-tree-nodes="" ng-model="vm.backupFolders" id="tree-root">
+                            <li ng-repeat="node in vm.backupFolders" ui-tree-node>
+                                <div class="row no-gutters">
+                                    <div class="col-12">
+                                        <a href="" class="file-listing text-truncate d-flex align-items-center">
+
+                                            <i class="fas" ng-class="{'fa-folder' : this.collapsed, 'fa-folder-open' : !this.collapsed}" ng-click="this.toggle()"></i>&nbsp;&nbsp;
+                                            <div class="flex-one">{{node.name}}</div>
+                                        </a>
+                                    </div>
+
+                                </div>
+
+                                <ol ui-tree-nodes="" ng-model="node.hierarchies" ng-class="{'angular-ui-tree-hidden': collapsed}">
+                                    <li ng-repeat="node in node.hierarchies" ui-tree-node ng-include="'/partials/backupTreeView.html'">
+                                    </li>
+
+                                </ol>
+
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8 offset-md-4 rightSideView pl-5" context-menu="vm.contextMenuOptions.explorer">
+                <div class="row" ng-show="vm.showLoader">
+                    <img src="/assets/images/loader.gif" class="center-block" alt="Loader">
+                </div>
+                <!-- Breadcrumb -->
+                <div class="row" ng-hide="vm.showLoader">
+                    <div class="col-12">
+                        <div>
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item" ng-repeat="breadCrumb in vm.breadCrumbList">
+                                    <a href="" ng-click="vm.openFolder(breadCrumb._id)" ng-hide="$index === vm.breadCrumbList.length - 1">{{breadCrumb.name}}</a>
+                                    <span ng-show="$index === vm.breadCrumbList.length - 1">{{breadCrumb.name}}</span>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                    <!-- <div class="col-sm-1 col-2 position-relative file p-2">
+                        <div class="text-center thumb-file">
+                            <img src="/assets/images/file_icon/3ds.png" class="w-100 fluid-img" />
+                            <p class="text-truncate">Lorem Ipsum</p>
+                        </div>
+                        <div class="position-absolute rounded file-info z-100">
+                            <div class="d-flex box-shadow">
+                                <div class="bg-warning py-4 pl-4 pr-5 text-white rounded-left">
+                                    <h6>Filename.jpg</h6>
+                                    <hr>
+                                    <a href="#" class="text-white d-block py-1">Open</a>
+                                    <a href="#" class="text-white d-block py-1">Delete</a>
+                                    <a href="#" class="text-white d-block py-1">Share</a>
+                                    <a href="#" class="text-white d-block py-1">Copy</a>
+                                    <a href="#" class="text-white d-block py-1">Cut</a>
+                                    <a href="#" class="text-white d-block py-1">Rename</a>
+                                    <hr>
+                                    <p class="text-nowrap">
+                                        <b>Last Opened On</b>
+                                        <br> 12/12/2017 3:40pm
+                                    </p>
+                                    <p class="text-nowrap">
+                                        <b>Created On</b>
+                                        <br> 12/12/2017 3:40pm
+                                    </p>
+                                </div>
+                                <div style="background: url(/assets/images/file.jpg) no-repeat;" class="file-img"></div>
+                            </div>
+                        </div>
+                    </div> -->
+                    <!-- <div class="col-sm-1 col-2 position-relative file p-2" ng-repeat="folder in vm.windowItems.folders">
+                        <div class="text-center thumb-file" ng-click="vm.openFolder(folder._id)">
+
+                            <img ng-src="/assets/images/folder_thumb.png" class="w-100 fluid-img" />
+                            <p class="">{{folder.name}}</p>
+                        </div>
+                    </div> -->
+                    <div class="col-sm-1 col-2 position-relative file p-2" ng-repeat="file in vm.windowItems.files" context-menu="vm.contextMenuOptions.file">
+                        <div class="text-center thumb-file" ng-click="vm.fileView(file)">
+                            <img ng-src="/assets/images/file_icon/{{vm.resolveAssetIcon(file)}}.png" class="w-100 fluid-img" />
+                            <p class="">{{file.assetName}}</p>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- Upload Popup -->
+                <div class="uploadView" ng-show="vm.uploadState">
+                    <div class="row m-0">
+                        <div class="col header py-3">
+                            <p class="m-0">Uploading {{vm.fileNames.length}} item(s)
+                                <span class="float-right">
+                                    <i class="fas mr-2" ng-class="vm.uploadViewMaximize ? 'fa-angle-down' : 'fa-angle-up'" ng-click="vm.toggleUploadViewMaximize(vm.uploadViewMaximize)"></i>
+                                    <i class="fas fa-times" ng-show="vm.completedAll" ng-click="vm.closeUploadView()"></i>
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row" ng-show="vm.uploadViewMaximize" ng-init="vm.uploadViewMaximize = true;">
+                        <div class="col">
+                            <ul class="uploadList">
+                                <li ng-repeat="f in vm.uploadViewFiles.s3">
+                                    <span class="icon">
+                                        <i class="far fa-file"></i>
+                                    </span>
+                                    <span class="fileName">{{f.assetName}} </span>
+                                    <span class="uploadLoader float-right" ng-hide="f.completed || f.aborted">
+                                        <div class="progress-circle p{{f.progress}} float-left" ng-class="{'over50' : (f.progress > 50)}">
+                                            <div class="left-half-clipper">
+
+                                                <div class="first50-bar"></div>
+                                                <div class="value-bar"></div>
+                                            </div>
+                                        </div>
+                                        <a href="" ng-click="f.resume()" ng-show="f.isPaused">
+                                            <i class="py-2 float-left fas mr-2 fa-play"></i>
+                                        </a>
+
+                                        <a href="" ng-click="f.pause()" ng-hide="f.isPaused">
+                                            <i class="py-2 float-left fas mr-2 fa-pause"></i>
+                                        </a>
+                                        <a href="" ng-click="f.abort()" ng-hide="f.isPaused">
+                                            <i class="py-2 float-left fas fa-times"></i>
+                                        </a>
+                                    </span>
+                                    <span class="uploadLoader float-right" ng-show="f.completed">
+                                        <i class="py-0 fas fa-check-circle text-success" style="font-size: 18px"></i>
+                                    </span>
+                                    <span class="uploadLoader float-right" ng-show="f.aborted">
+                                        <i class="py-0 fas fa-times-circle text-danger" style="font-size: 18px"></i>
+                                    </span>
+                                </li>
+                                <li ng-repeat="f in vm.uploadViewFiles.cloudinary">
+                                    <span class="icon">
+                                        <i class="far fa-file"></i>
+                                    </span>
+                                    <span class="fileName">{{f.assetName}} </span>
+                                    <span class="uploadLoader float-right" ng-hide="f.completed">
+
+                                        <div class="progress-circle p-100 float-left over50">
+                                            <div class="left-half-clipper">
+                                                <div class="first50-bar"></div>
+                                                <div class="value-bar"></div>
+                                            </div>
+                                        </div>
+
+                                    </span>
+                                    <span class="uploadLoader float-right" ng-show="f.completed">
+                                        <i class="py-0 fas fa-check-circle text-success" style="font-size: 18px"></i>
+                                    </span>
+
+
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="saveTemplateModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-xs" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Save Template</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="">Template Name</label>
+                        <input type="text" class="form-control" ng-model="vm.folderName">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-cyan" ng-click="vm.saveHierarchyTree(vm.folderName)">Save Template
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="assignTemplateModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Assign new template</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="template-list">
+                                <ul class="list-group">
+                                    <li class="list-group-item" ng-class="{selected : template == vm.selectedTemplate}" ng-repeat="template in vm.templateList">
+                                        <label class="radio-style1">
+                                            <input type="radio" ng-model="vm.selectedTemplate" ng-value="template" name="template" /> {{template.name}}
+                                        </label>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-8">
+                            <div class="template-heirachy">
+                                <div ui-tree="vm.treeOptions" ng-if="vm.selectedTemplate.hierarchy">
+                                    <!-- Button trigger modal -->
+                                    <ol ui-tree-nodes="" ng-model="vm.selectedTemplate.hierarchy" id="tree-root">
+                                        <li ng-repeat="node in vm.selectedTemplate.hierarchy" ui-tree-node ng-include="'/partials/simpleTreeView.html'"></li>
+                                    </ol>
+                                </div>
+                                <!-- {{vm.selectedTemplate.hierarchy}} -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-cyan" ng-disabled="! vm.selectedTemplate" ng-click="vm.assignTemplate()">Assign Template
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="addModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add +</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+
+                    <uib-tabset active="vm.addModalActiveTab" justified="true">
+                        <uib-tab index="0">
+                            <uib-tab-heading class="info">
+                                <i class="fas fa-folder" aria-hidden="true"></i>
+                                Create Folder
+                            </uib-tab-heading>
+                            <br>
+                            <div class="form-group">
+                                <label for="">Folder name</label>
+                                <input type="text" class="form-control" ng-model="vm.folderName">
+                            </div>
+                            <br>
+                            <button type="button" class="btn btn-cyan" ng-click="vm.addModalSource === 'root' ? vm.addPrimaryFolder(vm.folderName, vm.selectedProject, vm.nodeObj) : vm.addFolder (vm.folderName, vm.nodeObj)">Save changes
+                            </button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </uib-tab>
+                        <uib-tab index="1" ng-hide="vm.addModalSource === 'root'">
+                            <uib-tab-heading class="cost">
+                                <i class="far fa-file-alt" aria-hidden="true"></i>
+                                Choose File
+                            </uib-tab-heading>
+                            <!-- <multiselect ng-model="selection" options="vm.projectFiles" id-prop="_id" show-search="true" display-prop="assetName">
+                                                </multiselect> -->
+                            <br>
+                            <tags-input ng-model="vm.selectedFiles" display-property="assetName" key-property="_id" add-from-autocomplete-only="true"
+                                placeholder="Search for files">
+                                <auto-complete source="vm.loadFilesToAutoComplete($query)" display-property="assetName"></auto-complete>
+                            </tags-input>
+                            <br>
+                            <button type="button" class="btn btn-cyan" ng-click="vm.addFileToHierarchy(vm.selectedFiles, vm.nodeObj)">Save changes
+                            </button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+                        </uib-tab>
+                        <uib-tab index="2" ng-hide="vm.addModalSource === 'root'">
+                            <uib-tab-heading class="cost">
+                                <i class="far fa-file-alt" aria-hidden="true"></i>
+                                Upload File
+                            </uib-tab-heading>
+                            <!-- <multiselect ng-model="selection" options="vm.projectFiles" id-prop="_id" show-search="true" display-prop="assetName">
+                                                </multiselect> -->
+                            <br>
+                            <div class="form-group">
+                                <div class="btn btn-success bg-success border-0" ngf-select ng-model="vm.uploadFiles" name="file" ngf-multiple="true" ngf-change="vm.fileUpdated($files, $event)">Choose files</div>
+                                <div>
+                                    <ul class="list-group mt-2">
+                                        <li class="list-group-item" ng-repeat="f in vm.fileNames">
+                                            <div class="row">
+                                                <div class="col-8">
+                                                    {{f.name}}
+                                                </div>
+                                                <div class="col-4">
+                                                    <p class="my-2">
+                                                        <span class="mb-1 mr-3">Roof Plan</span>
+                                                        <label class="switch switch-xs mb-0">
+                                                            <input type="checkbox" checked ng-model="vm.uploadFiles[$index].plan">
+                                                            <span class="slider round"></span>
+                                                        </label>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+
+                                </div>
+                            </div>
+                            <br>
+                            <button type="button" class="btn btn-cyan" ng-click="vm.preUpload(vm.uploadFiles,vm.nodeObj )">Upload</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+                        </uib-tab>
+                    </uib-tabset>
+
+
+
+                </div>
+                <div class="modal-footer">
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade p-0 m-0" id="fileView" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content modal-content-one">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>×</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <section class="row justify-content-md-center">
+                        <div class="col-md-auto col-md-6">
+                            <div class="fileDetail row bg-warning text-white rounded-left">
+                                <div class="col-4 p-4">
+
+                                    <h6>{{vm.previewData.assetName}}</h6>
+                                    <hr>
+                                    <a href="" class="text-white d-block py-1">Open</a>
+                                    <a href="" ng-click="vm.deleteFile(vm.previewAssetId, vm.windowItems.folderData)" class="text-white d-block py-1">Delete</a>
+                                    <a href="" class="text-white d-block py-1">Share</a>
+                                    <a href="" class="text-white d-block py-1">Copy</a>
+                                    <a href="" class="text-white d-block py-1">Cut</a>
+                                    <a href="" class="text-white d-block py-1">Rename</a>
+                                    <hr>
+                                    <p class="text-nowrap">
+                                        <b>Last Opened On</b>
+                                        <br> 12/12/2017 3:40pm
+                                    </p>
+                                    <p class="text-nowrap">
+                                        <b>Created On</b>
+                                        <br> {{vm.previewData.created | date}}
+                                    </p>
+                                </div>
+                                <div class="col-8 p-0" ng-style="background: url({{vm.previewData | fetchThumbnail}}) no-repeat; background-size: cover; background-position: center"></div>
+                            </div>
+                        </div>
+                    </section>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="versioningModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Following files already exists</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Filename</th>
+                                <th scope="col">Action</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="d in vm.preUploadFiles.duplicates">
+                                <th scope="row" class="pt-4">{{$index + 1}}</th>
+                                <td>
+                                    <input type="text" class="form-control" ng-model="d.assetName" placeholder="Enter file name" ng-disabled="d.action !== 'rename'">
+                                </td>
+                                <td>
+
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" ng-attr-id="customRadioInline1{{$index}}" ng-model="d.action" class="custom-control-input" value="rename"
+                                            ng-change="vm.processDuplicateFileName(d)">
+                                        <label class="custom-control-label" for="customRadioInline1{{$index}}">Rename</label>
+                                    </div>
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" ng-attr-id="customRadioInline2{{$index}}" ng-model="d.action" class="custom-control-input" value="version"
+                                            ng-change="vm.processDuplicateFileName(d)">
+                                        <label class="custom-control-label" for="customRadioInline2{{$index}}">New Version</label>
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-cyan" ng-click="vm.uploadFile(vm.preUploadFiles, vm.selectedProject, vm.nodeObj )">Upload</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <file-picker folders="vm.pickerFolders" source="vm.windowItems.folderData" sourcefile="vm.moveToSourceFile" sourcedir="vm.windowItems.files"></file-picker>
+
+    <canvas id="file-manager-canvas"></canvas>
+</div>

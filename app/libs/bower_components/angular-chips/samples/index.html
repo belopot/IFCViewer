@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="/dist/main.css">
+    <link rel="stylesheet" type="text/css" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/bower_components/components-font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="samples.css">
+</head>
+
+<body ng-app="sample">
+    <!-- Basic Example -->
+    <!--  -->
+    <!--  -->
+    <h4>Basic Example</h4>
+    <div ng-controller="basicController as inputdemo">
+        <chips ng-model="inputdemo.companies">
+            <chip-tmpl>
+                <div class="default-chip">
+                    {{chip}}
+                    <span class="glyphicon glyphicon-remove" remove-chip></span>
+                </div>
+            </chip-tmpl>
+            <input chip-control></input>
+        </chips>
+        <!-- Printing controller value -->
+        <div class="printvalue">
+            <b>Controller:</b>
+            <div>inputdemo.companies = {{inputdemo.companies}}</div>
+        </div>
+    </div>
+    <!-- Example for Custom Rendering -->
+    <!--  -->
+    <!--  -->
+    <br>
+    <h4>Custom Rendering</h4>
+    <div ng-controller="customRenderingController as custom">
+        <chips ng-model="custom.countries" render="custom.render(data)">
+            <chip-tmpl>
+                <div class="default-chip">
+                    {{chip.name}}
+                    <span>({{chip.fl}})</span>
+                    <span class="glyphicon glyphicon-remove" remove-chip="custom.deleteChip(data)"></span>
+                </div>
+            </chip-tmpl>
+            <input chip-control></input>
+        </chips>
+        <!-- Printing controller value -->
+        <div class="printvalue">
+            <b>Controller:</b>
+            <div>custom.countries = {{custom.countries}}</div>
+        </div>
+    </div>
+    <!-- Example for Using Promise (with list of string) -->
+    <!--  -->
+    <!--  -->
+    <br>
+    <h4>Using Promise (with list of string)</h4>
+    <div ng-controller="usingPromiseStrController as usingPromise">
+        <chips defer ng-model="usingPromise.list" render="usingPromise.render(data)">
+            <chip-tmpl>
+                <div class="default-chip">
+                    {{chip.defer}}
+                    <span class="glyphicon glyphicon-remove" remove-chip="usingPromise.deleteChip(data)"></span>
+                    <div class="loader-container" ng-show="chip.isLoading">
+                        <i class="fa fa-spinner fa-spin fa-lg loader"></i>
+                    </div>
+                </div>
+            </chip-tmpl>
+            <input chip-control></input>
+        </chips>
+        <!-- Printing controller value -->
+        <div class="printvalue">
+            <b>Controller:</b>
+            <div> usingPromise.list = {{usingPromise.list}}</div>
+        </div>
+    </div>
+    <!-- Example for Using Promise (with list of object) -->
+    <!--  -->
+    <!--  -->
+    <br>
+    <h4>Using Promise (with list of object)</h4>
+    <div ng-controller="usingPromiseObjController as usingPromiseObj">
+        <chips defer ng-model="usingPromiseObj.countries" render="usingPromiseObj.render(data)">
+            <chip-tmpl>
+                <div class="default-chip">
+                    {{chip.isLoading ? chip.defer : chip.defer.name}}
+                    <span ng-hide="chip.isLoading">({{chip.defer.fl}})</span>
+                    <span class="glyphicon glyphicon-remove" remove-chip="usingPromiseObj.deleteChip(data)"></span>
+                    <div class="loader-container" ng-show="chip.isLoading">
+                        <i class="fa fa-spinner fa-spin fa-lg loader"></i>
+                    </div>
+                </div>
+            </chip-tmpl>
+            <input chip-control></input>
+        </chips>
+        <!-- Printing controller value -->
+        <div class="printvalue">
+            <b>Controller:</b>
+            <div> usingPromiseObj.countries = {{usingPromiseObj.countries}}</div>
+        </div>
+    </div>
+    <!-- Example for Using bootstrap.ui.typeahead -->
+    <!--  -->
+    <!--  -->
+    <br>
+    <h4>Using bootstrap.ui.typeahead</h4>
+    <div ng-controller="basicController as typeahead">
+        <chips ng-model="typeahead.companies">
+            <chip-tmpl>
+                <div class="default-chip">
+                    {{chip}}
+                    <span class="glyphicon glyphicon-remove" remove-chip></span>
+                </div>
+            </chip-tmpl>
+            <input ng-model-control ng-model="typeaheadmodel" uib-typeahead="company for company in typeahead.availableCompanies | filter:$viewValue"></input>
+        </chips>
+        <!-- Printing controller value -->
+        <div class="printvalue">
+            <b>Controller:</b>
+            <div> typeahead.companies = {{typeahead.companies}}</div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+</body>
+<script type="text/javascript" src="/bower_components/angular/angular.js"></script>
+<script type="text/javascript" src="/dist/angular-chips.min.js"></script>
+<script type="text/javascript" src="/bower_components/angular-bootstrap/ui-bootstrap.js"></script>
+<script type="text/javascript" src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+<script type="text/javascript" src="app.js"></script>
+<script type="text/javascript" src="basic_example.js"></script>
+<script type="text/javascript" src="custom_rendering_example.js"></script>
+<script type="text/javascript" src="using_promise_str_example.js"></script>
+<script type="text/javascript" src="using_promise_obj_example.js"></script>
+
+</html>

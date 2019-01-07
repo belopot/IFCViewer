@@ -1,0 +1,519 @@
+<link rel="stylesheet" type="text/css" href="/css/src/video_conf.css">
+<div ng-include="'/partials/header-new.html'"></div>
+<section class="chat_section heightfull">
+    <div class="container-fluid">
+        <div class="row">
+            <div id="log"></div>
+            <div class="col-12">
+                <div class="row m-0 out-line-radius ">
+                    <div class="column1 pad0 side-shadow highindex animated fadeInLeft">
+                        <div>
+                            <!-- <md-button class="md-raised new_meeting " data-toggle="modal" data-target="#newmeeting_popup"><img src="/assets/images/plus.png" alt="plus-icon" > New Meeting</md-button> -->
+
+                            <a data-target="#newmeeting_popup" class="new_meeting ripple position-relative" data-toggle="modal">
+                                <img src="/assets/images/plus.png" alt=".." /> New Meeting</a>
+                            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                                <a class="nav-link ripple ripple2 animated fadeInUp wow" id="v-pills-home-tab"
+                                    ng-repeat="channel in vm.channelList" ng-click="vm.viewChannel(channel, $event)">
+                                    <div class="d-flex align-items-baseline">
+                                        <p class="mb-0">{{channel.name}}</p>
+                                        <img src="/assets/images/newmessage.png" class="ml-auto" alt="newmessage"
+                                            ng-hide="vm.checkReadStatus(channel)" />
+                                    </div>
+                                    <div class="d-flex flex-wrap flex-xl-nowrap align-items-start space5" ng-hide="channel.lastMessage">
+                                        <p class="chat_msg  f400">No data
+
+                                        </p>
+                                    </div>
+                                    <div class="d-flex flex-wrap flex-xl-nowrap align-items-start space5" ng-if="channel.lastMessage">
+                                        <div class="pro_img">
+                                            <img ng-src="{{channel.lastMessage._sender.profileUrl}}" height="30px" alt="userimage">
+                                        </div>
+                                        <div class="side_space" ng-if="channel.lastMessage">
+                                            <p class="person_name mb-0">{{channel.lastMessage._sender.nickname}}
+                                                <span class="time_tag">{{channel.lastMessage.createdAt | date:'short'}}</span>
+                                            </p>
+                                            <p class="chat_msg f400" ng-show="channel.getTypingMembers().length === 0">{{channel.lastMessage.message
+                                                || 'File: ' + channel.lastMessage.name }}</p>
+                                            <p class="chat_msg f400" ng-hide="channel.getTypingMembers().length === 0">
+                                                <i>{{channel.getTypingMembers() | parseTypingMembers}}</i>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column2 pad0 side-shadow lowindex animated fadeInUp wow">
+                        <div class="chat_window">
+                            <div class="chat_header">
+                                <div class="d-md-flex align-items-center justify-content-between w-100">
+                                    <h3 class="headOne"> {{vm.currentChannel.name}}</h3>
+                                    <div class="space15 d-md-none"></div>
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <ul class="list-inline mb-0 userlist d-flex align-items-center">
+                                            <li class="list-inline-item wobble-vertical" ng-repeat="m in vm.currentChannel.members">
+                                                <img ng-src="{{m.profileUrl}}" class="img-fluid" alt="userimage">
+                                            </li>
+                                            <!-- <li class="list-inline-item wobble-vertical">
+                                                <img src="/assets/images/user_pic4.png" class="img-fluid" alt="userimage">
+                                            </li>
+                                            <li class="list-inline-item wobble-vertical">
+                                                <img src="/assets/images/user_pic.png" class="img-fluid" alt="userimage">
+                                            </li>
+                                            <li class="list-inline-item wobble-vertical">
+                                                <img src="/assets/images/user_pic4.png" class="img-fluid" alt="userimage">
+                                            </li> -->
+                                            <!-- <li class="list-inline-item wobble-vertical">
+                                                +4
+                                            </li> -->
+                                        </ul>
+                                        <button ng-click="vm.openFileViewer(vm.currentChannel)" class="btn shared ripple ripplePink">Shared
+                                            Files
+                                            <img src="/assets/images/arrow_icon.png" class="ml-2" alt="arrow_icon">
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-content chat-container" id="v-pills-tabContent">
+
+                                <div class="tab-pane fade show active" id="v-pills-profile" role="tabpanel"
+                                    aria-labelledby="v-pills-profile-tab">
+
+
+                                    <chat-message m="m" type="/partials/chat/{{vm.resolveTemplateUrl(m)}}.html"
+                                        ng-repeat="m in vm.currentChannel.messages"></chat-message>
+
+                                    <!-- <div class="media space25 reverse2 flex-wrap flex-md-nowrap  animated fadeInUp wow">
+                                        <div class="media-body">
+                                            <p class="person_name mb-1 c_space dark f500 text-right">Lisa Guerrero</p>
+                                            <img src="/assets/images/media.png" class="d-block ml-auto c_space mb-3" alt="media">
+                                            <p class="chat_msg mb-0 whitebg_chat">
+                                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.
+                                            </p>
+                                            <p class="time_tag mt-1 c_space mb-0">1:30 PM</p>
+                                        </div>
+                                        <img class="ml-auto ml-md-3" src="/assets/images/user1.png" alt="Generic placeholder image">
+                                    </div> -->
+                                    <div class="space30"></div>
+                                    <p ng-show="vm.currentChannel.getTypingMembers().length > 0">{{vm.currentChannel.getTypingMembers()
+                                        | parseTypingMembers}}</p>
+                                </div>
+                                <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab"></div>
+                            </div>
+                            <div class="type_msg d-flex">
+                                <input class="form-control msg_txtbox" placeholder="Type your message here..." name="messageBox"
+                                    ng-keypress="vm.sendMessageOnEnter($event)" ng-model="vm.messageBox" ng-change="vm.startTyping(vm.currentChannel)">
+                                <div class="d-flex align-items-center">
+                                    <button class="btn btn-attach ripple" data-target="#attach_popup" data-toggle="modal">
+                                        <!-- <img src="/assets/images/attach.png" class="img-fluid"> -->
+                                        <i class="fa fa-paperclip " aria-hidden="true"></i>
+                                    </button>
+                                    <button class="btn btn-attach ripple" ng-click="vm.startVideoChat()">
+                                        <!-- <img src="/assets/images/attach.png" class="img-fluid"> -->
+                                        <i class="fas fa-video" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                                <button class="btn btn-send ripple" ng-click="vm.sendMessage( vm.currentChannel, vm.messageBox)">Send</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column3 reverse pad0 animated fadeInRight">
+                        <div>
+                            <a ng-click="vm.openInvitePopup(vm.currentChannel, vm.companyUsers)" class="invite_member ripple">
+                                <img src="/assets/images/plus.png" alt=""> Invite Members</a>
+                        </div>
+                        <div class="todo_section">
+                            <h3 class="headOne animated fadeInUp wow">Todo List</h3>
+                            <button class="btn btn-sm task_tag ripple ripplePurple" ng-click="vm.launchTodoPopup()">
+                                <img src="/assets/images/plus2.png" class="img-fluid" alt="plus">
+                            </button>
+                            <ul class="list-unstyled to_dolist ">
+                                <li ng-repeat="list in vm.todoList" class="animated fadeInUp wow">
+                                    <span class="dark">{{$index + 1}}.&nbsp;</span>{{list.title}}
+                                    <p class="dark f600 mb-0 text-uppercase fsize14 space30">Assigned To</p>
+                                    <p class="mb-0">
+                                        <span ng-repeat="assignee in list.assignedTo">{{assignee.displayName}}&nbsp;&nbsp;</span>
+                                    </p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Modal Popups -->
+<div class="modal fade popup1" id="video_preview" data-backdrop="false" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body text-right">
+                <button class="btn shared ripple ripplePink" id="button-leave" ng-click="vm.leaveRoomIfJoined()">Stop
+                    Video</button>
+                <hr>
+                <!-- <div id="local-media"></div> -->
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <!-- <div class="own_video"></div> -->
+                            <!-- <div id="local-media"></div> -->
+                            <div class="row">
+                                <div class="col-md-6 border">
+                                    <div id="local-media"></div>
+                                    <span class="videonameTag">username</span>
+                                </div>
+                                <div class="col-md-6 border">
+                                    <div id="local-media"></div>
+                                    <span class="videonameTag">username</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 border h-200">
+                                    <div id="local-media"></div>
+                                    <span class="videonameTag">username</span>
+                                </div>
+                                <div class="col-md-6 border h-200">
+                                    <div id="local-media"></div>
+                                    <span class="videonameTag">username</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="col-md-12" style="height: 200px;overflow-y:scroll;">
+                                <div class="row video_participants_thumb">
+
+                                    <div class="col-md-5 pt-1">
+                                        <img class="rounded-circle my-auto" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=="
+                                            alt="Generic placeholder image" width="40" height="40">
+                                    </div>
+                                    <div class="col-md-7 pl-0">
+                                        <p>username</p>
+                                    </div>
+
+                                </div>
+
+                                <div class="row video_participants_thumb">
+
+                                    <div class="col-md-5 pt-1">
+                                        <img class="rounded-circle my-auto" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=="
+                                            alt="Generic placeholder image" width="40" height="40">
+                                    </div>
+                                    <div class="col-md-7 pl-0">
+                                        <p>username</p>
+                                    </div>
+
+                                </div>
+
+                                <div class="row video_participants_thumb">
+
+                                    <div class="col-md-5 pt-1">
+                                        <img class="rounded-circle my-auto" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=="
+                                            alt="Generic placeholder image" width="40" height="40">
+                                    </div>
+                                    <div class="col-md-7 pl-0">
+                                        <p>username</p>
+                                    </div>
+
+                                </div>
+
+                                <div class="row video_participants_thumb">
+
+                                    <div class="col-md-5 pt-1">
+                                        <img class="rounded-circle my-auto" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=="
+                                            alt="Generic placeholder image" width="40" height="40">
+                                    </div>
+                                    <div class="col-md-7 pl-0">
+                                        <p>username</p>
+                                    </div>
+
+                                </div>
+
+                                <div class="row video_participants_thumb">
+
+                                    <div class="col-md-5 pt-1">
+                                        <img class="rounded-circle my-auto" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=="
+                                            alt="Generic placeholder image" width="40" height="40">
+                                    </div>
+                                    <div class="col-md-7 pl-0">
+                                        <p>username</p>
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+
+                            <div class="col-md-12 mt-1">
+                                <div class="col-md-12 border h-150"></div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal New Meetings-->
+<div class="modal fade popup1" data-easein="whirlIn" id="newmeeting_popup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title f500 txtwhite">New Meeting</h5>
+            </div>
+            <div class="modal-body">
+                <div class="content-width">
+                    <h5 class="fsize18 f500 c_space animated fadeInUp">Meeting Room Name</h5>
+                    <input type="text" class="form-control txt_box animated zoomIn wow" ng-model="vm.newMeetingName">
+                    <div class="space50"></div>
+                    <div class="f_block">
+                        <p class="fsize18 f500 txtgrey c_space mb-2">Title</p>
+                        <input type="text" class="form-control animated zoomIn wow" value="" ng-model="vm.meetingTodo.title"
+                            required>
+                    </div>
+                    <div class="f_block">
+                        <p class="fsize18 f500 txtgrey c_space mb-2 mt-4">Description</p>
+                        <textarea rows="4" class="form-control txt_box zoomIn wow" ng-model="vm.meetingTodo.description"></textarea>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5 class="fsize18 f500 c_space space30">Date</h5>
+                            <!-- <input type="text" class="form-control date-icon datepicker txt_box1" ng-model="vm.todoData.date" required> -->
+                            <input type="text" class="form-control date-icon txt_box1" ng-model="vm.meetingTodo.date"
+                                required start-view="month" data-min-date="vm.todayDate" ng-model-options="{ updateOn: 'blur' }"
+                                placeholder="Select a date..." moment-picker="vm.meetingTodo.date">
+                        </div>
+                        <div class="col-md-6">
+                            <p class="fsize18 f500 txtgrey c_space mb-2 mt-4">Assigned to</p>
+                            <select ui-select2 ng-model="vm.meetingTodo.assignedTo" class="form-control txt_box1"
+                                ng-options="s._id as s.displayName for s in vm.companyUsers" multiple></select>
+                        </div>
+                    </div>
+                    <!-- <h5 class="fsize18 f500 c_space animated fadeInUp">Todo List</h5>
+                    <ul class="list-unstyled mb-0 to_dolist2">
+                        <li ng-repeat="todo in todolist2" class="animated zoomIn wow">
+                            <span class="numblock">{{todo.num}}</span>
+                            <div class="borderblock">
+                                <p class="mb-0 fsize18 dark f500 ">{{todo.text}}</p>
+                            </div>
+                            <button class="btn cross_icon wobble-vertical">
+                                <img src="/assets/images/cross2.png" class="img-fluid">
+                            </button>
+                        </li>
+                    </ul> -->
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn_create ripple" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn_create ripple position-relative" ng-click="vm.createChannel(vm.meetingTodo, vm.newMeetingName)">Create</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Invite Members-->
+<div class="modal fade popup1" data-easein="shrinkIn" id="members_popup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title f500 txtwhite">Invite Members</h5>
+            </div>
+            <div class="input-group searchbar">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">
+                        <img src="/assets/images/magnifyglass.png" class="search-icon">
+                    </span>
+                </div>
+                <input type="text" class="form-control" placeholder="Search members...">
+            </div>
+            <div class="modal-body">
+                <div class="inviteblock d-flex flex-wrap align-items-center " ng-repeat="invite in vm.invitees">
+                    <div class="checkbox">
+                        <input id="{{invite._id}}" type="checkbox" ng-model="invite.checked">
+                        <label for="{{invite._id}}"></label>
+                    </div>
+                    <div class="media align-items-center spaceleft">
+                        <img ng-src="{{invite.profilePic}}" height="30px" class="animated zoomIn wow">
+                        <div class="media-body animated zoomIn wow">
+                            <h6 class="fsize18 dark f500 user_name">{{invite.displayName}}</h6>
+                        </div>
+                    </div>
+                    <div class="dropdown ml-auto taskdrop animated zoomIn wow" ng-show="invite.checked">
+                        <button class="btn selectbox dropdown-toggle" type="button" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            Assign Task
+                        </button>
+                        <ul class="dropdown-menu avail_option">
+                            <li>Task1</li>
+                            <li>Task1</li>
+                            <li>Task1</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn_create ripple" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn_create ripple" ng-click="vm.inviteUsers(vm.currentChannel , vm.invitees)">Invite</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Shared Files-->
+<div class="modal fade popup1" id="sharedfiles_popup" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="d-flex align-items-center justify-content-between w-100">
+                    <h5 class="modal-title f500 txtwhite">Shared Files</h5>
+                    <button type="button" class="btn btn_cancel wobble-vertical" data-dismiss="modal">
+                        <img src="/assets/images/cross.png" class="img-fluid" alt="cross">
+                    </button>
+                </div>
+            </div>
+            <div class="input-group searchbar">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">
+                        <img src="/assets/images/magnifyglass.png" class="search-icon">
+                    </span>
+                </div>
+                <input type="text" class="form-control" placeholder="Search members...">
+            </div>
+            <div class="modal-body">
+                <div class="filname ">
+                    <h5 class="fsize18 dark f500">Images</h5>
+                    <div class="filname_block " ng-repeat="i in vm.sharedFiles.images">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <p class="fsize18 f500 mb-0 ">{{i.name}}</p>
+                            <button class="btn download_btn ">
+                                <img src="/assets/images/download.png" class="img-fluid " alt="download-icon">
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="filname">
+                    <h5 class="fsize18 dark f500">Videos</h5>
+                    <div class="filname_block w" ng-repeat="vid in videos">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <p class="fsize18 f500 mb-0 ">{{vid.file}}</p>
+                            <button class="btn download_btn ">
+                                <img src="/assets/images/download.png" class="img-fluid " alt="download-icon">
+                            </button>
+                        </div>
+                    </div>
+                </div> -->
+                <div class="filname ">
+                    <h5 class="fsize18 dark f500">Documents</h5>
+                    <div class="filname_block" ng-repeat="d in vm.sharedFiles.docs">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <p class="fsize18 f500 mb-0">{{d.name}}</p>
+                            <a href="{{d.url}}" class="btn download_btn ">
+                                <img src="/assets/images/download.png" class="img-fluid " alt="download-icon">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Attach Files -->
+<div class="modal fade popup1" id="attach_popup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content animated wow flipInX">
+            <div class="modal-header">
+                <div class="d-flex align-items-center justify-content-between w-100">
+                    <h5 class="modal-title f500 txtwhite ">Attach File</h5>
+                    <button type="button" class="btn btn_cancel ripple wobble-vertical" data-dismiss="modal">
+                        <img src="/assets/images/cross.png" class="img-fluid" alt="cross">
+                    </button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <ul class="flex-column flex-sm-row list-inline attach_list d-flex align-items-center mb-0 justify-content-between">
+
+                    <li class="d-flex" ng-repeat="f in vm.uploadFiles">
+                        <a href="#" class="d-flex align-items-center flex-column animated zoomIn wow">
+                            <!-- <img ng-src="{{f.img}}" class="img-fluid" alt="categor-icon"> -->
+                            <span class="dark fsize18 f500 cat_name">{{f.name}}</span>
+                        </a>
+                    </li>
+
+                </ul>
+                <div class="btn btn-default" ngf-select ng-model="vm.uploadFiles" name="file" ngf-multiple="true">Browse</div>
+
+                <div class="btn btn-default" ng-click="vm.sendFileMessage(vm.currentChannel, vm.uploadFiles)">Submit</div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Todo Modal -->
+<div class="modal todo fade popup1" id="todo_meeting" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-sm modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="d-flex align-items-center justify-content-between w-100">
+                    <h5 class="modal-title f500 txtwhite">New Todo</h5>
+                </div>
+            </div>
+            <div class="modal-body pad0">
+                <div class="d-md-flex">
+                    <div class="col-lg-12 pad0">
+                        <form name="todoCreateForm" novalidate>
+                            <div class="issue_form">
+                                <div class="f_block">
+                                    <p class="fsize18 f500 txtgrey c_space mb-2">Title</p>
+                                    <input type="text" class="form-control animated zoomIn wow" value="" ng-model="vm.todoData.title"
+                                        required>
+                                </div>
+                                <div class="f_block">
+                                    <p class="fsize18 f500 txtgrey c_space mb-2 mt-4">Description</p>
+                                    <textarea rows="4" class="form-control txt_box zoomIn wow" ng-model="vm.todoData.description"></textarea>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h5 class="fsize18 f500 c_space space30">Date</h5>
+                                        <!-- <input type="text" class="form-control date-icon datepicker txt_box1" ng-model="vm.todoData.date" required> -->
+                                        <input type="text" class="form-control date-icon txt_box1" ng-model="vm.todoData.date"
+                                            required start-view="month" data-min-date="vm.todayDate" ng-model-options="{ updateOn: 'blur' }"
+                                            placeholder="Select a date..." moment-picker="vm.todoData.date">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p class="fsize18 f500 txtgrey c_space mb-2 mt-4">Assigned to</p>
+                                        <select ui-select2 ng-model="vm.todoData.assignedTo" class="form-control txt_box1"
+                                            ng-options="s._id as s.displayName for s in vm.companyUsers" multiple></select>
+                                    </div>
+                                </div>
+                                <div class="f_block">
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer align-items-center">
+                <div>
+                    <button type="button" class="btn btn_create_issue ripple" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn_create_issue ripple" ng-click="vm.createTodoList(vm.todoData, vm.currentChannel,todoCreateForm.$valid)">Create</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.2/velocity.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.2/velocity.ui.min.js"></script>
+<script type="text/javascript" src="js/custom.js"></script>

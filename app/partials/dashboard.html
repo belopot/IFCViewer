@@ -1,0 +1,784 @@
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" crossorigin="anonymous">
+<div id="dashboard-2" class="page-layout simple fullwidth">
+    <div ng-include="'/partials/home_header.html'"></div>
+    <div class="content tile_view">
+        <div class="grid row m-0">
+            <div class="fist col-md-4 col-sm-6 col-xs-12">
+                <div class="row p-0 m-0">
+                    <div class="grid-item col visual_editor py-5">
+                        <img src="/assets/images/dashboard/ve_icon.png" srcset="/assets/images/dashboard/ve_icon@2x.png 2x, /assets/images/dashboard/ve_icon@3x.png 3x"
+                            class="ve_icon icon">
+                        <h4 class="title">VISUAL PLANNER</h4>
+                        <div class="row">
+                            <div class="col-8 mx-auto">
+                                <button type="button" class="col-12 btn rounded-0 btn-cyan text-uppercase" ng-click="vm.openPlanPicker()">
+                                    Choose a Plan
+                                </button>
+                            </div>
+                        </div>
+                        <!-- <a class="btn btn-cyan text-uppercase" id="visualPlanner" href="/#!/visual_planner">Choose a Project </a> -->
+                    </div>
+                    <div class="w-100 my-3"></div>
+                    <div class="col-md-6 col-sm-12 col-12 pl-0 text-center">
+                        <div class="grid-item economic py-4">
+                            <a href="" ng-click="vm.goToEconomic()">
+                                <img src="/assets/images/dashboard/economic.png" srcset="/assets/images/dashboard/economic@2x.png 2x, /assets/images/dashboard/economic@3x.png 3x"
+                                    class="economic mt-2" />
+                                <h4 class="title">Economic</h4>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-12 col-12 pr-0 text-center">
+                        <div class="grid-item employee py-3">
+                            <a href="#!employees">
+                                <img src="/assets/images/dashboard/employee.png" srcset="/assets/images/dashboard/employee@2x.png 2x, /assets/images/dashboard/employee@3x.png 3x"
+                                    class="employee">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="w-100 my-3"></div>
+                    <div class="grid-item col todo py-3">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <h6 class="mb-4 d-flex align-items-center text-black">
+                                    <i class="far fa-list-alt float-left mr-1"></i>
+                                    <span>TODO's</span>
+                                </h6>
+                                <div class="pr-4">
+                                    <div ng-repeat="todo in vm.dashboardData.todoLists| limitTo:5">
+                                        <div class="d-md-flex justify-content-between align-items-center py-1">
+                                            <a href="#" class="py-1 d-block">
+                                                <i class="fas fa-check rounded-circle text-white fa-sm mr-2" ng-class="{ 'bg-success': todo.markAsDone === true,'bg-danger' : todo.durationTime < 0,'bg-warning' : todo.durationTime > 0 && todo.markAsDone === false}" ></i>
+                                                {{todo.title}}
+                                            </a>
+                                            <span>{{todo.durationTime < 0 ? 'Expired' : todo.durationTime+'h'}}</span>
+                                        </div>
+                                        <hr>
+                                    </div>
+                                    <!--  <div class="d-md-flex justify-content-between align-items-center py-1">
+                                        <a href="#" class="py-1 d-block">
+                                            <i class="fas fa-check rounded-circle bg-grey text-white fa-sm mr-2"></i>
+                                            Robert added new post Combination UI Kit
+                                        </a>
+                                        <span>1h</span>
+                                    </div>
+                                    <hr>
+                                    <div class="d-md-flex justify-content-between align-items-center py-1">
+                                        <a href="#" class="py-1 d-block">
+                                            <i class="fas fa-check rounded-circle bg-grey text-white fa-sm mr-2"></i>
+                                            Robert added new post Combination UI Kit
+                                        </a>
+                                        <span>1h</span>
+                                    </div>
+                                    <hr>
+                                    <div class="d-md-flex justify-content-between align-items-center py-1">
+                                        <a href="#" class="py-1 d-block">
+                                            <i class="fas fa-check rounded-circle bg-grey text-white fa-sm mr-2"></i>
+                                            Robert added new post Combination UI Kit
+                                        </a>
+                                        <span>1h</span>
+                                    </div> -->
+                                    <!-- <hr>
+                                    <div class="d-md-flex justify-content-between align-items-center py-1">
+                                        <a href="#" class="py-1 d-block">
+                                            <i class="fas fa-check rounded-circle bg-grey text-white fa-sm mr-2"></i> Robert added new post Combination UI Kit
+                                        </a>
+                                        <span>1h</span>
+                                    </div>
+                                    <hr>
+                                    <div class="d-md-flex justify-content-between align-items-center py-1">
+                                        <a href="#" class="py-1 d-block">
+                                            <i class="fas fa-check rounded-circle bg-grey text-white fa-sm mr-2"></i> Robert added new post Combination UI Kit
+                                        </a>
+                                        <span>1h</span>
+                                    </div>
+                                    <hr>
+                                    <div class="d-md-flex justify-content-between align-items-center py-1">
+                                        <a href="#" class="py-1 d-block">
+                                            <i class="fas fa-check rounded-circle bg-grey text-white fa-sm mr-2"></i> Robert added new post Combination UI Kit
+                                        </a>
+                                        <span>1h</span>
+                                    </div> 
+                                    <hr class="mb-4">-->
+                                </div>
+                                <a href="#!todo" class="mt-3 btn btn-outline-dark btn-sm">
+                                    <!-- <i class="fas fa-plus-circle text-success mr-1"></i> -->View More</a>
+                            </div>
+                        </div>
+                        <!-- <p>
+                            <i class="far fa-list-alt mr-1"></i>
+                            <strong>Todo's</strong>
+                        </p>
+                        <ul class="todoList">
+                            <li>
+                                <i class="fas fa-check-circle red"></i>
+                                <span class="todoTxt">Robert added new post Combination UI Kit</span>
+                                <span class="todoTime text-muted">1h</span>
+                            </li>
+                            <li>
+                                <i class="fas fa-check-circle yellow"></i>
+                                <span class="todoTxt">Robert added new post Combination UI Kit</span>
+                                <span class="todoTime text-muted">1h</span>
+                            </li>
+                            <li>
+                                <i class="fas fa-check-circle gray"></i>
+                                <span class="todoTxt">Robert added new post Combination UI Kit</span>
+                                <span class="todoTime text-muted">1h</span>
+                            </li>
+                            <li>
+                                <i class="fas fa-check-circle gray"></i>
+                                <span class="todoTxt">Robert added new post Combination UI Kit</span>
+                                <span class="todoTime text-muted">1h</span>
+                            </li>
+                        </ul>
+                        <p class="border d-inline px-2 py-1 rounded-30">
+                            <i class="fas fa-plus-circle text-success"></i> Add new
+                        </p> -->
+                    </div>
+                    <div class="w-100 my-3"></div>
+                    <div class="col-md-6 col-sm-12 col-12 pl-0 p-0">
+                        <div class="grid-item report text-center py-3 mb-4">
+                            <span class="pipeline"></span>
+                            <div class="row p-0 m-0">
+                                <div class="col-md-6 col-sm-12 col-12">
+                                    <p class="text-uppercase mt-0">Reports</p>
+                                    <a href="#!report">
+                                        <img src="/assets/images/dashboard/report.png" class="material icon">
+                                    </a>
+                                </div>
+                                <div class="col-md-6 col-sm-12 col-12">
+                                    <p class="text-uppercase mt-0">Issues</p>
+                                    <a href="#!issues">
+                                        <img src="/assets/images/dashboard/issues.png" class="equipments icon">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grid-item meeting_room text-center">
+                            <img src="/assets/images/dashboard/meetingRoom.jpg" alt="">
+                            <a href="" ng-click="vm.goToMeetingRoom()" class="btn btn-primary btn-sm">
+                                <i class="far fa-comments mr-1"></i> Meeting room</a>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-sm-12 col-12 pr-0">
+                        <div class="grid-item setting p-2">
+                            <div class="row align-items-center">
+                                <div class="col-md-12">
+                                    <h6 class="mb-4 d-flex align-items-center text-black">
+                                        <i class="far fa-user-circle float-left mr-1"></i>
+                                        <strong>PERSONAL SETTINGS</strong>
+                                    </h6>
+                                    <hr>
+
+                                    <div class="d-md-flex justify-content-between align-items-center py-1">
+                                        <span>SMS Notifications</span>
+                                        <label class="switch switch-xs mb-0">
+                                            <input type="checkbox" checked>
+                                            <span class="slider round"></span>
+                                        </label>
+                                    </div>
+                                    <hr>
+                                    <div class="d-md-flex justify-content-between align-items-center py-1">
+                                        <span>Email Notifications</span>
+                                        <label class="switch switch-xs mb-0">
+                                            <input type="checkbox" checked>
+                                            <span class="slider round"></span>
+                                        </label>
+                                    </div>
+                                    <hr>
+                                    <div class="d-md-flex justify-content-between align-items-center py-1">
+                                        <span>Language</span>
+                                        <select class="custom-select form-control form-control-xs bg-warning text-white border-0 pr-3">
+                                            <option>EN</option>
+                                            <option>EN</option>
+                                            <option>EN</option>
+                                            <option>EN</option>
+                                            <option>EN</option>
+                                        </select>
+                                    </div>
+                                    <hr>
+                                    <div class="d-md-flex justify-content-between align-items-center py-1">
+                                        <span>Currency</span>
+                                        <select class="custom-select form-control form-control-xs bg-warning text-white border-0 pr-3">
+                                            <option>$</option>
+                                            <option>$</option>
+                                            <option>$</option>
+                                            <option>$</option>
+                                            <option>$</option>
+                                        </select>
+                                    </div>
+
+                                    <hr>
+                                    <a href="#!systemtags" class="mt-3 btn btn-outline-dark btn-sm">
+                                        <i class="fas fa-plus-circle text-success float-left mr-1"></i> More</a>
+                                </div>
+                            </div>
+                            <!-- <p>
+                                <i class="far fa-user-circle mr-1"></i>
+                                <strong>Personal Setting</strong>
+                            </p>
+                            <ul>
+                                <li>SMS Notification
+                                    <span class="float-right">
+                                        <label class="switch m-0">
+                                            <input type="checkbox">
+                                            <span class="slider round"></span>
+                                        </label>
+                                    </span>
+                                </li>
+                                <li>Email Notifications
+                                    <span class="float-right">
+                                        <label class="switch m-0">
+                                            <input type="checkbox">
+                                            <span class="slider round"></span>
+                                        </label>
+                                    </span>
+                                </li>
+                                <li>Language
+                                    <span class="float-right">
+                                        <select class="custom-select bg-warning language">
+                                            <option value="en" selected>En</option>
+                                            <option value="fr">Fr</option>
+                                            <option value="gr">Ge</option>
+                                        </select>
+                                    </span>
+                                </li>
+                                <li>Currency
+                                    <span class="float-right">
+                                        <select class="custom-select  bg-warning language">
+                                            <option value="dol" selected>$</option>
+                                            <option value="euro">$</option>
+                                        </select>
+                                    </span>
+                                </li>
+                            </ul>
+                            <a href="#">More</a> -->
+                        </div>
+                    </div>
+                    <div class="w-100 my-3"></div>
+
+                    <div class="col-md-6 col-sm-12 col-12 pl-0 text-center">
+                        <a href="#!supplier">
+                            <div class="grid-item supplier py-4">
+                                <img src="/assets/images/dashboard/suppliers.png" class="economic mt-2">
+                                <h4 class="title" style="color:#ffffff;">Supplier</h4>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-md-6 col-sm-12 col-12 pr-0 text-center">
+                        <a href="#!subcontractor">
+                            <div class="grid-item subcontractor py-4">
+
+                                <img src="/assets/images/dashboard/subcontractors.png" class="economic mt-2">
+                                <h4 class="title" style="color:#ffffff;">Subcontractor</h4>
+
+                            </div>
+                        </a>
+                    </div>
+                    <div class="w-100 my-3"></div>
+                    <div class="col-md-6 col-sm-12 col-12 pl-0 text-center">
+                        <a href="#!AR">
+                            <div class="grid-item supplier py-4">
+                                <img src="/assets/images/dashboard/ar.svg" width="100" class="economic mt-2">
+                                <h4 class="title" style="color:#ffffff;">AR</h4>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="second col-md-5 col-sm-6 col-xs-12">
+                <div class="row p-0 m-0">
+                    <div class="col-md-6 col-sm-12 col-12 pl-0">
+                      <a href="#!calculation">
+                        <div class="grid-item calculation text-center py-4">
+                            <img src="/assets/images/dashboard/calculation.png" srcset="/assets/images/dashboard/calculation@2x.png 2x, /assets/images/dashboard/calculation@3x.png 3x"
+                                class="calculation icon">
+                            <p class="text-uppercase">calculation</p>
+                        </div>
+                    </a>
+                    </div>
+                    <div class="col-md-6 col-sm-12 col-12 pr-0">
+                        <a href="#!3dviewer">
+                            <div class="grid-item threeD text-center py-4">
+                                <img src="/assets/images/dashboard/3d.png" srcset="/assets/images/dashboard/3d@2x.png 2x, /assets/images/dashboard/3d@3x.png 3x"
+                                    class="3d icon">
+                                <p class="text-uppercase">3D</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="w-100 my-3"></div>
+                    <div class="grid-item project text-center col py-5">
+                        <i class="bookmark fa-star" ng-class="vm.bookmarkFlag ? 'fas': 'far'" ng-click="vm.checkBookmark(vm.project)" ng-if="vm.projectName != 'PROJECT'"
+                            style="font-size: 20px;"></i>
+                        <h4 class="title">{{vm.projectName}}</h4>
+                        <div class="row m-0">
+                            <div class="col-md-8 mx-auto mb-3">
+                                <select id="selectProject" ng-model="vm.project" ng-change="vm.selectedProject(vm.project)" class="form-control bg-light"
+                                    ng-options="c.projectName for c in vm.bookmarkedProjectList track by c._id">
+                                    <option value="" disabled>Select a project</option>
+                                </select>
+
+                                <!-- <select ui-select2 ng-model="vm.project" ng-change="vm.selectedProject(vm.project)" class="form-control"
+                                    ng-options="c.projectName for c in vm.bookmarkedProjectList" ng-selected="vm.project.projectName == c.projectName">
+                                    <option value="" selected>Select project</option>
+                                </select> -->
+
+                                <!-- <multiselect ng-model="vm.project" ng-change="vm.selectedProject(vm.project)" placeholder="Choose a project"
+                                    classes-btn="'btn btn-cyan d-block col-md-12'" id-prop="_id" display-prop="projectName" 
+                                    options="vm.bookmarkedProjectList" show-search="true" search-limit="6" selection-limit="1">
+                                </multiselect> -->
+                            </div>
+                        </div>
+                        <div class="row m-0">
+                            <div class="col-md-8 mx-auto mb-3">
+                                <a class="btn btn-yellow d-block rounded-0 text-uppercase" href="#!create_project">Create a Project </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-100 my-3"></div>
+                    <div class="col-md-6 col-sm-12 col-12 pl-0">
+                        <div class="grid-item material text-center py-3 mb-4">
+                            <div class="row p-0 m-0">
+                                <div class="col-md-6 col-sm-12 col-12">
+                                    <a href="/#!/materials">
+                                        <p class="text-uppercase mt-0">material</p>
+                                        <img src="/assets/images/dashboard/material.png" srcset="/assets/images/dashboard/material@2x.png 2x, /assets/images/dashboard/material@3x.png 3x"
+                                            class="material icon">
+                                    </a>
+                                </div>
+                                <div class="col-md-6 col-sm-12 col-12">
+                                    <a href="/#!/equipments">
+                                        <p class="text-uppercase mt-0">Equipments</p>
+                                        <img src="/assets/images/dashboard/equipments.png" srcset="/assets/images/dashboard/equipments@2x.png 2x, /assets/images/dashboard/equipments@3x.png 3x"
+                                            class="equipments icon">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid-item p-2 clients  ">
+                            <h6 class="d-flex align-items-center">
+                                <i class="fas fa-male float-left mr-1 text-white"></i>
+                                <span>CLIENTS</span>
+                            </h6>
+                            <!-- <p class="text-uppercase">
+                                <strong>
+                                    <i style="padding-left:15px;" class="fas fa-male float-left mr-1 text-white"></i>clients</strong>
+                            </p> -->
+                            <ul>
+                                <li ng-repeat="client in vm.dashboardData.clients | limitTo:3">
+                                    <span>
+                                        <img ng-src="{{client.clientLogo}}" err-src="/assets/images/clientimage.png" class="client icon">
+                                    </span>{{client.clientName}}
+                                </li>
+                            </ul>
+                            <a href="/#!/clients">SEE ALL</a>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-12 col-12 pr-0">
+                        <div class="grid-item calender p-2 mb-4">
+                            <div id="datepicker"></div>
+                            <a class="text-center d-block" href="#!calender">Full View</a>
+                        </div>
+                        <div class="grid-item weather p-2 pb-4">
+                            <h4 class="title">weather</h4>
+                            <h1>24&deg;</h1>
+                        </div>
+                    </div>
+                    <div class="w-100 my-3"></div>
+                    <div class="grid-item board col videos-bg">
+                        <h6 class="text-white my-4">MEDIA</h6>
+                        <div class="row px-4">
+                            <div class="col-md-4 px-0">
+                                <button type="button" class="btn btn-primary video-btn rounded-0 p-0" data-toggle="modal" data-src="https://www.youtube.com/watch?v=Yu_bx0zNPHI"
+                                    data-target="#videoModal">
+                                    <img src="/assets/images/dashboard/media.png" class="w-100 fluid-img">
+                                </button>
+                            </div>
+                            <div class="col-md-4 px-0">
+                                <button type="button" class="btn btn-primary video-btn rounded-0 p-0" data-toggle="modal" data-src="https://www.youtube.com/watch?v=Yu_bx0zNPHI"
+                                    data-target="#videoModal">
+                                    <img src="/assets/images/dashboard/media.png" class="w-100 fluid-img">
+                                </button>
+                            </div>
+                            <div class="col-md-4 px-0">
+                                <button type="button" class="btn btn-primary video-btn rounded-0 p-0" data-toggle="modal" data-src="https://www.youtube.com/watch?v=Yu_bx0zNPHI"
+                                    data-target="#videoModal">
+                                    <img src="/assets/images/dashboard/media.png" class="w-100 fluid-img">
+                                </button>
+                            </div>
+                            <div class="col-md-4 px-0">
+                                <button type="button" class="btn btn-primary video-btn rounded-0 p-0" data-toggle="modal" data-src="https://www.youtube.com/watch?v=Yu_bx0zNPHI"
+                                    data-target="#videoModal">
+                                    <img src="/assets/images/dashboard/media.png" class="w-100 fluid-img">
+                                </button>
+                            </div>
+                            <div class="col-md-4 px-0">
+                                <button type="button" class="btn btn-primary video-btn rounded-0 p-0" data-toggle="modal" data-src="https://www.youtube.com/watch?v=Yu_bx0zNPHI"
+                                    data-target="#videoModal">
+                                    <img src="/assets/images/dashboard/media.png" class="w-100 fluid-img">
+                                </button>
+                            </div>
+                            <div class="col-md-4 px-0">
+                                <button type="button" class="btn btn-primary video-btn rounded-0 p-0" data-toggle="modal" data-src="https://www.youtube.com/watch?v=Yu_bx0zNPHI"
+                                    data-target="#videoModal">
+                                    <img src="/assets/images/dashboard/media.png" class="w-100 fluid-img">
+                                </button>
+                            </div>
+                        </div>
+                        <a href="#" class="d-inline-block my-4 text-white">SEE ALL</a>
+                        <!-- <p class="text-uppercase">
+                            <strong>Media</strong>
+                        </p>
+                        <hr>
+                        <ul class="pb-0">
+                            <li>
+                                <img src="/assets/images/dashboard/Clip.png">
+                            </li>
+                            <li>
+                                <img src="/assets/images/dashboard/Clip.png">
+                            </li>
+                            <li>
+                                <img src="/assets/images/dashboard/Clip.png">
+                            </li>
+                            <li>
+                                <img src="/assets/images/dashboard/Clip.png">
+                            </li>
+                            <li>
+                                <img src="/assets/images/dashboard/Clip.png">
+                            </li>
+                            <li>
+                                <img src="/assets/images/dashboard/Clip.png">
+                            </li>
+                            <li>
+                                <img src="/assets/images/dashboard/Clip.png">
+                            </li>
+                            <li>
+                                <img src="/assets/images/dashboard/Clip.png">
+                            </li>
+                        </ul>
+                        <p class="my-3"> SEE ALL </p> -->
+                    </div>
+                </div>
+            </div>
+            <div class="third col-md-3 col-sm-6 col-xs-12">
+                <div class="row p-0 m-0">
+                    <div class="grid-item sales text-center col-12 py-3">
+                        <p class="text-uppercase">
+                            <strong>Sales</strong>
+                        </p>
+                        <img src="/assets/images/dashboard/graph.png" srcset="/assets/images/dashboard/graph@2x.png 2x, /assets/images/dashboard/graph@3x.png 3x"
+                            class="graph">
+                    </div>
+                    <div class="w-100 my-3"></div>
+                    <div class="grid-item workers_map col-12">
+                        <div map-lazy-load="https://maps.google.com/maps/api/js" map-lazy-load-params="{{vm.gmap.url}}">
+                            <ng-map center="41,-87" zoom="3">
+                                <marker ng-repeat="m in vm.gmap.markers" position="{{m}}" icon="/assets/images/blueDot.png"></marker>
+                            </ng-map>
+                        </div>
+                    </div>
+                    <div class="w-100 my-3"></div>
+                    <div class="grid-item subscription col-12 py-3">
+                        <p class="subscriptionTitle">
+                            <span>SUBSCRIBE TO NEWS LETTER</span>
+                        </p>
+
+                        <div class="input-group mb-3">
+
+                            <input type="email" class="form-control" name="email" ng-model="vm.subscribeEmail" placeholder="Email address" aria-label="Email address"
+                                aria-describedby="basic-addon2">
+                            <div class="input-group-append">
+                                <button class="btn btn-warning" type="button" ng-click="vm.subscribe(vm.subscribeEmail)">
+                                    <i class="fab fa-telegram-plane"></i>
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="w-100 my-3"></div>
+                    <div class="grid-item filemanager col-12 p-0">
+                        <div class="row m-0 h-100">
+                            <div class="col-7 h-100 fmCont px-2">
+                                <p class="text-center text-uppercase">
+                                    <strong>File Manager</strong>
+                                </p>
+                                <hr class="my-0">
+                                <div class="body">
+                                    <div class="d-flex flex-column h-100">
+                                        <ul ng-if="! vm.project" class="px-0 m-0">
+                                            <li>Meet Craftwork.pdf</li>
+                                            <li>QA Report 2618.pdf</li>
+                                            <li>A.4.1.05 - Plan, Tagplan.pdf</li>
+                                            <li>KS272_0_.pdf</li>
+                                        </ul>
+                                        <ul ng-if=" vm.project" class="px-0 m-0">
+                                            <li ng-repeat="file in vm.projectFiles" class="text-truncate">{{file.assetName}}</li>
+                                        </ul>
+                                        <a href="" ng-click="vm.goToFileManager()" class="py-2 d-block mt-auto  text-center">SHOW MORE
+                                        </a>
+                                    </div>
+                                    <!-- <div class="text-center">
+                                        <div class="py-3">
+                                            <small>No files found.</small>
+                                        </div>
+                                        <a href="" ng-click="vm.goToFileManager()" class="py-2 d-block text-center">OPEN</a>
+                                    </div> -->
+                                </div>
+                            </div>
+                            <div class="col-5 h-100 fmImg p-0">
+                                <!-- <img src="/assets/images/dashboard/filemanager_Bg.png" alt=""> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-100 my-3">
+                    </div>
+                    <div class="grid-item timeline col-12 p-0">
+                        <h6 class="p-4">TIMELINE
+                            <a href="#" class="bg-green ml-2 px-2 py-1 rounded-30 text-white">
+                                <small>VIEW DETAILS</small>
+                            </a>
+                        </h6>
+                        <div class="timeline overflow-hidden p-1 position-relative">
+                            <div class="row border-bottom mx-0 py-1 position-static t-col">
+                                <div class="col-4 border-left pl-0 position-static">
+                                    <div class="bg-success text-white px-2 rounded-right">
+                                        <small>Task name</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row border-bottom mx-0 py-1 position-static">
+                                <div class="col-4 border-left pl-0 offset-2 position-static t-col">
+                                    <div class="bg-warning text-white px-2 rounded-right">
+                                        <small>Task name</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row border-bottom mx-0 py-1 position-static">
+                                <div class="col-8 border-left pl-0 offset-4 position-static t-col">
+                                    <div class="bg-danger text-white px-2 rounded-right">
+                                        <small>Task name</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row border-bottom mx-0 py-1 position-static">
+                                <div class="col-4 border-left pl-0 offset-6 position-static t-col">
+                                    <div class="bg-primary text-white px-2 rounded-right">
+                                        <small>Task name</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row border-bottom mx-0 py-1 position-static">
+                                <div class="col-9 border-left pl-0 offset-8 position-static t-col">
+                                    <div class="bg-dark text-white px-2 rounded-right">
+                                        <small>Task name</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row small m-0 mt-2">
+                                <div class="col-md-2 pl-0">Today</div>
+                                <div class="col-md-2 pl-0">5/10/18</div>
+                                <div class="col-md-2 pl-0">6/10/18</div>
+                                <div class="col-md-2 pl-0">7/10/18</div>
+                                <div class="col-md-2 pl-0">8/10/18</div>
+                                <div class="col-md-2 pl-0">9/10/18</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- The Modal -->
+<div class="modal" id="chooseProject">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Choose project</h5>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body" id="projectPickerContainer" style="max-height: 300px;overflow-y: scroll;">
+
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">Search</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="vm.projectSearch" ng-change="vm.searchProjects()" aria-label="Search" aria-describedby="basic-addon1">
+                </div>
+
+                <div infinite-scroll="vm.addMore()" infinite-scroll-disabled="!vm.enableLazyLoad" infinite-scroll-distance='0' infinite-scroll-container="'#projectPickerContainer'"
+                    infinite-scroll-parent="true">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="projectPickerHeader">#</th>
+                                <th scope="col" class="projectPickerHeader" ng-click="vm.sort('projectName')">Project Name
+                                </th>
+                                <th scope="col" class="projectPickerHeader" ng-click="vm.sort('systemTag')">System Tag</th>
+                                <th scope="col" class="projectPickerHeader" ng-click="vm.sort('created')">Created Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="p in vm.projectPickerData" ng-click="vm.chooseProject(p)">
+                                <td>{{$index + 1}}</td>
+                                <td>{{p.projectName}}</td>
+                                <td>{{p.systemTag}}</td>
+                                <td>{{p.created | date:'mediumDate'}}</td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" ng-click="vm.closeProjectPicker()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Plan picker modal -->
+
+
+<div class="modal" id="chooseRoofModal" data-backdrop="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <!-- Modal body -->
+            <div class="modal-header">
+                <h5 class="modal-title">Roof Plans</h5>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-3 p-2" ng-repeat="plan in vm.planPickerPlans" ng-click="vm.choosePlan(plan)">
+                        <div class="card mb-2">
+                            <img class="card-img-top" ng-src="{{plan.assetObj.url}}" alt="image caption">
+                            <div class="card-body p-2">
+                                <p>{{plan.assetObj.title}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <button type="button" class="btn btn-success" ng-click="vm.fileChoose()">Create new</button>
+                    </div>
+                </div>
+                <file-picker folders="vm.pickerFolders" options="vm.filePickerOptions" source="vm.windowItems.folderData" sourcefile="vm.moveToSourceFile"
+                    sourcedir="vm.windowItems.files"></file-picker>
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" ng-click="vm.allModalClose()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="selectFile" data-backdrop="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title w-100">{{vm.roofplanBreadCrumb}}
+                    <span class="float-right btn-sm btn btn-success" ng-click="vm.hideSelectFile()"> Choose another file</span>
+                </h5>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-4 p-2" ng-repeat="file in vm.pdfFiles">
+                        <div class="card mb-2">
+                            <img class="card-img-top" ng-src="{{file.url}}" alt="image caption">
+                            <div class="card-body p-2">
+                                <input type="hidden" ng-model="vm.pdfFiles[$index].pageNo" ng-value="file.pageNo">
+                                <input type="hidden" ng-model="vm.pdfFiles[$index].link" ng-value="file.link">
+                                <input type="text" class="form-control mb-2" ng-model="vm.pdfFiles[$index].title" ng-value="file.title" placeholder="Please enter the title">
+                                <textarea rows="3" class="form-control mb-2" ng-model="vm.pdfFiles[$index].description" placeholder="Please enter the description"> </textarea>
+                                <div class="custom-control custom-checkbox my-1 mr-sm-2">
+                                    <input type="checkbox" class="custom-control-input" id="{{file.pageNo}}" ng-value="file.selected" ng-model="vm.pdfFiles[$index].selected">
+                                    <label class="custom-control-label" for="{{file.pageNo}}">Select for export</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" ng-click="vm.selectedFileList('submit', 1, vm.selectedAssetForPlan)">Submit</button>
+                <button type="button" class="btn btn-danger" ng-click="vm.selectedFileList('close', 1)">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="selectFileCanvas" data-backdrop="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Select File</h5>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-4 p-2" ng-repeat="p in vm.pdfFiles">
+                        <div class="card mb-2">
+                            <canvas canvas-pdf current="p"></canvas>
+                            <div class="row m-0 mt-1">
+                                <div class="col">
+                                    <input type="hidden" ng-model="vm.pdfFiles[$index].pageNo" ng-value="p.pageNo">
+                                    <input type="text" class="form-control mb-2" ng-model="vm.pdfFiles[$index].title" ng-value="p.title" placeholder="Please enter the title">
+                                    <textarea rows="3" class="form-control mb-2" ng-model="vm.pdfFiles[$index].description" placeholder="Please enter the description"> </textarea>
+                                    <div class="custom-control custom-checkbox my-1 mr-sm-2">
+                                        <input type="checkbox" class="custom-control-input" id="{{p.pageNo}}" ng-value="p.selected" ng-model="vm.pdfFiles[$index].selected">
+                                        <label class="custom-control-label" for="{{p.pageNo}}">Select for export</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" ng-click="vm.selectedFileList('submit', 2, vm.selectedAssetForPlan)">Submit</button>
+                <button type="button" class="btn btn-danger" ng-click="vm.selectedFileList('close', 2)">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#datepicker').datepicker({
+        todayHighlight: true
+    });
+</script>
+
+<div class="lds-css ng-scope" ng-if="vm.loader">
+    <div style="width:100%;height:100%" class="lds-ellipsis">
+        <div>
+            <div></div>
+        </div>
+        <div>
+            <div></div>
+        </div>
+        <div>
+            <div></div>
+        </div>
+        <div>
+            <div></div>
+        </div>
+        <div>
+            <div></div>
+        </div>
+    </div>
+</div>

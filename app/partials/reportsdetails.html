@@ -1,0 +1,254 @@
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" crossorigin="anonymous">
+<div ng-include="'/partials/header.html'"></div>
+<div id="reports" class="page-content pt-4 page-layout simple fullwidth">
+    <section class="container-fluid px-5">
+        <!-- <div class="container-fluid m-top-70 px-5"> -->
+            <div class="row">
+              <div class="col-md-12">
+                  <div class="ml-auto loginMenu">
+                        <a href="javascript:void(0)" data-toggle="modal" data-target="#reportModal" class="btn btn-sm btn-warning text-white"
+                        >
+                          <i class="fas fa-plus float-left mr-2"></i> Create Report
+                        </a>
+                        <a href="#" class="btn btn-sm btn-outline-dark">
+                          <i class="fas fa-share-alt float-left mr-2"></i> Share
+                        </a>
+                        <a href="#" class="btn btn-sm btn-outline-dark">
+                          <i class="fas fa-print float-left mr-2"></i> Print 
+                        </a>
+                        <button class="btn btn-sm btn-outline-dark" ng-click="exportToPdf()">
+                            <i class="fas fa-external-link-alt float-left mr-2"></i> Export
+                        </button>
+                        <!-- <button class="btn btn-sm btn-outline-dark"  ng-click="openReportPick()">
+                            Issue Picker
+                        </button> -->
+                        <!-- <a href="#" pdf-save-button="idOne" pdf-name="Detailedreport.pdf"  class="btn btn-sm btn-outline-dark">
+                          <i class="fas fa-external-link-alt float-left mr-2"></i> Export
+                        </a> -->
+                        <a href="#" class="btn btn-sm btn-warning text-white float-right">
+                          <i class="fas fa-cubes float-left mr-2"></i> 3D Viewer
+                        </a>
+                       
+                  </div>
+              </div>
+            </div>
+            <div class="row"><br></div>
+            <div class="row">
+                <div class="col-sm-2">
+                   <div class="custom-control custom-checkbox">
+                   <input type="checkbox" class="custom-control-input" id="covercheck">
+                   <label class="custom-control-label" for="covercheck" ng-click="coverPageModal()">Cover page</label>
+                   </div>
+                </div>
+                    <div class="col-sm-2">
+                     <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="aboutcheck">
+                        <label class="custom-control-label" for="aboutcheck" ng-click="aboutUsModal()">About Us</label>
+                      </div>
+                    </div>
+                    <div class="col-sm-2">
+                       <div class="custom-control custom-checkbox">
+                         <input type="checkbox" class="custom-control-input" id="projectmetacheck">
+                         <label class="custom-control-label" for="projectmetacheck" ng-click="projectMetaModal()">Project Meta Information</label>
+                       </div>
+                    </div>
+                    <div class="col-sm-2">
+                      <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="reportremarkscheck">
+                        <label class="custom-control-label" for="reportremarkscheck" ng-click="reportremarkModal()">Report Remarks</label>
+                      </div>
+                    </div>
+                    <!-- <div class="col-sm-2">
+                       <div class="custom-control custom-checkbox">
+                         <input type="checkbox" class="custom-control-input" id="pickissuecheck">
+                         <label class="custom-control-label" for="pickissuecheck" ng-click="openReportPick()">Pick Issues</label>
+                       </div>
+                    </div> -->
+                      <div class="col-sm-2">
+                       
+                            <button class="btn btn-sm btn-warning text-white" ng-click="listIssueModelClick()" >
+                               ISSUES
+                            </button>
+                       
+                       </div>
+                      
+            </div>
+          <!-- </div> -->
+        <!-- <button type="button" class="btn btn-default px-5" style="color: #ffff;background-color: #FEC52E; border-radius: 40px; 
+            font-size: 20px;" data-toggle="modal" data-target="#reportModal">
+                    Create Report
+                    pdf-save-content="idOne"
+        </button> -->
+    </section>
+    
+   <div id="coverpage"ng-If="ReportIssue.title">
+    <div id="titleimg" class="container-fluid px-5 mt-3">
+        <div class="float-right">
+            <img src="../assets/images/logo1024.png" style="height:80px;width:80px;"/>
+        </div> 
+    </div> 
+     <div id="titleid" class="container-fluid px-5 mt-3"style="padding-top:300px;">
+        <h1><center><b>{{ReportIssue.title}}</b></center></h1><br>
+        
+        <center>Prepared for XYZ company.</center><br>
+        <center>By ABC Cmpany</center>
+     </div>
+      
+    <div style="padding-top:200px;margin: -200px;">
+        <img src="../assets/images/logo_faded.png" style="height:50%;width:50%;"/>
+    </div>
+   </div>
+    
+     
+    
+  
+    <div id="pdfid1" class="container-fluid px-5 mt-3"ng-If="ReportIssue.description">
+        <div class="float-right">
+                <img src="../assets/images/logo1024.png" style="height:80px;width:80px;"/>
+        </div> 
+        <div  class="container-fluid px-5 mt-3"style="padding-top:250px;">
+                <h1>About Us</h1><br>
+                <p> 
+                        At {{ReportIssue.companyName}}, we are not merely transforming land into blocks and bricks. We believe in the beauty of creation and the power of design. 
+                        And more importantly. We believe in the realization of your dreams.</p>
+                        <p>Our company has been an established construction ﬁrm, creating homes and offices in the different locations.
+                        The expertise and experience we offer is based on the industry’s standards, all for a reasonably packaged price. As your trusted partner, 
+                        we are assuring you of an excellent workmanship from start phase of the constructionuntil the turnover of the project.</p>
+                        <p>We are a team of competent enginerrs who will be your partner in the  development of your property. May  it be building of new home or a reconstructive of an office building,
+                        we are dependable professionals who will render outstanding services from pre-construction to cost scheduling,
+                         our team will be ready to serve you.</p>
+                </p>
+        </div>
+        
+        <div class="container-fluid px-5 mt-3"style="padding-top:100px;">
+            <h1>Contact Information</h1><br>
+            <h6>Comapny Name: {{ReportIssue.companyName}}</h6>
+            <h6>Description : {{ReportIssue.description}}</h6>
+            <h6>Company Name : {{ReportIssue.companyName}}</h6>
+            <h6>Email : {{ReportIssue.email}}</h6>
+            <h6>Contact : {{ReportIssue.phone}}</h6>
+        </div> 
+    </div>
+    <div id="projectdata" class="container-fluid px-5 mt-3">
+
+            <div class="container-fluid px-5 mt-3"ng-If="ReportIssue.projectName">
+             <h1>Project data Information</h1><br>
+             <h6>Project Name : {{ReportIssue.projectName}}</h6>
+             <h6>Serial No : {{ReportIssue.serialNo}}</h6>
+             <h6>Enterprise : {{ReportIssue.enterprise}}</h6>
+              
+        </div>
+   </div>
+   <div id="remark" class="container-fluid px-5 mt-3">
+        <div class="row" ng-If= "ReportIssue.remarkData.length>0">
+                <div class="col-md-12">
+                    <table id="statictable" class="dataTable table-bordered hover">
+                        <thead class="bg-success text-white">
+                            <tr style="height: 40px;">
+                                <th>Title</th>
+                                <th>Value</th> 
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="height: 30px;" ng-repeat="remark in ReportIssue.remarkData">
+                                    <td>{{remark.Title}}</td>
+                                    <td>{{remark.Value}}</td>
+                                
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col"><h6>{{ReportIssue.authorName}}</h6></div>
+                <div class="form-group col"><h6>{{ReportIssue.remarkDate}}</h6></div>
+
+            </div>
+   </div>
+
+   <!-- <div class="panel">
+   <div class="child"> -->
+        <div ng-include="'/partials/reportmodel/report-detail-issue.html'" ng-If="shwCommentSection==true"
+         ng-repeat="issue in issueToAdd"></div>
+    
+        </div>
+    <!-- </div>
+   
+</div> -->
+
+
+
+            <!-- The Modal -->
+<div class="modal" id="chooseIssueModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Choose Issue</h5>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body" id="IssuesPickerContainer" style="max-height: 300px;overflow-y: scroll;">
+
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">Search</span>
+                    </div>
+                    <input type="text" class="form-control" ng-model="vm.issueSearch" ng-change="vm.searchIssues()" aria-label="Search" aria-describedby="basic-addon1">
+                </div>
+
+                <div infinite-scroll="addMore()" infinite-scroll-disabled="!vm.enableLazyLoad" infinite-scroll-distance='0' 
+                infinite-scroll-container="'#IssuesPickerContainer'"
+                    infinite-scroll-parent="true">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="projectPickerHeader">#</th>
+                                <th scope="col" class="projectPickerHeader" ng-click="vm.sort('title')">Title</th>
+                                <th scope="col" class="projectPickerHeader" ng-click="vm.sort('systemTag')">System Tag</th>
+                                <th scope="col" class="projectPickerHeader" ng-click="vm.sort('created')">Created Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                            <tr ng-repeat="issue in vm.issuePickerData" ng-click="vm.chooseIssues(issue,$index,vm.issuePickerData)">
+                                <td>{{$index + 1}}</td>
+                                <td>{{issue.title}}</td>
+                                <td>{{issue.systemTag}}</td>
+                                <td>{{issue.created | date:'mediumDate'}}</td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <!-- <button type="button" class="btn btn-danger" ng-click="vm.closeIssuePicker()">Close</button> -->
+                <button type="button" class="btn btn-primary" ng-click="vm.addToListIssuePicker()">Done</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- COVER PAGE MODAL -->
+<div class="modal" id="coverpagemodal">
+        <div ng-include="'/partials/reportmodel/coverpage.html'"></div>
+</div>
+<!-- ABOUT US MODAL -->
+<div class="modal" id="aboutusmodal">
+        <div ng-include="'/partials/reportmodel/aboutuspage.html'"></div>
+</div>
+<!-- PROJECT META DATA MODAL -->
+<div class="modal" id="projectmetamodal">
+    <div ng-include="'/partials/reportmodel/projectdatapage.html'"></div>
+</div>
+<!-- REPORT REMARK DATA MODAL -->
+<div class="modal" id="reportremarkmodal">
+    <div ng-include="'/partials/reportmodel/reportremarkpage.html'"></div>
+</div>
+<!--LiST ISUUES MODAL-->
+<div class="modal" id="listissuesmodal">
+    <div ng-include="'/partials/reportmodel/listissuesmodal.html'"></div>
+</div>

@@ -1,0 +1,242 @@
+#issuesList .input-group-prepend { position: relative; }
+#issuesList .input-group-text {
+    position: absolute;
+    z-index: 5;
+    top: 0; left: 0;
+    background: none; border: none;
+    margin: 2px;
+    padding: 10px;
+}
+#issuesList input.searchTable {padding-left: 40px;}
+.report-input { position: relative; width:340px;}
+.custom-select{
+   background-color: transparent;
+    border-radius: 20px;
+    border-color: #fff;
+   // color: #fff;
+}
+.custom-select option{
+    height: 35px;
+}
+.commentbox{
+ 
+   width: 200px;
+}
+.commentbox::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    color:    #ffffff;
+    border-color: white;
+}
+.report-input input { border:non; background:transparent; display:block; width: 100%; box-sizing: border-box }
+.report-input img { position: absolute; top: 10px; left: 8px; }
+.form-control::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    color:    #ffffff;
+}
+.rowcolor{
+    background-color: #3ED6CA;
+}
+.reportbutton{
+    color: #FEC52E;
+}
+
+.issueIcon i {
+    font-size: 45px;
+    color: #fff;
+    font-weight: 100;
+   
+  }
+  .img_wrp {
+    display: inline-block;
+    position: relative;
+  }
+  .closebtn{
+    position: absolute;
+    top: 0;
+    right: 0;
+   
+  }
+  .deleteImg {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }        
+
+// .list-group-item:hover{
+//     color: #337ab7;
+//     text-shadow:  0 0 1em #337ab7;
+//     cursor: pointer;
+// }   
+
+//REPORTS PAGE DESIGN CLASSES AND IDS DESIGN FORMAT...
+.btn {
+	padding: 10px;
+	border-radius: 30px;
+	font-size: .75rem;
+	text-transform: uppercase;
+}
+
+.btn-sm {
+	padding: 6px 15px;
+}
+
+.btn-xs {
+	padding: 3px 15px;
+	font-size: .8rem;
+	line-height: 2;
+}
+.btn-primary {
+	background: #2259E4;
+	border: none;
+	color: #fff !important;
+}
+.btn-success {
+	background-color: #4ed1be;
+	border-color: #4ed1be;
+}
+.text-nowrap{
+	white-space: nowrap;
+}
+
+  .info-box {
+    top: 0;
+    left: 105%;
+    display: none;
+    min-width: 300px;
+  }
+  .info-box:before {
+    width: 0;
+    height: 0;
+    border-top: 7px solid transparent;
+    border-bottom: 7px solid transparent;
+    border-right: 7px solid #fec108;
+    content: " ";
+    position: absolute;
+    left: -7px;
+    top: 20px;
+  }
+  .info-hover:hover .info-box {
+    display: block;
+  }
+.reportSlider {border-radius: 4px; min-height: 40vh }
+
+.borderimg1 {
+  border: 1px solid black;
+  padding: 15px;
+  border-radius: 8px;
+  margin: 15px;
+}
+.borderimg2 {
+  border: 0.5px solid black;
+  padding: 20px;
+  border-radius: 8px;
+  margin-right:3px;
+}
+.slideImg{
+  border: 0.5px solid #504f4f;
+  padding: 20px;
+  border-radius: 8px;
+  margin-right:3px;
+}
+#issue_marker {
+  overflow: auto
+}
+#slideCanvas{
+  //width: 100%;
+ // height: 400px;
+ // border: 0.5px solid #504f4f;
+ // padding: 20px;
+  //border-radius: 8px;
+  margin-right:3px;
+  background-size: 100% 100%;
+}
+#carousel .flex-active-slide img {
+  // opacity: 1;
+  // cursor: default;
+  transform: scale(1.1);
+}
+// .issue-box{
+//   margin-left: auto;
+//   margin-right: auto;
+//   width: 630px;
+// }
+// .image-holder {
+//   margin-right: 30px;
+//   flex: 0 0 auto;
+// }
+// .headTwo{
+//   font-size: 20px;
+// }
+// .txtblack {
+//   color: #000 !important;
+// }
+// .issue-number{
+//   font-size: 14px;
+//   color: #999999;
+// }
+// .issue_list li{
+//   background-color: #f5f7fa;
+//   padding:7px 10px;
+//   border-radius:10px;    
+//   text-align: center;
+//   box-shadow: 0 0 60px #e5e7e9;
+// }
+// .issue_list li:nth-child(3),.issue_list li:last-child{
+//   margin-top: 20px;
+// }
+// .issue_list{
+//  justify-content: space-between;
+// }
+// .prior_list li,.issue_list li{
+//   width: 47%;
+// }
+// .lbl_stat{
+//   font-size: 14px;
+//   font-weight: 700;
+//   display: block;
+//   text-align: center;
+//   border-radius: 6px;
+//   padding: 9px 6px;
+//   margin-top: 5px;
+// }
+#chooseIssueRoofModal .modal-content {height: 80vh; overflow: auto}
+.canvasImage{
+  object-fit: scale-down;
+}
+
+#localfilesmodel .modal-content {height: 80vh; overflow: auto}
+
+#slideCanvas{
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+ // background-size: 400px 400px;
+}
+
+.completionStatus{
+  padding-top: 5px;
+}
+
+
+//pagination theme
+.box-theme ul li a, .box-theme ul li span {
+  //background: #2259E4;
+  background: #e9ecef;
+  color: black;
+  border-radius: 2px;
+  margin: 0 5px 0 0;
+  padding: 20px;
+}
+.box-theme ul li.active span, .box-theme ul li span, .box-theme ul li .current,
+.box-theme ul li.active span:hover, .box-theme ul li span:hover, .box-theme ul li .current:hover {
+  background: #e9ecef;
+  color: #2259E4;
+  border-radius: 2px;
+  margin: 0 5px 0 0;
+  padding: 20px;
+}
+.box-theme ul li:first-child span, .box-theme ul li:first-child a {
+  border-radius: 2px;
+}
+.box-theme ul li:last-child span, .box-theme ul li:last-child a {
+  border-radius: 2px;
+}
+

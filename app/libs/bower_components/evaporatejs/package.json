@@ -1,0 +1,72 @@
+{
+  "name": "evaporate",
+  "version": "2.1.4",
+  "description": "Javascript library for browser to S3 multipart resumable uploads for browsers and with Node FileSystem (fs) Stream Support",
+  "main": "evaporate.js",
+  "directories": {
+    "example": "example"
+  },
+  "scripts": {
+    "test": "ava -v test/*.spec.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/TTLabs/EvaporateJS.git"
+  },
+  "keywords": [
+    "aws",
+    "amazon",
+    "S3",
+    "multipart",
+    "multi-part",
+    "uploads",
+    "browser",
+    "transfer",
+    "acceleration",
+    "signature version 4",
+    "v4",
+    "electron",
+    "ReadableFileStream",
+    "fs",
+    "stream",
+    "checksum",
+    "Content-MD5"
+  ],
+  "bugs": {
+    "url": "https://github.com/TTLabs/EvaporateJS/issues"
+  },
+  "author": {
+    "name": "Tom Saffell",
+    "email": "tcs@videopixie.com"
+  },
+  "license": "BSD 3-Clause",
+  "homepage": "https://github.com/TTLabs/EvaporateJS",
+  "devDependencies": {
+    "ava": "^0.16.0",
+    "babel-cli": "^6.14.0",
+    "babel-preset-es2015": "^6.14.0",
+    "babel-register": "^6.14.0",
+    "chai": "^3.5.0",
+    "codeclimate-test-reporter": "0.3.3",
+    "file-api": "^0.10.4",
+    "jsdom": "^9.4.2",
+    "nyc": "^7.1.0",
+    "sinon": "^1.17.6",
+    "sinon-chai": "^2.8.0",
+    "xmldom": "^0.1.22"
+  },
+  "ava": {
+    "require": [
+      "babel-register",
+      "./test/helpers/browser-env.js"
+    ]
+  },
+  "nyc": {
+    "include": ["evaporate.js"]
+  },
+  "babel": {
+    "presets": [
+      "es2015"
+    ]
+  }
+}

@@ -1,0 +1,171 @@
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" crossorigin="anonymous">
+<div ng-include="'/partials/header.html'"></div>
+<div id="create_project" class="page-content pt-4 page-layout simple fullwidth">
+    <section class="container">
+        <p class="row text-uppercase p-3 rounded text-center addNewProject m-0 mb-4">
+            <span class="col-11">add new project</span>
+            <a href="#!dashboard">
+                <small class="col-1 text-right">
+                    <i class="fas fa-times-circle" style="font-size: 16px;"></i>
+                </small>
+            </a>
+        </p>
+        <form name="projectDetails" class="projectDetails">
+            <div class="row p-0">
+                <div class="col">
+                    <div class="client mb-4 p-4 w-100">
+                        <h5 class="mb-3">Client</h5>
+                        <select ui-select2 ng-model="vm.projectData.client" placeholder="dial code" class="form-control"
+                            ng-options="cc.clientName for cc in vm.clients"></select>
+
+                        <!-- <multiselect ng-model="vm.projectData.client" id-prop="_id" display-prop="clientName" options="vm.clients" show-search="true"
+                            search-limit="10" selection-limit="1" classes-btn="'btn btn-light btn-block'"> 
+                        </multiselect>-->
+
+                        <!-- <select class="custom-select" ng-model="vm.projectData.client" ng-options="c.clientName for c in vm.clients">
+                            <option style="display:none;" value="">Select Client</option>
+                        </select> -->
+                        <button type="button" class="btn btn-gray mt-2" data-toggle="modal" data-target="#addClient">+
+                            Add new client</button>
+                    </div>
+                    <div class="project p-4 w-100">
+                        <h5 class="mb-4">Project details</h5>
+                        <div class="form-group">
+                            <label for="project_name">Project Name</label>
+                            <input type="text" class="form-control" ng-model="vm.projectData.projectName" id="project_name"
+                                placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <label for="project_description">Project Description</label>
+                            <textarea name="project_description" ng-model="vm.projectData.projectDescription" id="project_description"
+                                rows="3"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="project_description">Filemanager Template</label>
+                            <a href="" class="mr-1" data-toggle="modal" data-target="#assignTemplateModal" data-toggle="tooltip"
+                                data-placement="top" title="Choose Template">
+                                <i class="far fa-file mx-1"></i><small>Choose</small>
+                            </a>
+                            <select disabled ng-model="vm.filemanagerTemplate" class="form-control">
+                                <option value="" selected disabled>Select Template</option>
+                                <option value="{{template._id}}" ng-repeat="template in vm.templateList">{{template.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="address p-4">
+                        <h5 class="mb-2">Address</h5>
+                        <div class="form-group">
+                            <label for="address_line_1">Address Line 1</label>
+                            <input type="text" ng-model="vm.projectData.address.line1" class="form-control" id="address_line_1"
+                                placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <label for="address_line_2">Address Line 2</label>
+                            <input type="text" ng-model="vm.projectData.address.line2" class="form-control" id="address_line_2"
+                                placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <label for="city">City</label>
+                            <input type="text" ng-model="vm.projectData.address.city" class="form-control" id="city"
+                                placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <label for="state">State</label>
+                            <input type="text" ng-model="vm.projectData.address.state" class="form-control" id="state"
+                                placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <label for="country">Country</label>
+                            <input type="text" ng-model="vm.projectData.address.countryCode" class="form-control" id="country"
+                                placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <label for="zip_code">Zip Code</label>
+                            <input type="text" ng-model="vm.projectData.address.postalCode" class="form-control" id="zip_code"
+                                placeholder="">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-5">
+                    <div class="map p-0">
+                        <div class="mapHeader row m-0 py-3">
+                            <div class="col-12 col-md-4">
+                                <h5 class="my-1">Location</h5>
+                            </div>
+                            <div class="col-12 col-md-8">
+                                <input places-auto-complete types="['geocode']" on-place-changed="vm.placeMarker()" />
+                            </div>
+                        </div>
+                        <ng-map center="{{vm.gmap.center}}" zoom="{{vm.gmap.zoom}}">
+                            <marker ng-repeat="m in vm.gmap.markers" draggable="true" on-dragend="vm.updateMarker()"
+                                position="{{m}}"></marker>
+                        </ng-map>
+                    </div>
+                </div>
+                <div class="w-100"></div>
+                <div class="col my-4 project-footer">
+                    <button class="btn btn-cyan" ng-click="vm.addProject(vm.projectData)">+ Add</button>
+                    <a href="#!dashboard" class="btn btn-orange">x Cancel</a>
+                </div>
+            </div>
+        </form>
+
+    </section>
+
+</div>
+
+<div class="modal fade" id="assignTemplateModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Assign new template</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-4">
+                        <div class="template-list">
+                            <ul class="list-group">
+                                <li class="list-group-item" ng-class="{selected : template == vm.selectedTemplate}"
+                                    ng-repeat="template in vm.templateList">
+                                    <label class="radio-style1">
+                                        <input type="radio" ng-model="vm.selectedTemplate" ng-value="template" name="template" />
+                                        {{template.name}}
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="template-heirachy">
+                            <div ui-tree="vm.treeOptions" ng-if="vm.selectedTemplate.hierarchy">
+                                <!-- Button trigger modal -->
+                                <ol ui-tree-nodes="" ng-model="vm.selectedTemplate.hierarchy" id="tree-root">
+                                    <li ng-repeat="node in vm.selectedTemplate.hierarchy" ui-tree-node ng-include="'/partials/simpleTreeView.html'"></li>
+                                </ol>
+                            </div>
+                            <!-- {{vm.selectedTemplate.hierarchy}} -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-cyan" ng-disabled="! vm.selectedTemplate" ng-click="vm.assignTemplate()">Assign
+                    Template</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/ng-template" id="searchbox.tpl.html">
+    <input type="text" placeholder="search" /> 
+</script>
+<!-- Button to Open the Modal -->
+<!-- The Modal -->
+<!-- <div class="modal fade" id="addClient" tabindex="-1" role="dialog">
+    <div ng-include="'/partials/addclient.html'"></div>
+</div> -->

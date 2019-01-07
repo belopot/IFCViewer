@@ -1,0 +1,54 @@
+<div class="col-lg-12 padleft0 padright0">
+  <header class="header">
+    <h2 class="top_title">
+      Intervals <br />
+      <small>Statistics for Roofing</small>
+    </h2>
+
+    <ul class="top_right_sec float-right">
+      <li>
+        <select
+          name="projects"
+          id=""
+          ng-model="vm.selectedProject"
+          class="form-control add_working projectpicker"
+          ng-options="item._id as item.projectName for item in vm.projectList.list"
+        ></select>
+      </li>
+      <li>
+        <a href="#" class="add_working">
+          <i class="fa fa-plus" aria-hidden="true"></i> Add workings hrs. Week
+          41</a
+        >
+      </li>
+      <li>
+        <div class="dropdown">
+          <button
+            class="dropdown-toggle"
+            type="button"
+            id="dropdownMenu1"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="true"
+          >
+            Roofing <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+            <li><a href="#">items 1</a></li>
+            <li><a href="#">items 2</a></li>
+            <li><a href="#">items 3</a></li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <a href="#">
+          <img
+            src="/assets/images/icon6.png"
+            class="img-fluid center-block"
+            alt="..."
+          />
+        </a>
+      </li>
+    </ul>
+  </header>
+</div>

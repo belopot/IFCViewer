@@ -1,0 +1,223 @@
+<div ng-include="'/partials/header-new.html'"></div>
+
+<section class="equipment-section sectionbg">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="d-flex align-items-center justify-content-between">
+                    <h3 class="headOne txtblack">Equipment</h3>
+                    <button class="btn btn_create_issue transition ripple" data-toggle="modal" data-target="#equipment_modal">Add Equipment</button>
+                </div>
+                <div class="row issue-row">
+
+                    <div class="col-xl-4 col-12" ng-repeat="equipment in vm.equipment">
+                        <a href="#!equipmentView/{{equipment._id}}">
+                            <div class="issue-box position-relative transition animated fadeInUp wow">
+                                <div class="image-holder1">
+                                    <img src="{{equipment.files.images[0].url || 'assets/images/bulb.png'}}" class="img-fluid animated zoomIn wow img_center"
+                                        data-wow-delay=".8s" alt="issue-image">
+                                </div>
+                                <div class="issue-info w-100 d-flex justify-content-center flex-column animated fadeIn wow" data-wow-delay="1.2s">
+                                    <h6 class="f600 headTwo txtblack mb-0 text-sm-left text-center">{{ equipment.name }}</h6>
+                                    <p class="issue-number f600 text-sm-left text-center">{{equipment.systemTag}}</p>
+                                    <ul class="list-unstyled d-flex flex-wrap issue_list">
+                                        <li class=" w-100">
+                                            <p class="mb-0 issue-number f700 text-uppercase">Worker id</p>
+                                            <p class="mb-0 fsize18 txtblack">NR.99</p>
+                                        </li>
+                                    </ul>
+                                    <div class="">
+
+                                        <ng-map center="{{equipment.loc.coordinates}}" zoom="5">
+                                            <marker position="{{equipment.loc.coordinates}}"></marker>
+                                        </ng-map>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                </div>
+                <div id="equipmentPagination" class="mt-3"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Modal Equipment Modal -->
+<div class="modal fade popup2" data-easein="slideUpBigIn" id="equipment_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="d-flex align-items-center justify-content-between w-100">
+                    <h5 class="modal-title f500 txtwhite">New Equipment</h5>
+                </div>
+            </div>
+            <div class="modal-body pad0">
+                <div class="d-md-flex">
+                    <div class="col-lg-6 col-md-6 pad0">
+                        <div class="issue_form">
+                            <div class="f_block">
+                                <p class="fsize18 f500 txtgrey c_space mb-2">Name</p>
+                                <input type="text" class="form-control animated zoomIn wow" ng-model="vm.Equipment.name" data-wow-delay=".7s">
+                            </div>
+                            <br>
+
+
+                            <div class="f_block">
+                                <p class="fsize18 f500 txtgrey c_space mb-2">Currency</p>
+                                <select ui-select2 ng-model="vm.addEquipment.currency" class="form-control" placeholder="country code" ng-change="vm.showConversionRate(vm.companyData.currentCurrency.currencyCode, vm.addEquipment.currency)">
+                                    <option ng-selected="{{vm.addEquipment.currency == currency.cc}}" ng-repeat="currency in vm.currencies" value="{{currency.cc}}">{{currency.cc}} - {{currency.name}}</option>
+                                </select>
+                            </div>
+                            <br>
+                            <div class="f_block">
+                                <p class="fsize18 f500 txtgrey c_space mb-2">Conversion Factor</p>
+                                <input type="number" class="form-control animated zoomIn wow" data-wow-delay=".7s" ng-model="vm.Equipment.conversionFactor"
+                                    ng-value="vm.Equipment.conversionFactor | roundNum:2">
+                            </div>
+                            <br>
+                            <div class="f_block">
+                                <p class="fsize18 f500 txtgrey c_space mb-2">Equipment Cost ({{vm.companyData.currentCurrency.currencyCode}})</p>
+                                <input type="number" class="form-control animated zoomIn wow" ng-model="vm.Equipment.equipmentCost" data-wow-delay=".7s"
+                                    ng-value="vm.Equipment.equipmentCost | roundNum: 2">
+                            </div>
+                            <br>
+                            <div class="f_block">
+                                <p class="fsize18 f500 txtgrey c_space mb-2">Worker Cost ({{vm.companyData.currentCurrency.currencyCode}})</p>
+                                <input type="number" class="form-control animated zoomIn wow" ng-model="vm.Equipment.rooferCost" data-wow-delay=".7s" ng-value="vm.Equipment.rooferCost | roundNum: 2">
+                            </div>
+                            <br>
+                            <div class="f_block">
+                                <p class="fsize18 f500 txtgrey c_space mb-2">Workers</p>
+                                <select ui-select2 ng-model="vm.Equipment.workers" class="form-control txt_box1" ng-options="s._id as s.displayName for s in vm.companyMembers"
+                                    multiple></select>
+                            </div>
+                            <br>
+                            <div class="col-lg-12 pad0 third-box">
+                                <div class="pad60">
+                                    <!-- <h5 class="fsize18 f500 c_space animated fadeInUp">Event Location</h5>-->
+                                    <p class="fsize18 f500 txtgrey c_space mb-2">Event Location</p>
+                                    <div class="map-input">
+                                        <input places-auto-complete types="['geocode']" class="form-control txt_box zoomIn wow" on-place-changed="vm.placeMarker()"
+                                            ng-model="vm.Equipment.location" />
+                                        <a data-target="#">
+                                            <img src="/assets/images/map-marker.png" class="marker-img zoomIn wow">
+                                        </a>
+                                    </div>
+
+                                    <div class="space30 map-box zoomIn wow">
+                                        <ng-map center="{{vm.gmap.center}}" zoom="{{vm.gmap.zoom}}">
+                                            <marker draggable="true" on-dragend="vm.updateMarker()" position="{{m}}"></marker>
+                                        </ng-map>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 pad0">
+                        <script type="text/ng-template" id="example.html">
+                            <div class="row m-0">
+                                <div class="form-group addDescription">
+                                    <input type="text" class="form-control" ng-model="description" >
+                                    <button class="mt-1 btn btn-success btn-sm" ng-click="vm.addDescription(fileIndex, description)"><img src="/assets/images/save-file.png" alt="" /></button>
+                                </div>
+                            </div>
+                        </script>
+                        <div class="bg_grey">
+                            <div class="d-lg-flex">
+                                <div class="col-lg-6 padleft0">
+                                    <div class="blockOne d-block align-items-end">
+                                        <div class="w_100">
+                                            <p class="f500 txtgrey fsize18 c_space">Upload Images</p>
+                                            <div class="img_box white_block ">
+                                                <ul class="list-unstyled mb-0 uploaded_img" ng-if="vm.uploadImg.length > 0">
+                                                    <!-- ngRepeat: img in img_upload -->
+                                                    <li ng-repeat="f in vm.uploadImg">
+                                                        <div class="img_height">
+                                                            <img ngf-src="f" class="img-fluid animated zoomIn wow" data-wow-delay=".7s" alt="image">
+                                                            <div class="btn-group noteBtn" role="group" aria-label="Basic example">
+                                                                <button ng-click="vm.deleteFile($index, 'image')" type="button" class="btn btn-danger">
+                                                                    <i class="far fa-trash-alt"></i>
+                                                                </button>
+                                                                <button id="closePopoverImg_{{$index}}" ng-click="vm.descriptionPopover($index, 'image')" uib-popover-template="'example.html'"
+                                                                    popover-placement="bottom-right" popover-is-open="isOpen"
+                                                                    type="button" class="btn popoverbtn btn-success">
+                                                                    <i class="far fa-edit"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        <span class="d-block wordWrap">
+                                                            <strong>{{f.name}}</strong>
+                                                        </span>
+                                                        <span class="d-block wordWrap">{{f.description}}</span>
+                                                    </li>
+                                                    <!-- end ngRepeat: img in img_upload -->
+                                                    <hr>
+                                                </ul>
+                                                <div class="btn btn_red btn_create_issue ripple my-1" ngf-select ng-model="vm.inputImg" ngf-change="vm.fileUpdated($files, $event, 'image')"
+                                                    name="file" ngf-pattern="'image/*'" ngf-multiple="true" ngf-accept="'image/*'">Browse</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 padright0">
+                                    <div class="blockOne d-block align-items-end ">
+                                        <div class="w_100">
+                                            <p class="f500 txtgrey fsize18 c_space">Upload Documents</p>
+                                            <div class="img_box white_block ">
+                                                <ul class="mb-0 list-unstyled" ng-if="vm.uploadFiles.length > 0">
+                                                    <!-- ngRepeat: doc in equipdocuments -->
+                                                    <li data-wow-delay=".7s" ng-repeat="f in vm.uploadFiles">
+                                                        <div class="img_height doc">
+                                                            <img src="/assets/images/pdf.png" alt="doc-icon">
+                                                            <div class="btn-group noteBtn" role="group" aria-label="Basic example">
+                                                                <button ng-click="vm.deleteFile($index, 'document')" type="button" class="btn btn-danger">
+                                                                    <i class="far fa-trash-alt"></i>
+                                                                </button>
+                                                                <button id="closePopoverFile_{{$index}}" ng-click="vm.descriptionPopover($index, 'document')" uib-popover-template="'example.html'"
+                                                                    popover-placement="bottom-right" popover-is-open="isOpen"
+                                                                    type="button" class="btn popoverbtn btn-success">
+                                                                    <i class="far fa-edit"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        <span class="d-block wordWrap">
+                                                            <strong>{{f.name}}</strong>
+                                                        </span>
+                                                        <span class="d-block wordWrap">{{f.description}}</span>
+                                                    </li>
+                                                    <!-- end ngRepeat: doc in equipdocuments -->
+                                                    <hr class="">
+                                                </ul>
+
+                                                <div class="btn btn_red btn_create_issue ripple my-1" ngf-select ng-model="vm.inputFiles" ngf-change="vm.fileUpdated($files, $event, 'file')"
+                                                    name="file" ngf-pattern="'*.*'" ngf-multiple="true" ngf-accept="'*.*'">Browse</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer d-md-flex justify-content-between align-items-center">
+                <div class="text-center text-lg-left">
+                    <!--  <button type="button" class="btn btn_red ripple">Create QA Code</button>
+                    <button type="button" class="btn btn_yellow ml-md-3 mt-md-0 mt-2 ripple">Connect to IoT SIM Number</button> -->
+                </div>
+                <div class="space15 d-lg-none"></div>
+                <div>
+                    <button type="button" class="btn btn_create_issue ripple" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn_create_issue ripple" ng-click="vm.addNewEquipment(vm.Equipment )">Create</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.2/velocity.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.2/velocity.ui.min.js"></script>
+<script type="text/javascript" src="js/custom.js"></script>

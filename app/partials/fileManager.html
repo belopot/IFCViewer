@@ -1,0 +1,424 @@
+<div ng-include="'/partials/header.html'"></div>
+
+<section class="filemanager_section ">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="outlineblock">
+                    <div class="d-md-flex flex-wrap">
+                        <div class="custom-grid1 side-shadow highindex">
+                            <div class="curve-bg">
+                                <a href="JavaScript:Void(0);" class="btn btn_plain float-right ripple ml-auto d-block" ng-click='vm.openAddModal("root", this)'>+ Add</a>
+                                
+                                <div class="space40"></div>
+                                <select name="projects" id="" ng-model="vm.selectedProject" class="form-control" ng-options="item._id as item.projectName for item in vm.projectList.list"
+                                    ng-change="vm.getPrimaryFolders(vm.selectedProject, vm.projectList.list)"></select>
+                                <!-- <div class="dropdown taskdrop lookOne">
+                                    <button class="btn selectbox dropdown-toggle" type="button" data-toggle="dropdown">
+                                        Welcon - Big
+                                    </button>
+                                    <ul class="dropdown-menu avail_option">
+                                        <li>Welcon - Big1</li>
+                                        <li>Welcon - Big2</li>
+                                        <li>Welcon - Big3</li>
+                                    </ul>
+                                </div> -->
+                            </div>
+                            <div class="folder_icon">
+                                <div class="inner_circle d-flex align-items-center justify-content-center">
+                                    <img src="/assets/images/filemanager.png" class="img-fluid" alt="filemanager">
+                                </div>
+                            </div>
+                            <ul class="list-unstyled d-flex align-items-center justify-content-center fileoptions flex-wrap">
+                                <li>
+                                    <a href="" ng-click="vm.navigate(false)" class="ripple wobble-vertical" data-toggle="tooltip" data-placement="top" title="Backward">
+                                        <img src="/assets/images/fileoption1.png">
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="" ng-click="vm.navigate(true)" class="ripple wobble-vertical" data-toggle="tooltip" data-placement="top" title="Forward">
+                                        <img src="/assets/images/fileoption2.png">
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="" class="ripple wobble-vertical" data-toggle="tooltip" data-placement="top" title="Settings">
+                                        <img src="/assets/images/fileoption3.png">
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="" class="ripple wobble-vertical" data-toggle="tooltip" data-placement="top" title="Export">
+                                        <img src="/assets/images/fileoption4.png">
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="" class="ripple wobble-vertical" data-toggle="modal" data-target="#saveTemplateModal" data-toggle="tooltip" data-placement="top"
+                                        title="Save Template">
+                                        <img src="/assets/images/fileoption5.png">
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="" class="ripple wobble-vertical" data-toggle="modal" data-target="#assignTemplateModal" data-toggle="tooltip" data-placement="top">
+                                        <img src="/assets/images/fileoption6.png">
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="custom-grid2">
+                            <div class="connector-list px-2 overflow-scroll border-right" ui-tree="vm.treeOptions" ng-show="vm.showTree" ng-init="vm.setRootFolder(this)">
+                                <!-- Button trigger modal -->
+                                <ol ui-tree-nodes="" ng-model="vm.rootFolders" id="tree-root">
+                                    <li ng-repeat="node in vm.rootFolders" class="" ui-tree-node ng-include="'/partials/treeView.html'"></li>
+                                </ol>
+                            </div>
+                            <!-- <div class="accordion" id="accordionExample">
+                                <div class="card">
+                                    <div class="card-header collapsed" data-toggle="collapse" data-target="#folderA">
+                                        <img src="/assets/images/folder.png" alt="folder">
+                                        <p class="card_title mb-0">Folder A</p>
+                                    </div>
+                                    <div id="folderA" class="collapse" data-parent="#accordionExample">
+                                        <div class="card-body">
+                                            <div class="nav flex-column nav-pills subfoldertab" id="subfoldertab" role="tablist" aria-orientation="vertical">
+                                                <a ng-repeat="nav in navtab" ng-class="{active: $index == 0}" class="nav-link" data-toggle="pill" data-target="#{{nav.target}}"
+                                                    role="tab">
+                                                    <span class="folderimage">
+                                                        <img src="/assets/images/folder.png" class="folderclosed" alt="folder">
+                                                        <img src="/assets/images/folderopen.png" class="folderopen" alt="folderopen">
+                                                    </span>
+                                                    {{nav.title}}
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> -->
+                        </div>
+                        <div class="custom-grid3">
+                            <div class="sidespacing">
+                                <div class="tab-content" id="v-pills-tabContent" context-menu="vm.contextMenuOptions.explorer">
+                                    <div class="tab-pane fade show active" id="tabpane1">
+                                        <!-- <button class="btn btn_done shadowbtn d-block ml-auto">Done</button> -->
+                                        
+                                        <ul class="list-unstyled d-flex flex-wrap doc_list space15">
+                                            <li ng-repeat="file in vm.windowItems.files" ng-click="vm.fileView(file)" context-menu="vm.contextMenuOptions.file">
+                                                <a href="#" class="fileformat">
+                                                    <img ng-src="/assets/images/file_icon/{{vm.resolveAssetIcon(file)}}.png" class="img-fluid mx-auto d-block mb-4" alt="fileformat">
+                                                    <span class="wordWrap">{{file.assetName}}</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                        <!-- Upload view -->
+                                        <div class="uploadView" ng-show="vm.uploadState">
+                                            <div class="row m-0">
+                                                <div class="col header py-3">
+                                                    <p class="m-0">Uploading {{vm.fileNames.length}} item(s)
+                                                        <span class="float-right">
+                                                            <i class="fas mr-2" ng-class="vm.uploadViewMaximize ? 'fa-angle-down' : 'fa-angle-up'" ng-click="vm.toggleUploadViewMaximize(vm.uploadViewMaximize)"></i>
+                                                            <i class="fas fa-times" ng-show="vm.completedAll" ng-click="vm.closeUploadView()"></i>
+                                                        </span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="row" ng-show="vm.uploadViewMaximize" ng-init="vm.uploadViewMaximize = true;">
+                                                <div class="col">
+                                                    <ul class="uploadList">
+                                                        <li ng-repeat="f in vm.uploadViewFiles.s3">
+                                                            <span class="icon">
+                                                                <i class="far fa-file"></i>
+                                                            </span>
+                                                            <span class="fileName">{{f.assetName}} </span>
+                                                            <span class="uploadLoader float-right" ng-hide="f.completed || f.aborted">
+                                                                <div class="progress-circle p{{f.progress}} float-left" ng-class="{'over50' : (f.progress > 50)}">
+                                                                    <div class="left-half-clipper">
+                                        
+                                                                        <div class="first50-bar"></div>
+                                                                        <div class="value-bar"></div>
+                                                                    </div>
+                                                                </div>
+                                                                <a href="" ng-click="f.resume()" ng-show="f.isPaused">
+                                                                    <i class="py-2 float-left fas mr-2 fa-play"></i>
+                                                                </a>
+                                        
+                                                                <a href="" ng-click="f.pause()" ng-hide="f.isPaused">
+                                                                    <i class="py-2 float-left fas mr-2 fa-pause"></i>
+                                                                </a>
+                                                                <a href="" ng-click="f.abort()" ng-hide="f.isPaused">
+                                                                    <i class="py-2 float-left fas fa-times"></i>
+                                                                </a>
+                                                            </span>
+                                                            <span class="uploadLoader float-right" ng-show="f.completed">
+                                                                <i class="py-0 fas fa-check-circle text-success" style="font-size: 18px"></i>
+                                                            </span>
+                                                            <span class="uploadLoader float-right" ng-show="f.aborted">
+                                                                <i class="py-0 fas fa-times-circle text-danger" style="font-size: 18px"></i>
+                                                            </span>
+                                                        </li>
+                                                        <li ng-repeat="f in vm.uploadViewFiles.cloudinary">
+                                                            <span class="icon">
+                                                                <i class="far fa-file"></i>
+                                                            </span>
+                                                            <span class="fileName">{{f.assetName}} </span>
+                                                            <span class="uploadLoader float-right" ng-hide="f.completed">
+                                        
+                                                                <div class="progress-circle p-100 float-left over50">
+                                                                    <div class="left-half-clipper">
+                                                                        <div class="first50-bar"></div>
+                                                                        <div class="value-bar"></div>
+                                                                    </div>
+                                                                </div>
+                                        
+                                                            </span>
+                                                            <span class="uploadLoader float-right" ng-show="f.completed">
+                                                                <i class="py-0 fas fa-check-circle text-success" style="font-size: 18px"></i>
+                                                            </span>
+                                        
+                                        
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="tabpane2">
+                                        sub folder One2
+                                    </div>
+                                    <div class="tab-pane fade" id="tabpane3">
+                                        sub folder One3
+                                    </div>
+                                    <div class="tab-pane fade" id="tabpane4">
+                                        sub folder One4
+                                    </div>
+                                    <div class="tab-pane fade" id="tabpane5">
+                                        sub folder One5
+                                    </div>
+                                    <div class="tab-pane fade" id="tabpane6">
+                                        sub folder One6
+                                    </div>
+                                    <div class="tab-pane fade" id="tabpane7">
+                                        sub folder One7
+                                    </div>
+                                    <div class="tab-pane fade" id="tabpane8">
+                                        sub folder One8
+                                    </div>
+                                    <div class="tab-pane fade" id="tabpane9">
+                                        sub folder One9
+                                    </div>
+                                    <div class="tab-pane fade" id="tabpane10">
+                                        sub folder One10
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="modal fade filepopup" data-easein="slideUpBigIn" id="saveTemplateModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-xs" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title f500 txtwhite">Save Template</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="">Template Name</label>
+                    <input type="text" class="form-control txtbox" ng-model="vm.folderName">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn_create ripple" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn_create ripple" ng-click="vm.saveHierarchyTree(vm.folderName)">Save
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade filepopup" data-easein="slideUpBigIn" id="assignTemplateModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title f500 txtwhite">Assign new template</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-4">
+                        <div class="template-list">
+                            <ul class="list-group">
+                                <li class="list-group-item" ng-class="{selected : template == vm.selectedTemplate}" ng-repeat="template in vm.templateList">
+                                    <label class="radio-style1">
+                                        <input type="radio" ng-model="vm.selectedTemplate" ng-value="template" name="template" /> {{template.name}}
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="template-heirachy">
+                            <div ui-tree="vm.treeOptions" ng-if="vm.selectedTemplate.hierarchy">
+                                <!-- Button trigger modal -->
+                                <ol ui-tree-nodes="" ng-model="vm.selectedTemplate.hierarchy" id="tree-root">
+                                    <li ng-repeat="node in vm.selectedTemplate.hierarchy" ui-tree-node ng-include="'/partials/simpleTreeView.html'"></li>
+                                </ol>
+                            </div>
+                            <!-- {{vm.selectedTemplate.hierarchy}} -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn_create ripple position-relative" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn_create ripple" ng-disabled="! vm.selectedTemplate" ng-click="vm.assignTemplate()">Assign </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade filepopup" data-easein="slideUpBigIn" id="addModal" tabindex="-1" role="dialog"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title f500 txtwhite">Add +</h5>
+            </div>
+            <div class="modal-body pad0 bgwhite">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item ripple ripple2">
+                        <a class="nav-link active" id="home-tab" data-toggle="tab" data-target="#folder" role="tab">Create Folder</a>
+                    </li>
+                    <li class="nav-item ripple ripple2" ng-hide="vm.addModalSource === 'root'">
+                        <a class="nav-link" id="profile-tab" data-toggle="tab" data-target="#choose" role="tab">Choose Files</a>
+                    </li>
+                    <li class="nav-item ripple ripple2" ng-hide="vm.addModalSource === 'root'">
+                        <a class="nav-link" id="profile-tab" data-toggle="tab" data-target="#upload" role="tab">Upload Files</a>
+                    </li>
+                </ul>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="folder" role="tabpanel" aria-labelledby="profile-tab">
+                        <div class="sidespacing inset_shadow">
+                            <p class="fsize14 f700 txtgrey text-uppercase c_space">Folder name</p>
+                            <input type="text" class="form-control txtbox" ng-model="vm.folderName">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn_create ripple position-relative" 
+                                ng-click="vm.addModalSource === 'root' ? vm.addPrimaryFolder(vm.folderName, vm.selectedProject, vm.nodeObj) : vm.addFolder (vm.folderName, vm.nodeObj)">Save</button>
+                            <button type="button" class="btn btn_create ripple" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="choose" role="tabpanel" aria-labelledby="profile-tab">
+                        <div class="sidespacing inset_shadow">
+                            <p class="fsize14 f700 txtgrey text-uppercase c_space">Choose Files</p>
+                            <tags-input ng-model="vm.selectedFiles" display-property="assetName" key-property="_id" add-from-autocomplete-only="true"
+                                placeholder="Search for files">
+                                <auto-complete source="vm.loadFilesToAutoComplete($query)" display-property="assetName"></auto-complete>
+                            </tags-input>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn_create ripple position-relative" 
+                                ng-click="vm.addFileToHierarchy(vm.selectedFiles, vm.nodeObj)">Save </button>
+                            <button type="button" class="btn btn_create ripple" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="upload" role="tabpanel" aria-labelledby="contact-tab">
+                        <div class="sidespacing inset_shadow">
+                            <p class="fsize14 f700 txtgrey text-uppercase c_space">upload files</p>
+                            <ul class="list-group mt-2">
+                                <li class="list-group-item" ng-repeat="f in vm.fileNames">
+                                    <div class="row">
+                                        <div class="col-8">
+                                            {{f.name}}
+                                        </div>
+                                        <div class="col-4">
+                                            <p class="my-2">
+                                                <span class="mb-1 mr-3">Roof Plan</span>
+                                                <label class="switch switch-xs mb-0">
+                                                    <input type="checkbox" checked ng-model="vm.uploadFiles[$index].plan">
+                                                    <span class="slider round"></span>
+                                                </label>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div class="btn task_tag ripple ripplePurple" ngf-select ng-model="vm.uploadFiles" name="file" ngf-multiple="true" ngf-change="vm.fileUpdated($files, $event)"> + Upload files</div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn_create ripple" data-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn_create ripple position-relative" ng-click="vm.preUpload(vm.uploadFiles,vm.nodeObj)">Add</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="versioningModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Following files already exists</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Filename</th>
+                            <th scope="col">Action</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="d in vm.preUploadFiles.duplicates">
+                            <th scope="row" class="pt-4">{{$index + 1}}</th>
+                            <td>
+                                <input type="text" class="form-control" ng-model="d.assetName" placeholder="Enter file name" ng-disabled="d.action !== 'rename'">
+                            </td>
+                            <td>
+
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" ng-attr-id="customRadioInline1{{$index}}" ng-model="d.action" class="custom-control-input" value="rename"
+                                        ng-change="vm.processDuplicateFileName(d)">
+                                    <label class="custom-control-label" for="customRadioInline1{{$index}}">Rename</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" ng-attr-id="customRadioInline2{{$index}}" ng-model="d.action" class="custom-control-input" value="version"
+                                        ng-change="vm.processDuplicateFileName(d)">
+                                    <label class="custom-control-label" for="customRadioInline2{{$index}}">New Version</label>
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-cyan" ng-click="vm.uploadFile(vm.preUploadFiles, vm.selectedProject, vm.nodeObj )">Upload</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<file-picker folders="vm.pickerFolders" source="vm.windowItems.folderData" sourcefile="vm.moveToSourceFile" sourcedir="vm.windowItems.files"></file-picker>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.2/velocity.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.2/velocity.ui.min.js"></script>
+<script type="text/javascript" src="/js/src/custom.js"></script>

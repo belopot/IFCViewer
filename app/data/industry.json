@@ -1,0 +1,95 @@
+[
+{
+  "type" : "Aerospace and Defense"
+}, 
+{
+  "type" : "Agriculture and Forestry"
+}, 
+{
+  "type" : "Automotive"
+}, 
+{
+  "type" : "Banks"
+}, 
+{
+  "type" : "Chemicals"
+}, 
+{
+  "type" : "Civic"
+}, 
+{
+  "type" : "Non-Profit and Membership Groups"
+}, 
+{
+  "type" : "Computer Hardware"
+}, 
+{
+  "type" : "Computer Software"
+}, 
+{
+  "type" : "Construction and Building Materials"
+}, 
+{
+  "type" : "Consumer Products"
+}, 
+{
+  "type" : "Consumer Services"
+}, 
+{
+  "type" : "Corporate Services"
+}, 
+{
+  "type" : "Electronics"
+}, 
+{
+  "type" : "Energy and Environmental"
+}, 
+{
+  "type" : "Financial Services"
+},
+{
+  "type" : "Food and Beverage"
+},
+{
+  "type" : "Government"
+},
+{
+  "type" : "Holding Companies"
+},
+{
+  "type" : "Hospitals and Healthcare"
+},
+{
+  "type" : "Industrial Manufacturing and Services"
+},
+{
+  "type" : "Insurance"
+},
+{
+  "type" : "Leisure, Sports and Recreation"
+},
+{
+  "type" : "Media"
+},
+{
+  "type" : "Mining and Metals"
+},
+{
+  "type" : "Pharmaceuticals and Biotech"
+},
+{
+  "type" : "Real Estate Services"
+},
+{
+  "type" : "Retail"
+},
+{
+  "type" : "Schools and Education"
+},
+{
+  "type" : "Telecommunications"
+},
+{
+  "type" : "Transportation"
+}
+]

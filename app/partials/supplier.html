@@ -1,0 +1,235 @@
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" crossorigin="anonymous">
+<div ng-include="'/partials/header.html'"></div>
+        <section class="sub-contractor sectionbg" id="supplier-section">
+                <div class="container-fluid">
+                        <div class="row">
+                          <div class="col-12">
+                            <div class="d-flex align-items-center justify-content-between flex-wrap2">
+                              <h3 class="headOne txtblack">Suppliers</h3>
+                              <button class="btn btn_create_issue width_auto space10_mob yello_clr ripple" data-target="#supplier_modal" data-toggle="modal">Add supplier</button>      
+                            </div>
+                            <div class="row issue-row">
+                              <div class="col-xl-4 col-12" ng-repeat="supplier in vm.allSuppliers">
+                                <div class="issue-box position-relative transition flex-column  animated fadeInUp wow" data-wow-delay=".4s">
+                                  <div class="media align-items-end spaceup2">
+                                    <div class="tree_logo d-flex align-items-center justify-content-center transition animated zoomIn wow" data-wow-delay=".8s">
+                                      <div class="d-flex align-items-center justify-content-center animated zoomIn wow" data-wow-delay="1.3s">
+                                        <img src="{{supplier.profilePic}}" class="clientLogo img-fluid animated zoomIn wow" data-wow-delay="1.7s" alt="logo">
+                                      </div>
+                                    </div>
+                                    <div class="media-body animated fadeIn wow" data-wow-delay="1.3s">
+                                      <h2 class="headThree" style="text-transform:capitalize;">{{supplier.name}}</h2>
+                                      <p class="f500 txtgrey mb-0 small_tag">{{supplier.created | date : 'MMM dd,yyyy'}}</p>
+                                    </div>
+                                  </div>
+                                  <div class="space30"></div>
+                                  <div class="input-group input_form animated fadeIn wow" data-wow-delay="1.3s">
+                                    <div class="input-group-prepend">
+                                      <div class="input-group-text">
+                                        <img src="assets/images/suppliers/call.png" class="img-fluid" alt="call">
+                                      </div>
+                                    </div>
+                                    <input type="text" class="form-control " value="{{supplier.contact.dialCode}}{{supplier.contact.phoneNumber}}">
+                                  </div>
+                                  <div class="input-group input_form spaceup animated fadeIn wow" data-wow-delay="1.3s">
+                                    <div class="input-group-prepend">
+                                      <div class="input-group-text">
+                                        <img src="assets/images/suppliers/mail.png" class="img-fluid" alt="mail">
+                                      </div>
+                                    </div>
+                                    <input type="text" class="form-control" value="{{supplier.email}}">
+                                  </div>
+                                  <div class="input-group input_form spaceup animated fadeIn wow" data-wow-delay="1.3s">
+                                    <div class="input-group-prepend">
+                                      <div class="input-group-text">
+                                        <img src="assets/images/suppliers/building.png" class="img-fluid" alt="building">
+                                      </div>
+                                    </div>
+                                    <input type="text" class="form-control" value="{{supplier.address}}">
+                                  </div>
+                                  <div class="space20"></div>                    
+                                  <div class="d-md-flex justify-content-between">
+                                    <span class="lbl_stat complete transition mt-0  animated fadeIn wow" data-wow-delay="1.3s">{{supplier.staff.length}} staff members</span>
+                                    <a href="#!supplier_details/{{supplier._id}}" class="txtyellow f500 d-flex align-items-center view_tag  animated fadeIn wow" data-wow-delay="1.3s"
+                                    style="font-size: 18px;"><b>View Detail </b><i class="fa fa-angle-right ml-3"></i></a>
+                                  </div>                  
+                                </div>
+                              </div>
+                            </div>
+                            <div id="pagination" class="mt-3" ></div>
+                          </div>
+                        </div>
+                      </div>
+        </section>
+
+
+        <!-- Modal New issue -->
+  <div class="modal fade popup2 contract_supply" id="supplier_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <div class="d-flex align-items-center justify-content-between w-100">
+                <h5 class="modal-title f500 txtwhite">Add Supplier</h5>            
+              </div>
+            </div>
+            <div class="modal-body pad0">
+              <div id="navigation">
+              <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item ripple ripple2">
+                  <a class="nav-link active" id="home-tab" data-toggle="tab" data-target="#home" role="tab" aria-controls="home" aria-selected="true">Supplier</a>
+                </li>
+                <li class="nav-item ripple ripple2">
+                  <a class="nav-link" id="profile-tab" data-toggle="tab" data-target="#profile" role="tab" aria-controls="profile" aria-selected="false">Supplies</a>
+                </li>
+                <li class="nav-item ripple ripple2">
+                  <a class="nav-link" id="contact-tab" data-toggle="tab" data-target="#contact" role="tab" aria-controls="contact" aria-selected="false">Staff Members</a>
+                </li>
+              </ul>
+              </div>
+              <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                  <div class="sidespacing">
+                    <div class="tree_logo d-flex align-items-center justify-content-center position-relative mx-auto">
+                      <div class="inner_circle d-flex align-items-center justify-content-center">
+                        <!-- <img ng-if="!isImage(fileExt)" src="assets/images/suppliers/tree_logo.png" class="img-fluid" alt="logo"> -->
+                        <img ng-If="FILEIMG"src="{{FILEIMG}}" class="addprofilelogo img-fluid" alt="logo">
+                      </div>
+                      <button class="btn btn_addon ripple"
+                       ngf-select ng-model="vm.supplier.picFile" name="file"
+                       ngf-change="onChange($files)"
+                       aria-invalid="false" data-wow-delay="0.7s">
+                      <img src="assets/images/suppliers/plus3.png" class="img-fluid" alt="plus">
+                      </button>
+                    </div>
+                    <div class="f_block">
+                      <p class="fsize18 f500 txtgrey c_space space15">Supplier Name</p>
+                      <input type="text" ng-model="vm.supplier.name" class="form-control animated zoomIn wow">
+                    </div>
+                    <div class="f_block">
+                      <p class="fsize18 f500 txtgrey c_space space15">Contact</p>
+                      <div class="row">
+                          <div class="col-6">
+                            <p class="fsize18 f500 txtgrey c_space space15">Dial Code</p>
+                            <select ui-select2 ng-model="vm.supplier.dialCode" class="form-control"
+                            placeholder="dial Code">
+                            <option ng-repeat="currency in vm.getCountryCode" value="{{currency.dialCode}}">{{currency.dialCode}} - {{currency.name}}</option>
+                           </select>
+                           
+                          </div>
+                          <div class="col-6">
+                              <p class="fsize18 f500 txtgrey c_space space15">Phone Number</p>
+                            <input type="text" ng-model="vm.supplier.phoneNumber" class="form-control animated zoomIn wow" >
+                          </div>
+                      </div>
+                      
+                    </div>                 
+                    <div class="f_block">
+                      <p class="fsize18 f500 txtgrey c_space space15">Email Address</p>
+                      <input type="email" ng-model="vm.supplier.email" class="form-control animated zoomIn wow">
+                    </div>
+                    <div class="f_block">
+                      <p class="fsize18 f500 txtgrey c_space space15">Address</p>
+                      <input type="text" ng-model="vm.supplier.address" class="form-control mapicon animated zoomIn wow" placeholder="1775 Benson Park Drive, Oklahoma City">
+                    </div>
+                    <div class="space30"></div>              
+                  </div> 
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn_create_issue yello_clr ripple" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn_create_issue yello_clr ripple"
+                     ng-click="vm.addSupplierNext()">Next</button>
+                  </div>
+                </div>
+                <div class="tab-pane fade " id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                  <div class="sidespacing">
+                    <h5 class="fsize18 f500 c_space txtgrey">Supplies</h5>
+                    <ul class="list-unstyled mb-0 supplies_list"ng-If="vm.selectedMaterials.length>0">
+                      <li ng-repeat="material in vm.selectedMaterials" >
+                        <div class="f_block">   
+                          <div  >
+                              <input type="text" class="form-control" value="{{material.name}}" style="visibility: visible"readonly>
+                          </div>                 
+                        </div>
+                        <button class=" btn cross_icon ml-auto animated wobble-vertical"ng-click="deleteMaterial($index,vm.selectedMaterials)">
+                          <img src="assets/images/suppliers/cross3.png" width="16" class="img-fluid" ></button>
+                      </li>
+                    </ul>
+                   
+                    <div><br><br></div>
+                    <div class="row">
+                        <div class="col 6 f_block">
+                           
+                            <select  multiple ui-select2 ng-model="materials" id="materialselect" class="form-control animated zoomIn wow" data-wow-delay="0.7s"
+                            ng-options="cc.name for cc in vm.allMaterials"required></select>
+                        </div>
+                    
+                    </div>          
+                  </div> 
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn_create_issue yello_clr ripple"
+                    ng-click="vm.addSupplierPrevious()">Previous</button>
+                    <button type="button" class="btn btn_create_issue yello_clr ripple"ng-click="vm.addSupplierNext()" >Next</button>
+
+                  </div>
+                </div>
+                <div class="tab-pane fade " id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                  <div class="sidespacing">
+                      <h5 class="fsize18 f500 c_space txtgrey">Staff Members</h5>
+                      <ul class="list-unstyled mb-0 supplies_list" ng-if="vm.members2.length>0">
+                        <li ng-repeat="member in vm.members2">
+                          <div class="row f_block">                    
+                           <div class="col 4">
+                             <p style="font-size:16px;">{{member.name}}</p>
+                           </div>
+                           <div class="col 4">
+                              <p style="font-size:16px;">{{member.email}}</p>
+                            </div>
+                            <div class="col 4">
+                                <p style="font-size:16px;">{{member.contact.dialCode}}-{{member.contact.phoneNumber}}</p>
+                            </div>
+                            
+                          </div>
+                          <button class=" btn cross_icon ml-auto animated wobble-vertical" ng-click="deleteStaff($index,vm.members2)">
+                            <img src="assets/images/suppliers/cross3.png" width="16" class="img-fluid" ></button>
+                        </li>
+                      </ul>
+                      <br><br>
+                      <div class="row">
+                          <div class="col 6 f_block">
+                            <input type="text" id="membername" class="form-control animated zoomIn wow" placeholder="Enter Name" ng-model="membername">
+                          </div>
+                          <div class="col 6 f_block">
+                              <input type="email" id="memberemail" class="form-control animated zoomIn wow" placeholder="Email id" ng-model="memberemail">
+                            </div>
+                      </div><br>
+                    
+                      <div class="row">
+                           <div class="col 4 f_block">
+                               <select ui-select2 ng-model="memberdialCode" class="form-control" id="memberdialCode"
+                               placeholder="dial Code">
+                               <option ng-repeat="currency in vm.getCountryCode" value="{{currency.dialCode}}">{{currency.dialCode}} - {{currency.name}}</option>
+                              </select>
+                           </div>
+                           <div class="col 6 f_block">
+                               <input type="text" id="memberphoneNumber" class="form-control animated zoomIn wow" placeholder="Contat number" ng-model="memberphoneNumber" 
+                               min="1" max="10" />
+                           </div>
+
+                            <div class="col 2 f_block">
+                                <button class="btn yellow task_tag2" ng-click="vm.addMember(membername,memberemail,memberdialCode,memberphoneNumber);"
+                                style="padding-top: 0px;margin-top: 10px;">+Add</button>
+                            </div>
+                      </div> 
+                      <!-- <button class="btn yellow task_tag2">+ Add Another</button>             -->
+                    </div> 
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn_create_issue yello_clr ripple" data-dismiss="modal">Cancel</button>
+                      <button type="button" class="btn btn_create_issue yello_clr ripple"
+                      ng-click="vm.addSupplierPrevious()">Previous</button>
+                      <button type="button" class="btn btn_create_issue yello_clr ripple" ng-click="createSupplier(vm.supplier,materials)">Create</button>
+                    </div>
+              </div>
+              </div>
+            </div>           
+          </div>
+        </div>
+      </div>

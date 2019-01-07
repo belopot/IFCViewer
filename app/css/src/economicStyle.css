@@ -1,0 +1,1345 @@
+body {
+  color: #6e6e6e;
+  font-family: "Open Sans", sans-serif;
+  background: #fff;
+  font-size: 14px;
+}
+/*@font-face {
+     font-family: 'Open Sans', sans-serif;
+    src: url(../fonts/OpenSans-Regular.ttf);
+}*/
+html,
+body {
+  height: 100%;
+  width: 100%;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Open Sans", sans-serif;
+}
+/*==========================COMMAN CLASS=======================*/
+ul {
+  margin: 0px;
+  padding: 0px;
+  list-style: none;
+}
+li {
+  padding: 0px;
+}
+p {
+  margin: 0px;
+}
+a {
+  color: #6e6e6e;
+  text-decoration: none;
+}
+a:focus,
+a:hover {
+  color: #231f20;
+  text-decoration: none;
+}
+
+.text-upp {
+  text-transform: uppercase;
+}
+
+/*----------------------FONT COLOR CLASSES-------------------------*/
+
+.whiteclr {
+  color: #fff !important;
+}
+.blackclr {
+  color: #000 !important;
+}
+.mauto {
+  margin: 0 auto;
+}
+
+/*==========       BASIC CLASSES     ==========*/
+
+/* ========================================= */
+/* =============SPACE CLASSES============== */
+/* ========================================= */
+.space5 {
+  margin-top: 5px;
+}
+.space10 {
+  margin-top: 10px;
+}
+.space15 {
+  margin-top: 15px;
+}
+.space20 {
+  margin-top: 20px;
+}
+.space25 {
+  margin-top: 25px;
+}
+.space30 {
+  margin-top: 30px;
+}
+.space40 {
+  margin-top: 40px;
+}
+.space50 {
+  margin-top: 50px !important;
+}
+.space60 {
+  margin-top: 60px;
+}
+.space70 {
+  margin-top: 70px;
+}
+.space80 {
+  margin-top: 80px;
+}
+.space100 {
+  margin-top: 100px;
+}
+
+/* ========================================= */
+/* =============PADDING CLASSES============== */
+/* ========================================= */
+.pad0 {
+  padding: 0 !important;
+}
+.padleft0 {
+  padding-left: 0px !important;
+}
+.padright0 {
+  padding-right: 0px !important;
+}
+.padtop0 {
+  padding-top: 0px !important;
+}
+.padbottom0 {
+  padding-bottom: 0px !important;
+}
+
+/* ========================================= */
+/* =============MARGIN CLASSES============== */
+/* ========================================= */
+.m0 {
+  margin: 0;
+}
+.mbtm0 {
+  margin-bottom: 0px;
+}
+.mtop0 {
+  margin-top: 0px;
+}
+.mautomargin {
+  margin: 0px auto !important;
+}
+
+input {
+  outline: none !important;
+}
+button {
+  outline: none !important;
+}
+
+/*==========================================================================*/
+
+/*::-webkit-scrollbar {
+  display: none;
+}*/
+
+/*================================ Start ====================================*/
+.wrapper {
+  padding-left: 80px;
+  width: 100%;
+  background-color: #fff;
+}
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 80px;
+  height: 100vh;
+  /* background-color: #454e7c; */
+  background-color: #efefef;
+}
+.mylogo {
+  text-align: center;
+  padding: 25px 15px;
+  background-image: linear-gradient(#efefef, #e5e5e5);
+}
+.mylogo .logo {
+  width: 35px;
+}
+.left_menu_items {
+  position: absolute;
+  width: 100%;
+  bottom: 15px;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  list-style: none;
+}
+.left_menu_items li a {
+  text-align: center;
+  padding: 10px 8px;
+  display: block;
+  line-height: 1;
+}
+.left_menu_items li a small {
+  color: #466d95;
+}
+.left_menu_items li.active a small {
+  color: #466d95;
+}
+.left_menu_items li a img {
+  width: 26px;
+  opacity: 0.7;
+}
+.left_menu_items li.active a img {
+  opacity: 1;
+}
+.left_menu_items li.active,
+.left_menu_items li:hover {
+  background: #fff;
+}
+.header {
+  padding: 15px 15px 40px 15px;
+  border-bottom: 2px solid #ddd;
+}
+
+.sub_contractor {
+  background-image: linear-gradient(#1cc1fb, #1ba3f6);
+  text-align: center;
+  padding: 30px 20px 10px 20px;
+}
+.sub_contractor h3 {
+  font-size: 24px;
+  color: #fff;
+  margin-top: 30px;
+}
+.sub_contractor h6 {
+  font-size: 15px;
+  color: #fff;
+  opacity: 0.6;
+}
+.sub_contractor h5 {
+  font-size: 16px;
+  color: #fff;
+  margin-top: 50px;
+}
+.left_side_sec {
+  background-color: #1cc1fb;
+  height: 100vh;
+}
+.sub_contractor_bottom {
+  background-color: #1cc1fb;
+  padding-bottom: 4px;
+}
+.contractor_items {
+  padding: 40px 10px;
+  text-align: center;
+  box-shadow: inset 0 0 1px #1ba4f6;
+}
+.contractor_items h6 {
+  font-size: 14px;
+  color: #fff;
+  opacity: 0.6;
+}
+.contractor_items h2 {
+  font-size: 32px;
+  color: #fff;
+}
+
+.project_progress {
+  display: inline-block;
+  padding: 10px 30px;
+  font-size: 11px;
+  color: #999;
+  background-color: #fff;
+  border-radius: 30px;
+  margin: 15px auto;
+}
+
+/*=====================
+    CIRCLE PROGRESS BAR
+  ======================*/
+
+.progressbar {
+  display: block;
+  margin: 40px 10px;
+}
+.circle {
+  width: 180px;
+  height: 180px;
+  margin: 0 auto;
+  margin-top: 10px;
+  display: inline-block;
+  position: relative;
+  text-align: center;
+}
+.circle:after {
+  width: 120px;
+  height: 120px;
+  content: "";
+  border-radius: 50%;
+  display: block;
+  position: absolute;
+  top: 30px;
+  left: 30px;
+}
+
+.circle canvas {
+  vertical-align: middle;
+  border-radius: 50%;
+}
+
+.circle div {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -20px 0 0 -86px;
+  width: 100%;
+  text-align: center;
+  line-height: 40px;
+  font-size: 36px;
+  color: #fff;
+}
+.circle div::after {
+  position: relative;
+  content: "%";
+  font-size: 15px;
+  margin-left: 3px;
+}
+.circle strong i {
+  font-style: normal;
+  font-size: 0.6em;
+  font-weight: normal;
+}
+.circle span {
+  display: block;
+  color: white;
+  margin-top: 12px;
+}
+
+.top_title {
+  font-size: 30px;
+  color: #777;
+  line-height: 15px;
+  margin-bottom: 0;
+  margin-top: 10px;
+  display: inline-block;
+}
+.top_title small {
+  font-size: 12px;
+  color: #999;
+}
+
+.top_right_sec {
+  display: inline-block;
+}
+.top_right_sec li {
+  display: inline-block;
+  padding: 0px 10px;
+  vertical-align: top;
+}
+.top_right_sec li .add_working {
+  display: inline-block;
+  padding: 15px 25px;
+  border: 1px solid #999;
+  border-radius: 30px;
+}
+.top_right_sec li .add_working .fa-plus {
+  color: #454e7c;
+  margin-right: 20px;
+}
+.top_right_sec li .dropdown-toggle {
+  display: inline-block;
+  padding: 15px 35px;
+  border: 1px solid #999;
+  border-radius: 30px;
+  background-color: transparent;
+}
+.header .dropdown-menu {
+  border-radius: 15px;
+  padding: 0;
+  overflow: hidden;
+}
+.header .dropdown-menu li {
+  display: block;
+  padding: 0;
+}
+.header .dropdown-menu li a {
+  display: block;
+  font-size: 16px;
+  color: #222;
+  padding: 10px 15px;
+  transition: 0.4s;
+  -webkit-transition: 0.4s;
+  -moz-transition: 0.4s;
+}
+.header .dropdown-menu li a:hover {
+  background-color: #454e7c;
+  color: #fff;
+}
+.graph_sec .mychart {
+  width: 100%;
+  overflow: hidden;
+}
+
+.h_last_sec {
+  padding: 30px 15px;
+  background-color: #fff;
+  text-align: center;
+}
+.item_details .btm_title {
+  position: relative;
+  display: inline-block;
+  font-size: 28px;
+  color: #666;
+  font-weight: 600;
+}
+.item_details .btm_title.plus_icn:after {
+  position: absolute;
+  content: "+";
+  top: -15px;
+  right: -20px;
+  font-size: 28px;
+  color: #454e7c;
+  font-weight: 700;
+}
+.item_details p {
+  font-size: 14px;
+  color: #999;
+  text-align: left;
+  height: 25px;
+}
+.item_details p span {
+  display: inline-block;
+}
+.item_details .text-center {
+  text-align: center !important;
+}
+.see_list_btn {
+  background-color: transparent;
+  padding: 12px 20px;
+  border: 1px solid #999;
+  border-radius: 30px;
+  display: inline-block;
+  margin-top: 30px;
+}
+
+/*==================================== Add Items page =========================*/
+.add_items_sec1 {
+  padding: 25px 30px;
+  background-color: #fff;
+}
+.my_items_div {
+  background-color: #fff;
+  box-shadow: 0 10px 50px #eee;
+  border: 1px solid #eee;
+}
+.my_items_div .items_header {
+  padding: 10px 20px;
+  background-color: #56d1fc;
+}
+.items_header ul {
+  display: inline-block;
+}
+.items_header ul li {
+  display: inline-block;
+  width: 165px;
+}
+.items_header ul li:nth-child(1),
+.items_header ul li:nth-child(2),
+.items_header ul li:nth-child(3) {
+  width: 130px;
+}
+.items_header ul li .form-group {
+  margin-bottom: 0;
+}
+.items_header ul li label {
+  font-size: 14px;
+  color: #fff;
+  font-weight: 500;
+  padding: 2px 5px;
+}
+.items_header ul li .form-control {
+  width: 100%;
+  height: 30px;
+  border: 1px solid #fff;
+  border-radius: 20px;
+  box-shadow: none;
+  font-size: 14px;
+  color: #999;
+}
+.items_body {
+  padding: 20px 30px;
+}
+
+/*======================== Checkbox =======================*/
+.control {
+  display: block;
+  position: relative;
+  padding-left: 30px;
+  margin-bottom: 15px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+}
+.control input {
+  position: absolute;
+  z-index: -1;
+  opacity: 0;
+}
+.control__indicator {
+  position: absolute;
+  top: 2px;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background: transparent;
+  border: 2px solid #74d130;
+}
+.control--radio .control__indicator {
+  border-radius: 50%;
+}
+.control:hover input ~ .control__indicator,
+.control input:focus ~ .control__indicator {
+  background: #fff;
+}
+.control input:checked ~ .control__indicator {
+  background: #fff;
+}
+.control input:disabled ~ .control__indicator {
+  background: #e6e6e6;
+  opacity: 0.6;
+  pointer-events: none;
+}
+.control__indicator:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+.control input:checked ~ .control__indicator:after {
+  display: block;
+}
+.control--checkbox .control__indicator:after {
+  left: 6px;
+  top: 2px;
+  width: 5px;
+  height: 10px;
+  border: solid #74d130;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+.control--checkbox input:disabled ~ .control__indicator:after {
+  border-color: #7b7b7b;
+}
+/*===========================================================*/
+.mytbl1 thead tr th {
+  padding: 15px 10px;
+  text-align: left;
+  border: 1px solid #ddd;
+  background-color: #dddddd;
+  font-size: 14px;
+  font-weight: 600;
+  color: #222;
+}
+.mytbl1 tbody tr td {
+  padding: 15px 10px;
+  text-align: left;
+  border: 1px solid #dddddd;
+  height: 50px;
+  background-color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  color: #222;
+}
+
+.mytbl1 tbody tr td a {
+  display: block;
+  text-align: center;
+}
+
+.mytbl1 tfoot tr td {
+  padding: 10px 10px;
+  text-align: left;
+  border: 1px solid #fff;
+  height: 50px;
+  background-color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  color: #222;
+}
+
+.mytbl1 tfoot tr td.bdr_bottom {
+  border-bottom: 1px solid #dddddd;
+}
+.mytbl1 tfoot tr td.add_row_td {
+  background-color: #3cddb7;
+  text-align: center;
+}
+.mytbl1 tfoot tr td .add_row_items {
+  font-size: 28px;
+  color: #fff;
+  line-height: 28px;
+  display: block;
+}
+.mytbl1 tfoot tr td:nth-child(9),
+.mytbl1 tfoot tr td:nth-child(10) {
+  text-align: right;
+}
+.mytbl1 tfoot tr:last-child td {
+  font-size: 24px;
+  color: #666;
+  font-weight: 600;
+}
+/*===================================================================*/
+.items_footer {
+  padding: 20px 30px;
+}
+.items_footer ul li {
+  display: inline-block;
+  padding: 0 3px;
+}
+.save_approve .dropdown-toggle {
+  display: inline-block;
+  padding: 12px 25px;
+  border: 1px solid #999;
+  border-radius: 20px;
+  background-color: transparent;
+  font-size: 16px;
+  color: #999;
+  font-weight: 600;
+}
+.cancel_btn {
+  display: inline-block;
+  padding: 12px 25px;
+  border: 1px solid #fec72e;
+  border-radius: 20px;
+  background-color: #fec72e;
+  font-size: 16px;
+  color: #fff;
+  font-weight: 600;
+}
+.save_approve .dropdown-menu {
+  border-radius: 15px;
+  padding: 0;
+  overflow: hidden;
+}
+.dropdown-menu li {
+  display: block !important;
+}
+.save_approve .dropdown-menu li a {
+  display: block;
+  font-size: 16px;
+  color: #222;
+  padding: 10px 15px;
+  transition: 0.4s;
+  -webkit-transition: 0.4s;
+  -moz-transition: 0.4s;
+}
+.icon_save_approve {
+  width: 18px;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 5px;
+}
+/*.carousel-wrap .owl-nav {
+  top: 0px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  padding: 10px 10px;
+}*/
+.carousel-wrap {
+  margin: 60px auto;
+  padding: 0 5%;
+  width: 100%;
+  position: relative;
+}
+
+/* fix blank or flashing items on carousel */
+.carousel-wrap .owl-carousel .item {
+  position: relative;
+  z-index: 100;
+  -webkit-backface-visibility: hidden;
+}
+
+/* end fix */
+.carousel-wrap .owl-nav > div {
+  margin-top: -65px;
+  position: absolute;
+  top: 0%;
+  color: #cdcbcd;
+}
+
+.carousel-wrap .owl-nav i {
+  font-size: 52px;
+}
+
+.carousel-wrap .owl-nav .owl-prev {
+  left: 15%;
+}
+
+.carousel-wrap .owl-nav .owl-next {
+  right: 15%;
+}
+
+/*=============================== Add Item2 ============================*/
+.add_item2 .carousel-wrap .owl-nav .owl-prev {
+  left: 35%;
+}
+
+.add_item2 .carousel-wrap .owl-nav .owl-next {
+  right: 35%;
+}
+.search_roofing {
+  text-align: left;
+  padding-left: 15px;
+}
+.search_roofing li {
+  display: inline-block;
+}
+.searchbox {
+  display: inline-block;
+  padding: 12px 25px;
+  border: 1px solid #999;
+  border-radius: 20px;
+  background-color: transparent;
+  font-size: 16px;
+  color: #999;
+  font-weight: 600;
+  width: 150px;
+}
+.add_item2 .carousel-wrap {
+  margin: 15px auto;
+  padding: 0 15px;
+}
+.add_location_link {
+  font-size: 14px;
+  color: #fff;
+  font-weight: 500;
+  padding: 2px 5px;
+}
+
+/*================================= Supplier Page ========================*/
+
+.header1 {
+  padding: 20px 20px;
+}
+.header1 .search_roofing li.float-right {
+  float: right;
+}
+.header1 .searchbox {
+  width: 250px;
+}
+.supplier_details_sec {
+  padding: 20px;
+}
+.supplier_details_sec .bordered_div {
+  padding: 50px 50px;
+  border: 1px solid #ddd;
+  box-shadow: 0 0 30px #ddd;
+}
+.details_sup thead tr th {
+  padding: 15px 10px;
+  background-color: #1cc1fb;
+  font-size: 14px;
+  color: #fff;
+  border: none;
+}
+.supplier_details_sec .details_sup {
+  border: 1px solid #ddd;
+  margin-bottom: 0;
+}
+.details_sup tbody tr td {
+  padding: 8px 10px;
+  background-color: #fff;
+  font-size: 14px;
+  color: #999;
+  border: none;
+}
+.details_sup.details1 tbody tr td:nth-child(8) {
+  color: #82b9e2;
+  text-align: center;
+  width: 120px;
+}
+.details_sup.details1 tbody tr td:nth-child(9) {
+  color: #ed7777;
+  text-align: center;
+  width: 130px;
+}
+.details_sup.details1 tbody tr td:last-child {
+  color: #ed7777;
+  text-align: left;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+.paidclr {
+  color: #72cca6 !important;
+}
+.unpaidclr {
+  color: #e3547f !important;
+}
+.supplier_details_sec .details_sup tr td {
+  border-right: 1px solid #ddd;
+}
+
+/*==============================================================*/
+.details_sup2 .control {
+  display: block;
+  position: relative;
+  padding-left: 0px;
+  margin-bottom: 0px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+}
+.details_sup2 .control .control__indicator {
+  left: 35%;
+}
+
+.search_roofing li .control-group {
+  padding-left: 20px;
+}
+.search_roofing li .control-group label {
+  font-weight: 700;
+  color: #222;
+}
+
+.supplier_detail2_btm .item_details {
+  padding: 0 20px;
+}
+.supplier_detail2_btm .item_details .calendar_items {
+  display: inline-block;
+  margin-top: 50px;
+  padding: 0 50px;
+}
+.supplier_detail2_btm .item_details .form-control {
+  width: 49%;
+  border: 1px solid #ddd;
+  display: inline-block;
+  box-shadow: none;
+  margin: 0;
+  background-color: #fff;
+}
+.supplier_detail2_btm .item_details .form-control:first-child {
+  position: relative;
+  margin-right: -3px;
+  border-right: none;
+  border-radius: 15px 0 0 15px;
+}
+/*.supplier_detail2_btm .item_details .form-control:before{
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #60d3fc;
+  top: 40%;
+  left: 10px;
+  z-index: 999;
+}*/
+.supplier_detail2_btm .item_details .form-control:last-child {
+  position: relative;
+  margin-left: -3px;
+  border-left: none;
+  border-radius: 0 15px 15px 0;
+}
+.pad_lr20 {
+  padding: 0 20px;
+}
+
+/*============================= Working Hours page ============================*/
+.working_hr {
+  background-color: #1cc1fb;
+}
+
+.working_hr_left {
+  background-color: #fff;
+  padding: 20px;
+}
+.working_hr_right h1 {
+  font-size: 50px;
+  color: #fff;
+  text-align: center;
+}
+/*================================== Invoice Page =========================*/
+.invoice_sec1 {
+  padding: 50px 150px;
+  background-color: #fff;
+}
+.invoice_sec1 .my_items_div {
+  background-color: #fff;
+  box-shadow: none;
+  border: none;
+}
+.invoice_sec1 .items_body {
+  padding: 20px 30px;
+  box-shadow: 0 10px 50px #eee;
+  border: 1px solid #eee;
+  margin-top: 15px;
+}
+.left_list_img li {
+  display: block;
+  padding: 5px 5px;
+}
+.invoice_details {
+  border: 1px solid #8395a3;
+}
+.invoice_details .top_inv {
+  background-color: #8395a3;
+  padding: 30px 40px;
+}
+.invoice_details .top_inv h1 {
+  color: #fff;
+  font-size: 60px;
+  margin: 0;
+}
+.invoice_details .top_inv .address_txt {
+  color: #fff;
+  font-size: 14px;
+  text-align: right;
+}
+.invoice_body {
+  padding: 30px 20px;
+}
+.invoice_body h6 {
+  font-size: 12px;
+  color: #8395a3;
+  margin: 0;
+}
+.invoice_body h3 {
+  font-size: 28px;
+  color: #8395a3;
+  margin: 0;
+  font-weight: 600;
+}
+.invoice_body .txt22 {
+  font-size: 14px;
+  color: #000;
+  font-weight: 600;
+  margin-top: 10px;
+}
+.invoicetbl {
+  border-top: 2px solid #8395a3;
+}
+.invoicetbl .table {
+  margin-bottom: 0;
+}
+.invoicetbl .table > thead > tr > th {
+  padding: 8px 10px;
+  font-size: 14px;
+  color: #8395a3;
+  font-weight: 500;
+}
+.invoicetbl .table > tbody > tr > td {
+  padding: 8px 10px;
+  font-size: 14px;
+  color: #222;
+  font-weight: 600;
+}
+.invoicetbl .table > tbody > tr > td small {
+  font-weight: 400;
+  font-size: 12px;
+  color: #8395a3;
+}
+
+.appr_decline {
+  float: right;
+  margin: 15px 0;
+  padding: 0;
+}
+.appr_decline li {
+  display: inline-block;
+  list-style: none;
+  width: 110px !important;
+}
+.appr_decline li a {
+  display: block;
+  padding: 6px 15px;
+  border-radius: 15px;
+  font-size: 14px;
+  color: #fff;
+  text-align: center;
+}
+.appr_decline li:first-child a {
+  background-color: #64ac6f;
+}
+.appr_decline li:last-child a {
+  background-color: #ed5d5d;
+}
+
+/*=====================================================================*/
+#exampleModal .modal-body {
+  text-align: center;
+}
+.date-picker .ui-datepicker {
+  margin: 20px auto;
+}
+#exampleModal .modal-body .form .input_fild {
+  width: 150px;
+  height: 40px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  font-size: 18px;
+  color: #333;
+  margin-top: 10px;
+  padding: 6px 10px;
+}
+#exampleModal .modal-body .form {
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e5e5e5;
+}
+#exampleModal .modal-body .form select.input_fild {
+  width: 250px;
+}
+
+/*============================== Media ==========================*/
+@media (max-width: 1500px) {
+  .item_details .btm_title {
+    font-size: 24px;
+  }
+}
+@media (max-width: 1366px) {
+  .item_details .btm_title {
+    font-size: 20px;
+  }
+  .item_details p {
+    font-size: 12px;
+    height: 20px;
+  }
+  .see_list_btn {
+    padding: 8px 20px;
+    border-radius: 15px;
+    margin-top: 15px;
+  }
+  .invoice_sec1 {
+    padding: 50px 55px;
+    background-color: #fff;
+  }
+}
+@media (max-width: 1199px) {
+  .item_details .btm_title {
+    font-size: 20px;
+  }
+  .item_details p {
+    font-size: 12px;
+    height: 20px;
+  }
+  .see_list_btn {
+    padding: 8px 20px;
+  }
+  .top_right_sec li .dropdown-toggle,
+  .top_right_sec li .add_working {
+    padding: 10px 20px;
+  }
+  .top_right_sec li {
+    display: inline-block;
+    padding: 0px 5px;
+  }
+  .header {
+    padding: 15px 15px 25px 15px;
+  }
+  .mytbl1 thead tr th {
+    padding: 12px 6px;
+    font-size: 13px;
+  }
+  .mytbl1 tbody tr td {
+    padding: 12px 6px;
+    font-size: 13px;
+  }
+  .supplier_detail2_btm .item_details {
+    padding: 0 0px;
+  }
+  .invoice_sec1 {
+    padding: 50px 30px;
+  }
+  .invoice_details .top_inv h1 {
+    font-size: 40px;
+  }
+  .invoice_details .top_inv .address_txt {
+    font-size: 11px;
+  }
+  .invoice_body .txt22 {
+    font-size: 12px;
+  }
+  .items_header ul li {
+    width: 130px;
+  }
+  .items_header ul li:nth-child(1),
+  .items_header ul li:nth-child(2),
+  .items_header ul li:nth-child(3) {
+    width: 90px;
+  }
+  .items_header ul li label {
+    font-size: 10px;
+  }
+  .appr_decline li a {
+    padding: 6px 10px;
+    font-size: 10px;
+  }
+  .appr_decline li {
+    width: 80px !important;
+  }
+}
+
+@media (max-width: 991px) {
+  .top_right_sec li .dropdown-toggle,
+  .top_right_sec li .add_working {
+    padding: 8px 10px;
+  }
+  .top_title {
+    font-size: 24px;
+  }
+  .top_title small {
+    font-size: 10px;
+  }
+  .top_right_sec li .add_working .fa-plus {
+    margin-right: 10px;
+  }
+  .top_right_sec li {
+    vertical-align: middle;
+  }
+  .top_right_sec {
+    float: none;
+    display: block;
+    margin-top: 15px;
+  }
+  #areaChart {
+    height: 300px !important;
+    margin: 15px auto !important;
+  }
+
+  .item_details .clearfix.space30 {
+    margin-top: 0;
+  }
+  .h_last_sec {
+    padding: 20px 15px;
+  }
+  .contractor_items h2 {
+    font-size: 24px;
+    margin-top: 10px;
+  }
+  .carousel-wrap {
+    margin: 100px auto 30px;
+  }
+  .mytbl1 thead tr th,
+  .mytbl1 tbody tr td,
+  .mytbl1 tfoot tr td {
+    white-space: nowrap;
+  }
+  .supplier_detail2_btm .item_details {
+    margin-bottom: 20px;
+  }
+  .supplier_details_sec .bordered_div {
+    padding: 20px 15px;
+  }
+  .supplier_details_sec {
+    padding: 20px 20px;
+  }
+  .details_sup2 thead tr th,
+  .details_sup2 tbody tr td {
+    white-space: nowrap;
+  }
+  .header1 .searchbox {
+    width: 160px;
+  }
+  .working_hr_right h1 {
+    font-size: 32px;
+  }
+  .invoice_sec1 {
+    padding: 15px 15px;
+  }
+  .invoice_sec1 .items_body {
+    padding: 15px 15px;
+  }
+  .appr_decline {
+    float: none;
+  }
+  .invoice_details .top_inv {
+    padding: 15px 15px;
+  }
+  .invoice_details .top_inv .address_txt {
+    text-align: left;
+  }
+  .invoicetbl .table > tbody > tr > td,
+  .invoicetbl .table > thead > tr > th {
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 767px) {
+  .pad0 {
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+  }
+  .padleft0 {
+    padding-left: 15px !important;
+  }
+  .padright0 {
+    padding-right: 15px !important;
+  }
+  .see_list_btn {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  .save_approve .dropdown-toggle {
+    padding: 10px 20px;
+    border-radius: 15px;
+    font-size: 12px;
+  }
+  .cancel_btn {
+    padding: 10px 20px;
+    border-radius: 15px;
+    font-size: 12px;
+  }
+  .add_items_sec1 {
+    padding: 15px 0px;
+  }
+  .carousel-wrap {
+    margin: 80px auto 30px;
+  }
+  .wrapper {
+    padding-left: 0;
+  }
+  .sidebar {
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 50px;
+    z-index: 99;
+    background-color: #454e7c;
+  }
+  .mylogo {
+    text-align: center;
+    padding: 8px 10px;
+    width: 70px;
+    height: 50px;
+  }
+  .left_menu_items {
+    position: absolute;
+    width: 70%;
+    bottom: 0;
+    right: 10px;
+    text-align: right;
+  }
+  .left_menu_items li {
+    display: inline-block;
+  }
+  .left_menu_items li a {
+    padding: 5px 7px;
+  }
+  .left_menu_items li a img {
+    width: 25px;
+  }
+  .header {
+    padding: 15px 0px 25px 0px;
+  }
+  .top_right_sec li .dropdown-toggle,
+  .top_right_sec li .add_working {
+    padding: 8px 10px;
+    font-size: 11px;
+  }
+  .items_header ul li {
+    display: inline-block;
+    width: 49%;
+  }
+  .items_body {
+    padding: 20px 15px;
+  }
+  .mytbl1 tfoot tr td {
+    height: 40px;
+    font-size: 14px;
+  }
+  .items_footer {
+    padding: 20px 15px;
+  }
+  .header1 {
+    padding: 20px 0px;
+  }
+  .search_roofing li .control-group {
+    padding-left: 0px;
+    margin-top: 20px;
+  }
+  .header1 .search_roofing li.float-right {
+    float: none;
+  }
+  .supplier_details_sec {
+    padding: 20px 0px;
+  }
+  .supplier_detail2_btm .item_details {
+    padding: 0 50px;
+  }
+  .invoice_sec1 {
+    padding: 15px 0px;
+  }
+  .invoice_body {
+    padding: 20px 10px;
+  }
+  .my_items_div .items_header {
+    padding: 10px 15px;
+  }
+  #exampleModal .modal-body .form .input_fild {
+    width: 140px;
+    height: 30px;
+    font-size: 14px;
+    padding: 2px 10px;
+  }
+  #exampleModal .modal-body .form select.input_fild {
+    width: 200px;
+  }
+  .supplier_detail2_btm .item_details .calendar_items {
+    margin-top: 20px;
+    padding: 0 0px;
+  }
+}
+
+@media (max-width: 479px) {
+  .items_header ul li {
+    display: inline-block;
+    width: 100%;
+  }
+  .save_approve .dropdown-toggle {
+    padding: 7px 20px;
+    font-size: 12px;
+    width: 200px;
+    margin-top: 10px;
+  }
+  .cancel_btn {
+    padding: 7px 20px;
+    font-size: 12px;
+    margin-top: 10px;
+  }
+  .carousel-wrap {
+    padding: 0 0%;
+  }
+  .add_item2 .carousel-wrap {
+    margin: 80px auto 30px;
+  }
+  .add_item2 .carousel-wrap .owl-nav .owl-next {
+    right: 15%;
+  }
+  .add_item2 .carousel-wrap .owl-nav .owl-prev {
+    left: 15%;
+  }
+  .searchbox {
+    padding: 7px 15px;
+    font-size: 12px;
+    width: 150px;
+  }
+  .search_roofing {
+    padding-left: 0px;
+  }
+  .date-picker .ui-datepicker-inline {
+    width: 20em !important;
+  }
+  .date-picker .ui-datepicker-multi-2 .ui-datepicker-group {
+    width: 100%;
+  }
+}

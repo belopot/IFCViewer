@@ -1,0 +1,181 @@
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" crossorigin="anonymous">
+<div ng-include="'/partials/header.html'"></div>
+<section class="subcontractor-detail sectionbg heightfull">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-12">
+              <div class="outlineblock animated fadeInUp" data-wow-delay="0.3s">
+                <div class="d-md-flex">
+                  <div class="col-lg-4 col-md-5 pad0">
+                    <img src="assets/images/curvebg.png" class="img-fluid w-100 animated zoomIn wow" data-wow-delay="0.6s" alt="curve-bg">
+                    <div class="tree_logo d-flex align-items-center justify-content-center mx-auto spaceup2 animated zoomIn wow" data-wow-delay="0.6s">
+                      <div class="inner_circle d-flex align-items-center justify-content-center animated zoomIn wow" data-wow-delay="0.7s">
+                        <img src="{{vm.ClientData.clientLogo}}" class="clientLogo img-fluid animated zoomIn wow" data-wow-delay="0.8s" alt="tree_logo">
+                      </div>
+                    </div>
+                    <div class="space40"></div>
+                    <div class="animated fadeInDown wow" data-wow-delay="0.9s">
+                      <h2 class="headThree text-center" style="text-transform:capitalize;">{{vm.ClientData.clientName}}</h2>
+                      <p class="f500 txtgrey mb-0 small_tag text-center">{{vm.ClientData.created | date : 'MM/dd/yyyy'}}</p>                  
+                    </div>                          
+                    <div class="sidespacing2 animated fadeInDown wow" data-wow-delay=".9s">
+                      <div class="input-group input_form">
+                        <div class="input-group-prepend">
+                          <div class="input-group-text">
+                            <img src="assets/images/suppliers/call.png" class="img-fluid" alt="call">
+                          </div>
+                        </div>
+                        <input type="text" class="form-control" placeholder="{{vm.ClientData.clientContact.dialCode}}{{vm.ClientData.clientContact.phoneNumber}}">
+                      </div>
+                      <div class="input-group input_form spaceup">
+                        <div class="input-group-prepend">
+                          <div class="input-group-text">
+                            <img src="assets/images/suppliers/mail.png" class="img-fluid" alt="mail">
+                          </div>
+                        </div>
+                        <input type="text" class="form-control" placeholder="{{vm.ClientData.email}}">
+                      </div>
+                      <div class="input-group input_form spaceup">
+                        <div class="input-group-prepend">
+                          <div class="input-group-text">
+                            <img src="assets/images/suppliers/building.png" class="img-fluid" alt="building">
+                          </div>
+                        </div>
+                        <input type="text" class="form-control" placeholder="{{vm.ClientData.address1.line1}}, {{vm.ClientData.address1.city}}, {{vm.ClientData.address1.postalCode}}, {{vm.ClientData.address1.countryCode}}">
+                      </div>
+                      <div class="space40"></div>
+                      <div class="items_holder">
+                        <span class="lbl_stat complete transition text-uppercase" ng-repeat="item in vm.supplierData.staff">{{item}}</span>
+                      </div>
+                    </div>            
+                  </div>
+                  <!-- <div class="col-lg-8 col-md-7 pad0"> -->
+                        <div class="col-lg-8 d-md-flex flex-column padleft0 animated fadeInRight wow" data-wow-delay="0.8s">
+                                <ul class="nav nav-tabs" id="myTab" role="tablist">
+
+                                  <li class="nav-item"style="width:200px;">
+                                    <a class="nav-link active ripple ripple2" id="home-tab" data-toggle="tab" data-target="#home" role="tab" aria-controls="home" aria-selected="true">
+                                      Staff Members
+                                      <span class="lbl_stat low transition staff_num">{{vm.ClientData.staff.length}}</span>
+                                    </a>
+                                  </li>
+                                  <li class="nav-item"style="width:150px;">
+                                    <a class="nav-link ripple ripple2" id="profile-tab" data-toggle="tab" data-target="#profile" role="tab" aria-controls="profile" aria-selected="false">
+                                        Offers
+                                      <!-- <span class="lbl_stat low transition staff_num">{{vm.supplierData.staff.length}}</span> -->
+                                    </a>
+                                  </li>
+                                  <li class="nav-item"style="width:200px;">
+                                    <a class="nav-link ripple ripple2" id="contact-tab" data-toggle="tab" data-target="#contact" role="tab" aria-controls="contact" aria-selected="false">
+                                            On going Projects
+                                            <!-- <span class="lbl_stat low transition staff_num">{{vm.supplierData.staff.length}}</span> -->
+                                      </a>
+                                  </li>
+                                  <li class="nav-item"style="width:150px;">
+                                        <a class="nav-link ripple ripple2" id="contact-tab" data-toggle="tab" data-target="#contact" role="tab" aria-controls="contact" aria-selected="false">
+                                            Statics
+                                            <!-- <span class="lbl_stat low transition staff_num">{{vm.supplierData.staff.length}}</span> -->
+                                        </a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content" id="myTabContent">
+                                  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                    <div class="sidespacing">
+                                      <div class="comment-box position-relative animated fadeInUp wow" data-wow-delay="1.20s">
+                                        <div></div>
+                                        <button class="btn btn_add_member ripple" data-target="#add_member" data-toggle="modal">+ Add Member</button>
+                                      </div>
+                                      <div class="space40"></div>
+                                      <div class="history_container">
+                                       <div class="media animated fadeInUp wow" data-wow-delay="1.20s"
+                                       ng-repeat="member in vm.ClientData.staff">
+                                          <!-- <img src="{{comment.pic}}"  style="border-radius: 50%;width:50px;height:50px;"
+                                          class="img-fluid mr-2 w35_img" alt="user pic"> -->
+                                          <div class="media-body commentplace">
+                                            <p class="fsize18 txtblack f700 mb-0 mt-2">{{member.name}}</p>
+                                            <p class="fsize18 txtgrey f500">{{member.contact.dialCode}} +{{member.contact.phoneNumber}} </p>
+                                            <p class="fsize18 txtblack" style="white-space: pre-line">{{member.email}}</p>
+                                            
+                                          </div>
+                                        </div>
+                                        <div id="pagination" class="mt-3 text-center"></div>
+                                        
+                                        
+                                      </div>
+                                    </div>                  
+                                  </div>
+                                  <div class="tab-pane fade " id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                   
+                                  </div>
+                                  <div class="tab-pane fade " id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                                   
+                                  </div>
+                                </div>
+                              </div>
+                    <!-- <div class="sidespacing2">
+                      <div class="d-flex align-items-center animated fadeIn wow" data-wow-delay="1.0s">
+                        <h2 class="headThree text-center mb-0">Staff Members</h2>
+                        <span class="lbl_stat low transition staff_num">{{vm.supplierData.staff.length}}</span>                  
+                      </div>
+                      <ul class="list-unstyled member_list animated fadeIn wow" data-wow-delay="1.0s">
+                        <li ng-repeat=" member in vm.supplierData.staff">{{member}}</li>
+                      </ul>
+                    </div> -->
+                  <!-- </div> -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+
+      <!--add member popup-->
+
+ <div class="modal fade popup2" data-easein="slideUpBigIn" id="add_member" role="dialog" >
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal body -->
+            <div class="modal-header">
+                <h5 class="modal-title">Add Staff member's details</h5>
+            </div>
+            <div class="modal-body">
+                <div class="issue_form">
+                    <div class="f_block">
+                      <p class="fsize18 f500 txtgrey c_space mb-2">Name</p>
+                      <input type="text" class="form-control animated zoomIn wow" ng-model="vm.Staff.Name" maxlength="100" ng-minlength="2"
+                        required>
+                    </div>
+                    <div class="f_block">
+                        <p class="fsize18 f500 txtgrey c_space mb-2 mt-4">Contact</p>
+                        <div class="row">
+                            <div class="form-group col">
+                                <select ui-select2 ng-model="vm.Staff.dialCode" class="form-control"
+                               placeholder="dial Code">
+                               <option ng-repeat="currency in vm.getCountryCode" value="{{currency.dialCode}}">{{currency.dialCode}} - {{currency.name}}</option>
+                              </select>
+                            </div>
+                            <div class="form-group col">
+                                <input type="text" class="form-control animated zoomIn wow" ng-model="vm.Staff.phoneNumber" 
+                                min=1 max=10 />
+                            </div>
+                        </div>
+                        
+                      </div>
+                      <div class="f_block">
+                          <p class="fsize18 f500 txtgrey c_space mb-2 mt-4">Email</p>
+                          <input type="email" class="form-control animated zoomIn wow" ng-model="vm.Staff.email" 
+                             />
+                        </div>
+
+                  </div>
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary"ng-click="vm.saveStaffMember(vm.Staff)">Save</button>
+  
+            </div>
+        </div>
+    </div>
+  </div>

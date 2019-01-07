@@ -1,0 +1,97 @@
+<div class="modal-dialog">
+    <div class="modal-content modal-content-one">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">
+                <span aria-hidden="true">×</span>
+                <span class="sr-only">Close</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <section class="row justify-content-md-center">
+                <div class="col-md-auto col-md-4 p-4">
+                    <div class="loginForm p-3 m-3">
+                        <p class="m-0 loginIcon text-center">
+                            <span>
+                               <img src="../assets/images/reportimgs/Line 67.png"/>
+                               <img src="../assets/images/reportimgs/Group 743.png"/>
+                               <img src="../assets/images/reportimgs/Line 67.png"/>
+                            </span>
+                        </p>
+                        <h5 class="text-center text-uppercase" style="
+                        padding-top: 13px;">CREATE REPORT</h5>
+                        <form name="reportForm" class="mt-4" novalidate>
+                            <div class="form-group">
+                                <label style="color:#fff;">Project Name</label>
+                                <select name="projects" class="custom-select" ng-model="newReport.selectedProject" class="form-control" 
+                                ng-options="item as item.projectName for item in vm.projectList.list">
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                    <label style="color:#fff;">Report Creator</label>
+                                 <input type="text" class="form-control"  style="color: #fff;"id="name" name="name" 
+                                  ng-model="newReport.name" value="{{currentUser.firstName }}"placeholder="{{currentUser.firstName + currentUser.lastName}}" required
+                                    />
+                            </div>
+                            <div class="form-group">
+                                    <label style="color:#fff;">Report Category</label>
+                                    <select class="custom-select" ng-model="newReport.category" ng-options="i for i in reportCategory">
+                                            <option style="display:none;background-color:black;" value=""></option>
+                                        </select>
+                            </div>
+
+                            <div class="form-group">
+                                    <!-- <div class="report-input"> -->
+                                            <label style="color:#fff;">Lavels</label>
+                                        <input type="text" class="form-control" style="color: #fff;" id="dialCode" name="dialCode" ng-model="vm.registerData.dialCode"
+                                    required />
+                                   
+                            </div>
+                            <div class="form-group">
+                                    <!-- <div class="report-input"> -->
+                                            <label style="color:#fff;">Choose Drawing</label>
+                                            <input type="number" class="form-control" style="color: #fff;" id="phoneNumber" name="phoneNumber" ng-model="vm.registerData.phoneNumber"
+                                            required />
+                                            <!-- <img class="form-icon" src="../assets/images/reportimgs/Group 753@2x.png" width="20" /> -->
+                                     <!-- </div> -->
+                               
+                               
+                            </div>
+
+                            <div class="form-group">
+                                    <label style="color:#fff;">Select Admin</label>
+                                    <select class="custom-select" ng-model="vm.issueData.assignedTo" ng-options="p.firstName for p in vm.allAdminUsers">
+                                            <option style="display:none;" value=""></option>
+                                        </select>
+                                
+                            </div>
+                           
+                            <div class="form-group">
+                                    <label style="color:#fff;">DeadLine</label>
+                                    <input type="date" class="form-control" style="color: #fff;" id="deadline" name="deadline" ng-model="newReport.deadLine" />
+                                 
+                            </div>
+
+                            <div class="form-group">
+                                         <label style="color:#fff;"> Add a checklist</label>
+                                            <input type="text" class="form-control" style="color: #fff;" id="addressLine1" name="addressLine1" ng-model="vm.registerData.addressLine1"
+                                            required />
+                                           
+                            </div>
+
+                            <div class="form-group">
+                                    <label style="color:#fff;">  Add a Control Plan</label>
+                                            <input type="text" class="form-control"  style="color: #fff;" id="addressLine1" name="addressLine1" ng-model="vm.registerData.addressLine1" 
+                                            required />
+                                            
+                            </div>
+                            <button type="button" class="btn btn-default btn-block mt-3" ng-click="vm.register(registerForm.$valid, vm.registerData)">CREATE</button>
+
+                        </form>
+                       
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>

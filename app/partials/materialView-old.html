@@ -1,0 +1,197 @@
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" crossorigin="anonymous">
+<div ng-include="'/partials/header.html'"></div>
+<div id="materialView" class="page-content pt-4 page-layout simple fullwidth">
+    <div class="container-fluid px-4">
+        <div class="row my-3">
+            <div class="col">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb bg-white">
+                        <li class="breadcrumb-item">
+                            <a href="#!dashboard">Dashboard</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="#!materials">Material</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">Material View</li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="col-3 text-right">
+                <span ng-if="!vm.editFlag" ng-click="vm.editMaterial(1)" class="btn btn-warning rounded-30 text-white">Edit Material</span>
+                <span ng-if="vm.editFlag" ng-click="vm.editMaterial(2)" class="btn btn-warning rounded-30 text-white">Update Material</span>
+                <a href="#!3d_dashboard" class="btn btn-warning rounded-30 text-white">3D Viewer</a>
+            </div>
+        </div>
+        <form name="vm.updateMaterialForm" ng-model="vm.updateMaterial" novalidate>
+        <div class="row m-0 mb-3">
+            <div class="col-4">
+                <div class="box-shadow materialSlider p-0" ng-if="!vm.editFlag">
+                    <div class="row">
+                        <div class="col">
+                            <div id="carousel" class="flexslider mb-2">
+                                <ul class="slides">
+                                    <li ng-repeat="img in vm.matrialData.files">
+                                        <img src="{{img.url}}" />
+                                    </li>
+                                </ul>
+                            </div>
+                            <div id="slider" class="flexslider">
+                                <ul class="slides">
+                                    <li ng-repeat="img in vm.matrialData.files">
+                                        <img src="{{img.url}}" />
+                                    </li>
+                                    <!-- items mirrored twice, total of 12 -->
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row p-3 m-0">
+                        <div class="form-group col">
+                            <div class="btn btn-success bg-success border-0" ngf-select ng-model="vm.inputFiles" ngf-change="vm.fileUpdated($files, $event)"
+                                name="file" ngf-pattern="'image/*'" ngf-multiple="true" ngf-accept="'image/*'">Upload Images</div>
+                        </div>
+                        <div class="form-group col" ng-if="vm.fileNames.length > 0">
+                            <div ng-click="vm.editMaterial(2)" class="btn btn-success border-0">Update Image</div>
+                        </div>
+                        <div class="w-100">
+                            <span ng-repeat="f in vm.fileNames ">{{f}}, </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="box-shadow materialSlider p-3" ng-if="vm.editFlag">
+                    <div class="row m-0">
+                        <div class="form-group col">
+                            <div class="btn btn-success bg-success border-0" ngf-select ng-model="vm.inputFiles" ngf-change="vm.fileUpdated($files, $event)"
+                                name="file" ngf-pattern="'image/*'" ngf-multiple="true" ngf-accept="'image/*'">Upload Images</div>
+                        </div>
+                        <div class="w-100">
+                            <span ng-repeat="f in vm.fileNames ">{{f}}, </span>
+                        </div>
+                    </div>
+                    <div class="imgFile row m-0">
+                        <ul class="slides">
+                            <li ng-repeat="img in vm.matrialData.files" class="mr-3 mb-3">
+                                <img src="{{img.url}}" />
+                                <span class="removeImg" ng-click="vm.removeImg($index)">
+                                    <i class="fas fa-times-circle"></i>
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+             
+            <div class="col-8">
+                <div class="box-shadow materialDetail p-4">
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <input type="text" ng-model="vm.matrialName" value="" disabled class="text-left form-control materialName">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="card bg-success text-white border-0">
+                                <div class="card-body">
+                                    <h5 class="card-title text-center text-uppercase"><i class="fas fa-ruler mr-2"></i> Unit</h5>
+                                    <div class="form-group mb-0">
+                                        <select ng-if="vm.editFlag" class="form-control text-center" ng-model="vm.matrialUnit" name="matrialUnit" id="matrialUnit">
+                                            <option ng-selected="{{vm.matrialUnit == unit.value}}" value="{{unit.value}}" ng-repeat="unit in vm.mUnits">{{unit.name}}</option>
+                                        </select>
+                                        <input ng-if="!vm.editFlag" type="text" value="{{vm.matrialUnit}}" disabled class="text-center form-control">
+                                    </div>
+                                </div>
+                            </div>  
+                        </div>
+                        <div class="col">
+                            <div class="card bg-warning text-white border-0">
+                                <div class="card-body">
+                                    <h5 class="card-title text-center text-uppercase">
+                                        <i class="fas fa-dollar-sign mr-2"></i> Material Cost ({{vm.matrialCurrencyCode}})
+                                    </h5>
+                                    <div class="form-group mb-0">
+                                        <input type="text" ng-model="vm.matrialCost" disabled class="text-center form-control">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card bg-info text-white border-0">
+                                <div class="card-body">
+                                    <h5 class="card-title text-center text-uppercase">
+                                        <i class="fas fa-dollar-sign mr-2"></i> Worker Cost ({{vm.matrialRooferCurrencyCode}})
+                                    </h5>
+                                    <div class="form-group mb-0">
+                                        <input type="text" ng-model="vm.matrialRooferCost" disabled class="text-center form-control">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col">
+                            <div class="card bg-gray text-white border-0">
+                                <div class="card-header text-center">
+                                    <h5 class="text-uppercase">
+                                        <i class="fas fa-file-alt mr-2"></i> Other Details
+                                    </h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <p class="col mb-0">Added By: <strong>{{vm.matrialCreatedBy}}</strong></p>
+                                        <p class="col mb-0">Created On:
+                                            <strong>{{vm.matrialCreatedAt | date}}</strong>
+                                        </p>
+                                        <p class="col mb-0">Updated On:
+                                            <strong>{{vm.matrialUpdatedAt | date}}</strong>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col">
+                            <table class="dataTable table-bordered hover" datatable="ng">
+                                <thead class="bg-success text-white">
+                                    <tr>
+                                        <th class="secondary-text" style="width: 100px;">
+                                            <div class="table-header">
+                                                <span class="column-title">S.No</span>
+                                            </div>
+                                        </th>
+                                        <th class="secondary-text">
+                                            <div class="table-header">
+                                                <span class="column-title">Date</span>
+                                            </div>
+                                        </th>
+                                        <th class="secondary-text">
+                                            <div class="table-header">
+                                                <span class="column-title">Material Cost</span>
+                                            </div>
+                                        </th>
+                                        <th class="secondary-text">
+                                            <div class="table-header">
+                                                <span class="column-title">Worker Cost</span>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="rate in vm.matrialData.rateLog">
+                                        <td class="table-data text-center"> {{$index + 1}} </td>
+                                        <td class="table-data text-center"> {{rate.date | date}} </td>
+                                        <td class="table-data text-center"> {{rate.materialCost.value | roundNum:2}} ({{rate.materialCost.currencyCode}}) </td>
+                                        <td class="table-data text-center"> {{rate.rooferCost.value | roundNum:2}} ({{rate.rooferCost.currencyCode}}) </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </form>
+    </div>
+</div>

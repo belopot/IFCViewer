@@ -1,0 +1,25 @@
+<nav class="navbar navbar-expand-lg navbar-transparent px-5">
+    <a class="navbar-brand" href="#!/dashboard">
+        <img src="/assets/images/logo.png">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="ml-auto loginMenu">
+        <a href="javascript:void(0)" data-toggle="modal" data-target="#loginModal" class="text-uppercase btn btn-warning text-white round-30 px-4 py-2 mr-2"
+            ng-if="!vm.loggedIn">
+            <i class="fas fa-sign-in-alt mr-1"></i> Login</a>
+        <a href="javascript:void(0)" data-toggle="modal" data-target="#registerModal" class="text-uppercase btn btn-success text-white px-4 round-30"
+            ng-if="!vm.loggedIn">
+            <i class="fas fa-user-plus mr-2"></i> Register</a>
+
+        <a href="#!setting" class="text-uppercase btn btn-warning text-white px-4 round-30" ng-if="vm.loggedIn && vm.userData.designation === 'admin'">
+            <i class="fas fa-cog mr-1"></i> Access Setting</a>
+        
+        <!-- <a href="javascript:void(0)" ng-click="vm.logout()" class="text-uppercase btn btn-danger text-white px-4 round-30" ng-if="vm.loggedIn">
+            <i class="fas fa-sign-out-alt float-left mr-1"></i> Signout</a> -->
+        <a href="javascript:void(0)" ng-click="vm.logout()" class="btn btn-danger text-white px-4 py-2"  ng-if="vm.loggedIn">
+            <i class="fas fa-sign-out-alt mr-1"></i> Signout</a>
+    </div>
+</nav>

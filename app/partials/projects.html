@@ -1,0 +1,106 @@
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" crossorigin="anonymous">
+<div id="create_project" class="page-layout simple fullwidth">
+    <header class="topheader mb-4">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <i class="fas fa-bars" style="font-size: 26px;"></i>
+                    <h1 class="logo ml-3">
+                        <a href="#!/dashboard">CloudES</a>
+                    </h1>
+                </div>
+                <div class="col text-right">
+                    <p class="btn btn-default"> Logout </p>
+                </div>
+            </div>
+        </div>
+    </header>
+    <section class="container">
+        <p class="row text-uppercase p-3 rounded text-center addNewProject">
+            <span class="col-11">add new project</span>
+            <small class="col-1 text-right">x</small>
+        </p>
+        <form name="projectDetails" class="projectDetails">
+            <div class="row p-0">
+                <div class="col">
+                    <div class="client mb-4 p-4 w-100">
+                        <h5 class="mb-3">Client</h5>
+                        <select class="custom-select" ng-model="vm.projectData.client" ng-options="c.clientName for c in vm.clients">
+                            <option style="display:none;" value="">Select Client</option>
+
+                        </select>
+                        <button class="btn btn-gray mt-2">+ Add new client</button>
+                    </div>
+                    <div class="project p-4 w-100">
+                        <h5 class="mb-4">Project details</h5>
+                        <div class="form-group">
+                            <label for="project_name">Project Name</label>
+                            <input type="text" class="form-control" ng-model="vm.projectData.projectName" id="project_name" placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <label for="project_description">Project Description</label>
+                            <textarea name="project_description" ng-model="vm.projectData.projectDescription" id="project_description" rows="3"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="address p-4">
+                        <h5 class="mb-2">Address</h5>
+                        <div class="form-group">
+                            <label for="address_line_1">Address Line 1</label>
+                            <input type="text" ng-model="vm.projectData.address.line1" class="form-control" id="address_line_1" placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <label for="address_line_2">Address Line 2</label>
+                            <input type="text" ng-model="vm.projectData.address.line2" class="form-control" id="address_line_2" placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <label for="city">City</label>
+                            <input type="text" ng-model="vm.projectData.address.city" class="form-control" id="city" placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <label for="state">State</label>
+                            <input type="text" ng-model="vm.projectData.address.state" class="form-control" id="state" placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <label for="country">Country</label>
+                            <input type="text" ng-model="vm.projectData.address.countryCode" class="form-control" id="country" placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <label for="zip_code">Zip Code</label>
+                            <input type="text" ng-model="vm.projectData.address.postalCode" class="form-control" id="zip_code" placeholder="">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-5">
+                    <div class="map p-0">
+                        <div class="mapHeader row m-0 py-3">
+                            <div class="col-12 col-md-4">
+                                <h5 class="my-1">Location</h5>
+                            </div>
+                            <div class="col-12 col-md-8">
+                                <input places-auto-complete types="['geocode']" on-place-changed="vm.placeMarker()" />
+                            </div>
+                        </div>
+                        <ng-map center="41,-87" zoom="3">
+                            <marker ng-repeat="m in vm.gmap.markers" position="{{m}}"></marker>
+                        </ng-map>
+                    </div>
+                </div>
+                <div class="w-100"></div>
+                <div class="col my-4 project-footer">
+                    <button class="btn btn-cyan" ng-click="vm.addProject(vm.projectData)">+ Add</button>
+                    <button class="btn btn-orange">x Cancel</button>
+                </div>
+            </div>
+        </form>
+
+    </section>
+
+</div>
+
+<script type="text/ng-template" id="searchbox.tpl.html">
+    <input type="text" placeholder="search" /> 
+</script>
+<!-- Button to Open the Modal -->
+<!-- The Modal -->

@@ -1,0 +1,627 @@
+<link
+  rel="stylesheet"
+  href="/css/src/economicStyle.css"
+  crossorigin="anonymous"
+/>
+
+<div class="wrapper add_item2">
+  <div ng-include="'/partials/economicSidemenu.html'"></div>
+  <div class="wrapper_body invoice_wrapper">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-12">
+          <!-- Ng-include -->
+          <div ng-include="'/partials/economicHeader.html'"></div>
+          <div class="col-12"><h5 class="mt-5 mb-4">Create Invoice</h5></div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="my_items_div create-invoice">
+                <div class="items_header">
+                  <form class="">
+                    <ul class="">
+                      <li>
+                        <div class="form-group">
+                          <label for="exampleInputName2">To</label>
+                          <!--
+                            <input
+                              type="text"
+                              class="form-control"
+                              placeholder=""
+                            />
+                          -->
+
+                          <select
+                            ui-select2
+                            ng-model="vm.createInvoiceData.client"
+                            placeholder="dial code"
+                            class="form-control"
+                            ng-options="cc.clientName for cc in vm.clients"
+                            ng-change="vm.getAllStaffs(vm.createInvoiceData.client._id)"
+                          ></select>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="form-group">
+                          <label for="exampleInputName2">Date</label>
+                          <!--
+                            <input
+                              type="text"
+                              class="form-control"
+                              placeholder=""
+                            />
+                          -->
+                          <input
+                            type="text"
+                            class="form-control date-icon txt_box1 moment-picker-input"
+                            ng-model="vm.createInvoiceData.date"
+                            required=""
+                            start-view="month"
+                            format="YYYY/MM/DD"
+                            data-min-date="vm.todayDate"
+                            ng-model-options="{ updateOn: 'blur' }"
+                            placeholder="Select a date..."
+                            moment-picker="vm.createInvoiceData.date"
+                            tabindex="0"
+                          />
+                        </div>
+                      </li>
+                      <li>
+                        <div class="form-group">
+                          <label for="exampleInputName2">Due Date</label>
+                          <input
+                            type="text"
+                            class="form-control date-icon txt_box2 moment-picker-input"
+                            ng-model="vm.createInvoiceData.dueDate"
+                            required=""
+                            start-view="month"
+                            format="YYYY/MM/DD"
+                            data-min-date="vm.todayDate"
+                            ng-model-options="{ updateOn: 'blur' }"
+                            placeholder="Select a date..."
+                            moment-picker="vm.createInvoiceData.dueDate"
+                            tabindex="0"
+                          />
+                        </div>
+                      </li>
+                      <!--
+                        <li>
+                          <div class="form-group">
+                            <label for="exampleInputName2">Invoice Number</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              placeholder=""
+                            />
+                          </div>
+                        </li>
+                      -->
+                      <li>
+                        <div class="form-group">
+                          <label for="exampleInputName2">Reference</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            placeholder=""
+                            ng-model="vm.createInvoiceData.reference"
+                          />
+                        </div>
+                      </li>
+                    </ul>
+                  </form>
+                </div>
+                <div class="items_body">
+                  <div class="row form-group">
+                    <div class="col-lg-3 col-md-4 col-sm-4">
+                      <div class="control-group">
+                        <label class="control control--checkbox"
+                          >Included terms and conditions
+                          <input
+                            type="checkbox"
+                            checked="checked"
+                            ng-model="vm.createInvoiceData.termsAndConditions"
+                          />
+                          <div class="control__indicator"></div>
+                        </label>
+                      </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4">
+                      <div class="control-group">
+                        <label class="control control--checkbox"
+                          >Create invoice for calculated process
+                          <input
+                            type="checkbox"
+                            checked="checked"
+                            ng-model="vm.createInvoiceData.calculatedProcess"
+                          />
+                          <div class="control__indicator"></div>
+                        </label>
+                      </div>
+                    </div>
+                    <div
+                      class="col-lg-4 col-md-4 col-sm-4"
+                      ng-show="vm.createInvoiceData.calculatedProcess"
+                    >
+                      <div class="form-group">
+                        <label for="exampleInputName2">Email Id</label>
+                        <select
+                          ui-select2
+                          ng-model="vm.createInvoiceData.client.email"
+                          placeholder="dial code"
+                          class="form-control clientEmailPicker"
+                          ng-options="item.email as item.email for item in vm.staffsList"
+                        ></select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="table-responsive">
+                    <table class="table mytbl1">
+                      <thead>
+                        <tr>
+                          <th></th>
+                          <th>Sr.No</th>
+                          <th>Description</th>
+                          <th>Quanity</th>
+                          <th>Unit Price</th>
+                          <th>Disc %</th>
+                          <th>Tax Rate</th>
+                          <th>Sales Incl. Vat</th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody drag-to-reorder-bind="vm.createInvoiceData.items">
+                        <tr
+                          class="rpt_row"
+                          ng-repeat="invoiceItem in vm.createInvoiceData.items track by $index"
+                          dtr-init="true"
+                        >
+                          <td dtr-draggable>
+                            <a href="#">
+                              <img src="/assets/images/icon8.png" alt="..." />
+                            </a>
+                          </td>
+                          <td class="rpt_srNo">{{ $index + 1 }}</td>
+
+                          <td>
+                            <!--
+                              <input
+                                type="text"
+                                ng-model="invoiceItem.description"
+                              />
+                            -->
+                            <tags-input
+                              add-on-enter="true"
+                              max-tags="2"
+                              ng-model="invoiceItem.description"
+                              display-property="name"
+                              key-property="_id"
+                              add-from-autocomplete-only="false"
+                              placeholder=" "
+                              ng-blur="
+                                vm.selectedItem(invoiceItem.description, $index)
+                              "
+                            >
+                              <auto-complete
+                                source="vm.loadFilesToAutoComplete($query)"
+                                display-property="name"
+                              ></auto-complete>
+                            </tags-input>
+                          </td>
+                          <td>
+                            <input
+                              type="number"
+                              ng-model="invoiceItem.quantity"
+                              ng-blur="vm.priceCalculate(invoiceItem.quantity, invoiceItem.discountPercent, invoiceItem.taxRate,$index)"
+                            />
+                          </td>
+                          <td>
+                            <input
+                              type="number"
+                              ng-model="invoiceItem.unitPrice"
+                              ng-value="invoiceItem.unitPrice | roundNumb: 2"
+                            />
+                          </td>
+                          <td>
+                            <input
+                              type="number"
+                              ng-model="invoiceItem.discountPercent"
+                              ng-blur="vm.priceCalculate(invoiceItem.quantity, invoiceItem.discountPercent,invoiceItem.taxRate,$index)"
+                            />
+                          </td>
+                          <td>
+                            <input
+                              type="number"
+                              ng-model="invoiceItem.taxRate"
+                              ng-blur="vm.priceCalculate(invoiceItem.quantity, invoiceItem.discountPercent,invoiceItem.taxRate,$index)"
+                            />
+                          </td>
+                          <td>
+                            <input
+                              type="number"
+                              ng-model="invoiceItem.sales"
+                              ng-value="invoiceItem.sales | roundNumb: 2"
+                            />
+                          </td>
+                          <td>
+                            <a href="" ng-click="vm.removeInvoiceRow($index)"
+                              >x</a
+                            >
+                          </td>
+                        </tr>
+                      </tbody>
+
+                      <!--
+                        <tfoot>
+                          <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>Sub Total</td>
+                            <td>{{ vm.createInvoiceData.totalSales | roundNumb: 2 }}</td>
+                            <td></td>
+                          </tr>
+                          <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>Vat</td>
+                            <td>{{ vm.createInvoiceData.totalTax | roundNumb: 2 }}</td>
+                            <td></td>
+                          </tr>
+                          <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>Total</td>
+                            <td>
+                              {{
+                                vm.createInvoiceData.totalSales +
+                                  vm.createInvoiceData.totalTax | roundNumb: 2
+                              }}
+                            </td>
+                            <td></td>
+                          </tr>
+                        </tfoot>
+                      -->
+                    </table>
+                    <a
+                      href=""
+                      class="btn-cyan float-left"
+                      ng-click="vm.addInvoiceRow()"
+                      >+</a
+                    >
+                  </div>
+                </div>
+                <div class="col-md-4 float-right sumTable">
+                  <div class="row">
+                    <label class="col-xs-12">Sub Total</label>
+                    <span>{{
+                      vm.createInvoiceData.totalSales | roundNumb: 2
+                    }}</span>
+                  </div>
+                  <div class="row">
+                    <label class="col-xs-12">Vat</label>
+                    <span>{{
+                      vm.createInvoiceData.totalTax | roundNumb: 2
+                    }}</span>
+                  </div>
+                  <div class="row">
+                    <label class="col-xs-12 lastRow">Total</label>
+
+                    <span class="lastRow">{{
+                      vm.createInvoiceData.grandTotal() | roundNumb: 2
+                    }}</span>
+                  </div>
+                </div>
+
+                <div class="items_footer">
+                  <ul>
+                    <li>
+                      <div class="dropdown save_approve">
+                        <button
+                          class="btn btn-default dropdown-toggle"
+                          type="button"
+                          id="dropdownMenu1"
+                          data-toggle="dropdown"
+                          aria-haspopup="true"
+                          aria-expanded="true"
+                          ng-click="vm.createInvoice(vm.createInvoiceData)"
+                        >
+                          <img
+                            src="/assets/images/icon9.png"
+                            class="icon_save_approve"
+                            alt="..."
+                          />
+                          Save
+                          <i class="fa fa-angle-down" aria-hidden="true"></i>
+                        </button>
+                        <ul
+                          class="dropdown-menu"
+                          aria-labelledby="dropdownMenu1"
+                        >
+                          <li><a href="">Action</a></li>
+                          <li><a href="">Another</a></li>
+                          <li><a href="">Something</a></li>
+                        </ul>
+                      </div>
+                    </li>
+                    <li>
+                      <div class="dropdown save_approve">
+                        <button
+                          class="btn btn-default dropdown-toggle"
+                          type="button"
+                          id="dropdownMenu1"
+                          data-toggle="dropdown"
+                          aria-haspopup="true"
+                          aria-expanded="true"
+                        >
+                          <img
+                            src="/assets/images/icon10.png"
+                            class="icon_save_approve"
+                            alt="..."
+                          />
+                          Approve
+                          <i class="fa fa-angle-down" aria-hidden="true"></i>
+                        </button>
+                        <ul
+                          class="dropdown-menu"
+                          aria-labelledby="dropdownMenu1"
+                        >
+                          <li><a href="">Action</a></li>
+                          <li><a href="">Another</a></li>
+                          <li><a href="">Something</a></li>
+                        </ul>
+                      </div>
+                    </li>
+                    <li><a href="" class="cancel_btn">X Cancel</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <!--
+              <div class="col-md-6">
+                  <div class="f_block">
+                    <p class="fsize18 f500 txtgrey c_space space15">Client</p>
+                    <select
+                      ui-select2
+                      ng-model="vm.createInvoiceData.client"
+                      placeholder="dial code"
+                      class="form-control"
+                      ng-options="cc.clientName for cc in vm.clients"
+                    ></select>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="f_block">
+                    <p class="fsize18 f500 txtgrey c_space space15">Reference</p>
+                    <input
+                      type="text"
+                      class="form-control txt_box1"
+                      ng-model="vm.createInvoiceData.reference"
+                      readonly
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="f_block">
+                    <p class="fsize18 f500 txtgrey c_space space15">Date</p>
+                    <input
+                      type="text"
+                      class="form-control date-icon txt_box1"
+                      ng-model="vm.createInvoiceData.date"
+                      required
+                      start-view="month"
+                      data-min-date="vm.todayDate"
+                      ng-model-options="{ updateOn: 'blur' }"
+                      format="YYYY-MM-DD"
+                      placeholder="Select a date..."
+                      moment-picker="vm.createInvoiceData.date"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="f_block">
+                    <p class="fsize18 f500 txtgrey c_space space15">Due Date</p>
+                    <input
+                      type="text"
+                      class="form-control date-icon txt_box1"
+                      ng-model="vm.createInvoiceData.dueDate"
+                      required
+                      start-view="month"
+                      data-min-date="vm.todayDate"
+                      ng-model-options="{ updateOn: 'blur' }"
+                      format="YYYY-MM-DD"
+                      placeholder="Select a date..."
+                      moment-picker="vm.createInvoiceData.dueDate"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="row mt-4">
+                <div class="col-md-12">
+                  <div class="table-responsive">
+                    <table class="table mytbl1">
+                      <thead>
+                        <tr>
+                          <th style="width: 50px">S.No</th>
+                          <th>Description</th>
+                          <th style="width: 75px">Qty</th>
+                          <th style="width: 120px">Unit Price</th>
+                          <th style="width: 120px">Disc %</th>
+                          <th style="width: 120px">Tax Rate</th>
+                          <th style="width: 150px">Sales Incl. Vat</th>
+                          <th style="width: 75px"></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr
+                          ng-repeat="item in vm.invoiceItems"
+                          ng-if="vm.invoiceItems.length > 0"
+                        >
+                          <td>{{ $index + 1 }}</td>
+                          <td>{{ item.description }}</td>
+                          <td>{{ item.quantity }}</td>
+                          <td>{{ item.unitPrice | roundNum: 2 }}</td>
+                          <td>{{ item.discountPercent | roundNum: 2 }}</td>
+                          <td>{{ item.taxRate | roundNum: 2 }}</td>
+                          <td>{{ item.sales | roundNum: 2 }}</td>
+                          <td>
+                            <a href="#" ng-click="vm.removeInvoiceItem($index)"
+                              >x</a
+                            >
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>{{ vm.invoiceItems.length + 1 }}</td>
+                          <td>
+
+                            <tags-input
+                              add-on-enter="true"
+                              max-tags="1"
+                              ng-model="vm.selectedFiles"
+                              ng-blur="vm.selectedItem(vm.selectedFiles)"
+                              display-property="name"
+                              key-property="_id"
+                              add-from-autocomplete-only="false"
+                              placeholder="Search for files"
+                            >
+                              <auto-complete
+                                source="vm.loadFilesToAutoComplete($query)"
+                                display-property="name"
+                              ></auto-complete>
+                            </tags-input>
+                          </td>
+                          <td>
+                            <input
+                              type="number"
+                              ng-blur="vm.priceCalculate(vm.addItem.quantity, vm.addItem.discountPercent, vm.addItem.taxRate)"
+                              class="form-control"
+                              ng-model="vm.addItem.quantity"
+                              required
+                            />
+                          </td>
+                          <td>
+                            <input
+                              type="number"
+                              readonly
+                              class="form-control"
+                              ng-model="vm.addItem.unitPrice"
+                              ng-value="vm.addItem.unitPrice | roundNum:2"
+                              required
+                            />
+                          </td>
+                          <td>
+                            <input
+                              type="number"
+                              ng-blur="vm.priceCalculate(vm.addItem.quantity, vm.addItem.discountPercent, vm.addItem.taxRate)"
+                              class="form-control"
+                              ng-model="vm.addItem.discountPercent"
+                              required
+                            />
+                          </td>
+                          <td>
+                            <input
+                              type="number"
+                              ng-blur="vm.priceCalculate(vm.addItem.quantity, vm.addItem.discountPercent, vm.addItem.taxRate)"
+                              class="form-control"
+                              ng-model="vm.addItem.taxRate"
+                              required
+                            />
+                          </td>
+                          <td>
+                            <input
+                              type="number"
+                              readonly
+                              class="form-control"
+                              ng-model="vm.addItem.sales"
+                              ng-value="vm.addItem.sales | roundNum:2"
+                            />
+                          </td>
+                          <td>
+                            <a
+                              href="javascript:void(0)"
+                              ng-click="vm.addInvoiceItem(vm.addItem)"
+                              class="btn btn-info"
+                              >add Item</a
+                            >
+                          </td>
+                        </tr>
+                      </tbody>
+                      <tfoot>
+
+                        <tr>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td>Total</td>
+                          <td class="text-right">0.00</td>
+                          <td></td>
+                        </tr>
+                      </tfoot>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div class="row mt-4">
+                <div class="col-lg-12 text-right">
+                  <button
+                    class="btn btn-info"
+                    ng-click="vm.createInvoice(vm.createInvoiceData)"
+                  >
+                    Create Invoice
+                  </button>
+                </div>
+              </div>
+            -->
+            <div class="space30"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.1.3/owl.carousel.min.js"></script>
+  <script>
+    $(".add_row_items").click(function() {
+      $(".mytbl1 > tbody tr:last").after(
+        "<tr class='rpt_row'><td><a href='#'><img src='/assets/images/icon8.png' alt='...'></a></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td><a href='#'>x</a></td></tr>"
+      );
+    })(function($) {
+      $(".owl-carousel").owlCarousel({
+        loop: true,
+        margin: 10,
+        nav: true,
+        navText: [
+          "<img src='/assets/images/icon_left.png' alt='...'>",
+          "<img src='/assets/images/icon_right.png' alt='...'>"
+        ],
+        autoplay: true,
+        autoplayHoverPause: true,
+        responsive: {
+          0: {
+            items: 1
+          },
+          600: {
+            items: 2
+          },
+          1000: {
+            items: 3
+          }
+        }
+      });
+    })(jQuery);
+  </script>
+</div>

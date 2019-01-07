@@ -1,0 +1,303 @@
+<!-- Modal New issue -->
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <div class="d-flex align-items-center justify-content-between w-100">
+        <h5 class="modal-title f500 txtwhite">New Issue</h5>
+      </div>
+    </div>
+    <div class="modal-body pad0">
+      <div class="d-md-flex">
+        <div class="col-lg-6 col-md-6 pad0">
+          <div class="issue_form ">
+            <div class="f_block">
+              <p class="fsize18 f500 txtgrey c_space space15">Title</p>
+              <input
+                type="text"
+                ng-model="vm.issueData.title"
+                class="form-control animated zoomIn wow"
+                data-wow-delay="0.7s"
+                required
+              />
+            </div>
+            <div class="f_block">
+              <p class="fsize18 f500 txtgrey c_space space15">Description</p>
+              <input
+                type="text"
+                ng-model="vm.issueData.description"
+                class="form-control animated zoomIn wow"
+                data-wow-delay="0.7s"
+                required
+              />
+            </div>
+            <div class="f_block">
+              <p class="fsize18 f500 txtgrey c_space space15">Project</p>
+              <select
+                ui-select2
+                ng-model="vm.issueData.project"
+                placeholder="dial code"
+                class="form-control animated zoomIn wow"
+                data-wow-delay="0.7s"
+                ng-options="cc.projectName for cc in vm.allProjects"
+                required
+              ></select>
+            </div>
+
+            <div class="f_block">
+              <p class="fsize18 f500 txtgrey c_space space15">Issue Category</p>
+              <select
+                ui-select2
+                ng-model="vm.issueData.category"
+                class="form-control animated zoomIn wow"
+                data-wow-delay="0.7s"
+                ng-options="cc for cc in issueCategory"
+                required
+              ></select>
+            </div>
+
+            <div class="f_block">
+              <p class="fsize18 f500 txtgrey c_space space15">Assign To</p>
+              <select
+                multiple
+                ui-select2
+                ng-model="vm.issueData.assignedTo"
+                class="form-control animated zoomIn wow"
+                data-wow-delay="0.7s"
+                ng-options="cc.firstName for cc in vm.allRoofers"
+                required
+              ></select>
+            </div>
+            <div class="f_block">
+              <p class="fsize18 f500 txtgrey c_space space15">
+                Select Priority
+              </p>
+              <select
+                ui-select2
+                ng-model="vm.issueData.issueStatus"
+                placeholder="Select Priority"
+                class="form-control animated zoomIn wow"
+                data-wow-delay="0.7s"
+              >
+                <option style="color:#bd4428;" value="High Priority">
+                  <b>High Priority</b>
+                </option>
+                <option style="color:#fad154" value="Medium Priority">
+                  <b>Medium Priority</b>
+                </option>
+                <option style="color:#f5edd3" value="On Hold">
+                  <b>On Hold</b>
+                </option>
+                <option style="color:#f5edd3" value="Low Priority">
+                  <b>Low Priority</b>
+                </option>
+                <option style="color:#52cab9" value="Completed">
+                  <b>Completed</b>
+                </option>
+              </select>
+            </div>
+
+            <div class="f_block">
+              <p class="fsize18 f500 txtgrey c_space space15">Select Admin</p>
+              <select
+                ui-select2
+                ng-model="vm.issueData.owner"
+                placeholder="Select admin"
+                class="form-control animated zoomIn wow"
+                data-wow-delay="0.7s"
+                ng-options="cc.firstName for cc in vm.allUsers"
+                required
+              ></select>
+            </div>
+            <div class="f_block">
+              <p class="fsize18 f500 txtgrey c_space space15">Dependent On</p>
+              <select
+                ui-select2
+                ng-model="vm.issueData.dependencyOn"
+                placeholder="select issue"
+                class="form-control animated zoomIn wow"
+                data-wow-delay="0.7s"
+                ng-options="cc.title for cc in vm.listOfIssue"
+              ></select>
+            </div>
+            <div class="f_block">
+              <p class="fsize18 f500 txtgrey c_space space15">DeadLine</p>
+              <input
+                type="date"
+                ng-model="vm.issueData.deadLine"
+                class="form-control animated zoomIn wow"
+                data-wow-delay="0.7s"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6 pad0">
+          <script type="text/ng-template" id="example.html">
+            <div class="row m-0">
+              <div class="form-group addDescription">
+                <input type="text" class="form-control" ng-model="description" >
+                <button class="mt-1 btn btn-success btn-sm" ng-click="vm.addDescription(fileIndex, description)"><img src="/assets/images/save-file.png" alt="" /></button>
+              </div>
+            </div>
+          </script>
+          <div class="bg_grey">
+            <div class="d-lg-flex">
+              <div class="col-lg-6 padleft0">
+                <div class="blockOne d-block align-items-end">
+                  <div class="w_100">
+                    <p class="f500 txtgrey fsize18 c_space">Upload Images</p>
+                    <div class="img_box white_block ">
+                      <ul
+                        class="list-unstyled mb-0 uploaded_img"
+                        ng-if="vm.uploadImg.length > 0"
+                      >
+                        <!-- ngRepeat: img in img_upload -->
+                        <li ng-repeat="f in vm.uploadImg">
+                          <div class="img_height">
+                            <img
+                              ngf-src="f"
+                              class="img-fluid animated zoomIn wow"
+                              data-wow-delay=".7s"
+                              alt="image"
+                            />
+                            <div
+                              class="btn-group noteBtn"
+                              role="group"
+                              aria-label="Basic example"
+                            >
+                              <button
+                                ng-click="vm.deleteFile($index, 'image')"
+                                type="button"
+                                class="btn btn-danger"
+                              >
+                                <i class="far fa-trash-alt"></i>
+                              </button>
+                              <button
+                                id="closePopoverImg_{{$index}}"
+                                ng-click="vm.descriptionPopover($index, 'image')"
+                                uib-popover-template="'example.html'"
+                                popover-placement="bottom-right"
+                                popover-is-open="isOpen"
+                                type="button"
+                                class="btn popoverbtn btn-success"
+                              >
+                                <i class="far fa-edit"></i>
+                              </button>
+                            </div>
+                          </div>
+                          <span class="d-block wordWrap">
+                            <strong>{{ f.name }}</strong>
+                          </span>
+                          <span class="d-block wordWrap">{{
+                            f.description
+                          }}</span>
+                        </li>
+                        <!-- end ngRepeat: img in img_upload -->
+                        <hr />
+                      </ul>
+                      <div
+                        class="btn btn_create_issue ripple my-1"
+                        ngf-select
+                        ng-model="vm.inputImg"
+                        ngf-change="vm.fileAdded($files, $event, 'image')"
+                        name="file"
+                        ngf-pattern="'image/*'"
+                        ngf-multiple="true"
+                        ngf-accept="'image/*'"
+                      >
+                        Browse
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6 padright0">
+                <div class="blockOne d-block align-items-end ">
+                  <div class="w_100">
+                    <p class="f500 txtgrey fsize18 c_space">Upload Documents</p>
+                    <div class="img_box white_block ">
+                      <ul
+                        class="mb-0 list-unstyled"
+                        ng-if="vm.uploadFiles.length > 0"
+                      >
+                        <!-- ngRepeat: doc in equipdocuments -->
+                        <li
+                          data-wow-delay=".7s"
+                          ng-repeat="f in vm.uploadFiles"
+                        >
+                          <div class="img_height doc">
+                            <img src="/assets/images/pdf.png" alt="doc-icon" />
+                            <div
+                              class="btn-group noteBtn"
+                              role="group"
+                              aria-label="Basic example"
+                            >
+                              <button
+                                ng-click="vm.deleteFile($index, 'document')"
+                                type="button"
+                                class="btn btn-danger"
+                              >
+                                <i class="far fa-trash-alt"></i>
+                              </button>
+                              <button
+                                id="closePopoverFile_{{$index}}"
+                                ng-click="vm.descriptionPopover($index, 'document')"
+                                uib-popover-template="'example.html'"
+                                popover-placement="bottom-right"
+                                popover-is-open="isOpen"
+                                type="button"
+                                class="btn popoverbtn btn-success"
+                              >
+                                <i class="far fa-edit"></i>
+                              </button>
+                            </div>
+                          </div>
+                          <span class="d-block wordWrap">
+                            <strong>{{ f.name }}</strong>
+                          </span>
+                          <span class="d-block wordWrap">{{
+                            f.description
+                          }}</span>
+                        </li>
+                        <!-- end ngRepeat: doc in equipdocuments -->
+                        <hr class="" />
+                      </ul>
+
+                      <div
+                        class="btn btn_create_issue ripple my-1"
+                        ngf-select
+                        ng-model="vm.inputFiles"
+                        ngf-change="vm.fileAdded($files, $event, 'file')"
+                        name="file"
+                        ngf-pattern="'*.*'"
+                        ngf-multiple="true"
+                        ngf-accept="'*.*'"
+                      >
+                        Browse
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn_create_issue ripple"
+        data-dismiss="modal"
+      >
+        Cancel
+      </button>
+      <button
+        type="button"
+        class="btn btn_create_issue ripple"
+        ng-click="vm.addIssueDetails()"
+      >
+        Create
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,98 @@
+<div ng-include="'/partials/header-new.html'"></div>
+
+<section class="equipment-section new_project sectionbg">
+    <div class="container-fluid">
+        <div class="row out-line-radius m-0">
+            <div class="col-12 pad0">
+                <div class="project-heading">
+                    Add New Project
+                </div>
+                <div class="row m-0">
+                    <div class="col-lg-4 pad0 first-box ">
+                        <div class="pad60">
+                            <h5 class="fsize18 f500 c_space animated fadeInUp">Client</h5>
+                            <div class="dropdown ml-auto taskdrop  zoomIn wow">
+                                <select ui-select2 ng-model="vm.projectData.client" placeholder="dial code" class="form-control" ng-options="cc.clientName for cc in vm.clients"></select>
+
+                            </div>
+                            <button class="btn task_tag ripple ripplePurple">
+                                <img src="/assets/images/plus2.png" class="img-fluid" alt="plus">&nbsp; Add New Client</button>
+                        </div>
+                        <hr>
+                        <div class="pad60">
+                            <h5 class="fsize18 f500 c_space animated fadeInUp">Project Name</h5>
+                            <input type="text" class="form-control txt_box  zoomIn wow" ng-model="vm.projectData.projectName" id="project_name" placeholder="">
+
+                            <h5 class="fsize18 f500 c_space animated fadeInUp space30">Project Description</h5>
+                            <textarea name="project_description" class="form-control txt_box zoomIn wow" ng-model="vm.projectData.projectDescription"
+                                id="project_description" rows="3"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 pad0 second-box">
+                        <div class="pad60">
+                            <h5 class="fsize18 f500 c_space animated fadeInUp">Address Line 1</h5>
+
+                            <input type="text" ng-model="vm.projectData.address.line1" class="form-control txt_box  zoomIn wow" id="address_line_1" placeholder="">
+
+                            <h5 class="fsize18 f500 c_space animated fadeInUp space30">Address Line 2</h5>
+
+                            <input type="text" ng-model="vm.projectData.address.line2" class="form-control txt_box  zoomIn wow" id="address_line_2" placeholder="">
+
+                            <h5 class="fsize18 f500 c_space animated fadeInUp space30">City</h5>
+                            <input type="text" ng-model="vm.projectData.address.city" class="form-control txt_box  zoomIn wow" id="city" placeholder="">
+
+                            <h5 class="fsize18 f500 c_space animated fadeInUp space30">State</h5>
+                            <input type="text" ng-model="vm.projectData.address.state" class="form-control txt_box zoomIn wow" id="state" placeholder="">
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h5 class="fsize18 f500 c_space animated fadeInUp space30">Country</h5>
+                                    <input type="text" ng-model="vm.projectData.address.countryCode" class="form-control txt_box  zoomIn wow" id="country" placeholder="">
+                                </div>
+                                <div class="col-md-6">
+                                    <h5 class="fsize18 f500 c_space animated fadeInUp space30">ZIP Code</h5>
+                                    <input type="text" ng-model="vm.projectData.address.postalCode" class="form-control txt_box  zoomIn wow" id="zip_code" placeholder="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 pad0 third-box">
+                        <div class="pad60">
+                            <h5 class="fsize18 f500 c_space animated fadeInUp">Event Location</h5>
+                            <div class="map-input">
+                                <input places-auto-complete types="['geocode']" class="form-control txt_box zoomIn wow" on-place-changed="vm.placeMarker()"
+                                />
+                                <a data-target="#">
+                                    <img src="/assets/images/map-marker.png" class="marker-img zoomIn wow">
+                                </a>
+                            </div>
+
+                            <div class="space30 map-box zoomIn wow">
+                                <ng-map center="{{vm.gmap.center}}" zoom="{{vm.gmap.zoom}}">
+                                    <marker ng-repeat="m in vm.gmap.markers" draggable="true" on-dragend="vm.updateMarker()" position="{{m}}"></marker>
+                                </ng-map>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row text-right">
+                    <div class="col-md-12">
+                        <ul class="project-btn list-inline mb-0">
+                            <li class="list-inline-item">
+                                <button type="button" class="btn btn_create ripple" data-dismiss="modal">Cancel</button>
+                            </li>
+                            <li class="list-inline-item">
+                                <button type="button" class="btn btn_create ripple" data-dismiss="modal" ng-click="vm.addProject(vm.projectData)">Add project</button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.2/velocity.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.2/velocity.ui.min.js"></script>
+<script type="text/javascript" src="js/custom.js"></script>

@@ -1,0 +1,146 @@
+#calculation .dataTables_wrapper .dataTables_filter,
+#calculation .dataTables_wrapper .dataTables_length,
+#materials .dataTables_wrapper .dataTables_filter,
+#materials .dataTables_wrapper .dataTables_length,
+#payroll .dataTables_wrapper .dataTables_filter,
+#payroll .dataTables_wrapper .dataTables_length {display: none}
+
+#materials .dataTables_wrapper .dataTables_filter { float: left !important; text-align: right;}
+#materials .dataTables_wrapper .dataTables_length { float: right !important; display: none }
+table.dataTable.no-footer, #calculationList, #payrollList, #materialList {border-collapse: collapse}
+#payrollList thead th, #calculationList thead th,
+#materialList thead th { border: 1px solid #3cbdaa; font-weight: normal; font-size: 15px; padding-top: 8px;padding-bottom: 8px; }
+#payrollList td h5, #calculationList td h5,
+#materialList td h5 {font-size: 1rem}
+#payrollList td, #payrollList td p, #calculationList td, #calculationList td p,
+#materialList td, #materialList td p {font-size: 0.8rem;}
+#payrollList .input-group-prepend, #calculationList .input-group-prepend,
+#materialList .input-group-prepend { position: relative; }
+#payrollList .input-group-text, #calculationList .input-group-text,
+#materialList .input-group-text {
+    position: absolute;
+    z-index: 5;
+    top: 0; left: 0;
+    background: none; border: none;
+    margin: 2px;
+    padding: 10px;
+}
+#payrollList input.searchTable, #calculationList input.searchTable,
+#materialList input.searchTable {padding-left: 40px;}
+.btn.bg-success.next {border:0}
+.btn.bg-success.next:hover {background: #2a9c8c !important}
+
+// #materials .nav-tabs .nav-link {border: 1px solid #3cbdaa}
+// #materials .nav-tabs .nav-item.show .nav-link, 
+// #materials .nav-tabs .nav-link:focus,
+// #materials .nav-tabs .nav-link.active { border: 1px solid #3cbdaa; background: #2a9c8c; color: #fff;}
+// #materials .nav-tabs .nav-link:hover {
+//     background: #3cbdaaff
+// }
+// #materials .nav-tabs {border-bottom: 0}
+// #materials .nav-tabs li:first-child .nav-link {border-radius: 6px 0 0 6px;}
+// #materials .nav-tabs li:last-child .nav-link {border-radius: 0px 6px 6px 0;}
+
+// #addMaterial .nav-tabs .nav-item.show .nav-link, 
+// #addMaterial .nav-tabs .nav-link:focus,
+// #addMaterial .nav-tabs .nav-link.active { border:0px; border-bottom: 2px solid #3cbdaa}
+// #addMaterial .nav-tabs .nav-link:hover {
+//     border:0px; border-bottom: 2px solid #dee2e6;
+// }
+#materials .tab-content {border: solid #ccc; border-width: 0px 1px 1px 1px}
+
+#addMaterial .tab-content, #addComboMaterial .tab-content, 
+#addComboMaterial .nav-tabs .nav-item.show .nav-link, #addComboMaterial .nav-tabs .nav-link.active,
+#addComboMaterial .nav-tabs .nav-link:focus, #addComboMaterial .nav-tabs .nav-link:hover,
+#addMaterial .nav-tabs .nav-item.show .nav-link, #addMaterial .nav-tabs .nav-link.active,
+#addMaterial .nav-tabs .nav-link:focus, #addMaterial .nav-tabs .nav-link:hover {border-color: transparent;}
+#addComboMaterial .nav-tabs .nav-link.active, 
+#addComboMaterial .nav-tabs .nav-link:focus, #addComboMaterial .nav-tabs .nav-link:hover,
+#addMaterial .nav-tabs .nav-link.active, 
+#addMaterial .nav-tabs .nav-link:focus, #addMaterial .nav-tabs .nav-link:hover {color: #2259E4}
+#addComboMaterial .nav-tabs .nav-item,
+#addMaterial .nav-tabs .nav-item {margin-bottom: 5px;}
+#addComboMaterial .nav-tabs .nav-item:first-child a,
+#addMaterial .nav-tabs .nav-item:first-child a {text-align: right}
+#addComboMaterial .nav-tabs .nav-item:last-child a
+#addMaterial .nav-tabs .nav-item:last-child a {text-align: left}
+#addComboMaterial .modal-header,
+#addMaterial .modal-header {background: #E3E3E3 !important}
+#addComboMaterial input, #addComboMaterial select,
+#addMaterial input, #addMaterial select { border-radius: 20px }
+
+.light-theme ul li a, .light-theme ul li span {
+    //background: #2259E4;
+    background: #DC3545;
+    color: #fff;
+    border-radius: 0;
+    box-shadow: none;
+    border: none;
+    margin: 0 1px 0 0;
+    padding: 8px 12px;
+}
+.light-theme ul li.active span, .light-theme ul li span, .light-theme ul li .current,
+.light-theme ul li.active span:hover, .light-theme ul li span:hover, .light-theme ul li .current:hover {
+    background: #e9ecef;
+   // color: #2259E4;
+   color: #DC3545;
+}
+.light-theme ul li:first-child span, .light-theme ul li:first-child a {
+    border-radius: 4px 0 0 4px;
+}
+.light-theme ul li:last-child span, .light-theme ul li:last-child a {
+    border-radius: 0 4px 4px 0;
+}
+
+
+uib-tab-heading {font-size: 18px;}
+uib-tab-heading i {background: #eee; border-radius: 50%; padding: 10px 13px}
+uib-tab-heading span.number {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #495057;
+    display: inline-block;
+    font-size: 12px;
+    color: #fff;
+    position: relative;
+    top: -2px;
+}
+
+
+/* Material Detail */
+.materialDetail, .materialSlider {border-radius: 4px; min-height: 40vh }
+.materialSlider {border: 1px solid #bebebe; border-bottom: 5px solid #fec52e;}
+.materialDetail {border-bottom: 5px solid #3ed6ca;}
+.materialDetail .card-title {font-size: 0.9rem !important}
+.materialDetail .form-control:disabled, .materialDetail textarea:disabled,
+.materialDetail input:disabled {background: transparent !important; border:0; color: #fff; font-size: 20px}
+.materialDetail input.materialName { color: #444 !important}
+#slider:hover .flex-direction-nav {display: none}
+.flex-direction-nav a {top: 40% !important; height: 55px !important;}
+.imgFile .slides li {width: 100px; height: 100px; position: relative; float: left;}
+.imgFile .slides li .removeImg {position: absolute; top: -12px; font-size: 16px; right: -8px; color: red;}
+#carousel .slides {background: #e3e3e3 !important; padding: 4px 0}
+#carousel .slides li { margin: 2px !important;}
+#editComboMaterial .modal-body .form-control {border:0px !important; border-bottom: 1px solid #ced4da !important}
+
+#slider .slides li img {width: 390px !important; height: 390px !important; object-fit: cover;}
+
+table.dataTable tr.odd {background: #fff !important;}
+// .table-bordered td, .table-bordered th {border-bottom: 1px solid #fff !important;}
+.table-bordered tbody tr:last-child td {border-bottom: 1px solid #dee2e6 !important}
+.table-bordered tfoot tr td {border-bottom: 1px solid #dee2e6 !important;}
+.addPercentageValue td {padding: .5rem .25rem}
+.addPercentageValue td .form-group {margin-bottom: 0}
+.addPercentageValue td .form-control {padding: .35rem .75rem; font-size: .8rem; line-height: 1;}
+
+.btn-danger.remove {width: 28px; height: 28px; line-height: 25px; padding: 0}
+
+ul li.chip {padding: 5px; list-style: none; background: #e0e0e0; display: inline; border-radius: 6px;}
+#carousel.flexslider .slides img {width: 75px; height: 75px; object-fit: cover;}
+#slider.flexslider {margin-bottom: 0px;}
+
+.thumbImg {width: 110px; height:110px; overflow: hidden; position: relative;}
+.thumbImg img {width:110px; height:110px; object-fit:cover; object-position:center;}
+.thumbImg .removeImg {position: absolute; top: 5px; font-size: 16px; right: 5px; color: red; cursor: pointer;}
+table.dataTable thead>tr>th {padding: 0.75rem !important}

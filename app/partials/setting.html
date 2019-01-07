@@ -1,0 +1,252 @@
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" crossorigin="anonymous">
+<div ng-include="'/partials/header.html'"></div>
+<div id="materials" class="page-content pt-4 page-layout simple fullwidth">
+    <section class="container-fluid mt-4">
+        <div class="row justify-content-md-center" id="materialList">
+            <div class="col-8">
+                <table class="dataTable table-bordered hover" ng-cloak>
+                    <thead class="bg-success text-white">
+                        <tr>
+                            <th>Module List</th>
+                            <th>Minimum Access Level</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <th colspan="2">
+                                <p class="p-1 mb-0">
+                                    <strong>Company Permissions</strong>
+                                </p>
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>Currency </td>
+                            <td>
+                                <select class="form-control" name="currencyPermission" id="currencyPermission" ng-model="vm.privileges.company.currency">
+                                    <option ng-value="0">Admin</option>
+                                    <option ng-value="1">Manager</option>
+                                    <option ng-value="2">Sub-Contrator</option>
+                                    <option ng-value="3">Team Leader</option>
+                                    <option ng-value="4">Worker</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Language </td>
+                            <td>
+                                <select class="form-control" name="languagePermission" id="languagePermission" ng-model="vm.privileges.company.language">
+                                    <option ng-value="0">Admin</option>
+                                    <option ng-value="1">Manager</option>
+                                    <option ng-value="2">Sub-Contrator</option>
+                                    <option ng-value="3">Team Leader</option>
+                                    <option ng-value="4">Worker</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th colspan="2">
+                                <p class="p-1 mb-0">
+                                    <strong>User creation</strong>
+                                </p>
+                            </th>
+                        </tr>
+                        <tr>
+                            <td> Manager </td>
+                            <td>
+                                <select class="form-control" name="userManagePermission" id="userManagePermission" ng-model="vm.privileges.userManagement.manager">
+                                    <option ng-value="0">Admin</option>
+                                    <option ng-value="1">Manager</option>
+                                    <option ng-value="2">Sub-Contrator</option>
+                                    <option ng-value="3">Team Leader</option>
+                                    <option ng-value="4">Worker</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Sub Contractor </td>
+                            <td>
+                                <select class="form-control" name="subContractorPermission" id="subContractorPermission" ng-model="vm.privileges.userManagement.subContractor">
+                                    <option ng-value="0">Admin</option>
+                                    <option ng-value="1">Manager</option>
+                                    <option ng-value="2">Sub-Contrator</option>
+                                    <option ng-value="3">Team Leader</option>
+                                    <option ng-value="4">Worker</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Team Leader </td>
+                            <td>
+                                <select class="form-control" name="teamLeadPermission" id="teamLeadPermission" ng-model="vm.privileges.userManagement.teamLeader">
+                                    <option ng-value="0">Admin</option>
+                                    <option ng-value="1">Manager</option>
+                                    <option ng-value="2">Sub-Contrator</option>
+                                    <option ng-value="3">Team Leader</option>
+                                    <option ng-value="4">Worker</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Worker</td>
+                            <td>
+                                <select class="form-control" name="workerPermission" id="workerPermission" ng-model="vm.privileges.userManagement.worker">
+                                    <option ng-value="0">Admin</option>
+                                    <option ng-value="1">Manager</option>
+                                    <option ng-value="2">Sub-Contrator</option>
+                                    <option ng-value="3">Team Leader</option>
+                                    <option ng-value="4">Worker</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th colspan="2">
+                                <p class="p-1 mb-0">
+                                    <strong>Project Permissions</strong>
+                                </p>
+                            </th>
+                        </tr>
+
+                        <tr>
+                            <td>Create Project </td>
+                            <td>
+                                <select class="form-control" name="createPlanPermission" id="createPlanPermission" ng-model="vm.privileges.project.createProject">
+                                    <option ng-value="0">Admin</option>
+                                    <option ng-value="1">Manager</option>
+                                    <option ng-value="2">Sub-Contrator</option>
+                                    <option ng-value="3">Team Leader</option>
+                                    <option ng-value="4">Worker</option>
+                                </select>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Create Plan </td>
+                            <td>
+                                <select class="form-control" name="createPlanPermission" id="createPlanPermission" ng-model="vm.privileges.project.createPlan">
+                                    <option ng-value="0">Admin</option>
+                                    <option ng-value="1">Manager</option>
+                                    <option ng-value="2">Sub-Contrator</option>
+                                    <option ng-value="3">Team Leader</option>
+                                    <option ng-value="4">Worker</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Create Invoice </td>
+                            <td>
+                                <select class="form-control" name="createInvoicePermission" id="createInvoicePermission" ng-model="vm.privileges.project.createInvoice">
+                                    <option ng-value="0">Admin</option>
+                                    <option ng-value="1">Manager</option>
+                                    <option ng-value="2">Sub-Contrator</option>
+                                    <option ng-value="3">Team Leader</option>
+                                    <option ng-value="4">Worker</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Process Bill </td>
+                            <td>
+                                <select class="form-control" name="processBillPermission" id="processBillPermission" ng-model="vm.privileges.project.processBill">
+                                    <option ng-value="0">Admin</option>
+                                    <option ng-value="1">Manager</option>
+                                    <option ng-value="2">Sub-Contrator</option>
+                                    <option ng-value="3">Team Leader</option>
+                                    <option ng-value="4">Worker</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Create ToDos </td>
+                            <td>
+                                <select class="form-control" name="createTodosPermission" id="createTodosPermission" ng-model="vm.privileges.project.createTodo">
+                                    <option ng-value="0">Admin</option>
+                                    <option ng-value="1">Manager</option>
+                                    <option ng-value="2">Sub-Contrator</option>
+                                    <option ng-value="3">Team Leader</option>
+                                    <option ng-value="4">Worker</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Create Calendar Events</td>
+                            <td>
+                                <select class="form-control" name="createCalenderEventsPermission" id="createCalenderEventsPermission" ng-model="vm.privileges.project.createCalendarEvents">
+                                    <option ng-value="0">Admin</option>
+                                    <option ng-value="1">Manager</option>
+                                    <option ng-value="2">Sub-Contrator</option>
+                                    <option ng-value="3">Team Leader</option>
+                                    <option ng-value="4">Worker</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Create Issues </td>
+                            <td>
+                                <select class="form-control" name="createIssuesPermission" id="createIssuesPermission" ng-model="vm.privileges.project.createIssues">
+                                    <option ng-value="0">Admin</option>
+                                    <option ng-value="1">Manager</option>
+                                    <option ng-value="2">Sub-Contrator</option>
+                                    <option ng-value="3">Team Leader</option>
+                                    <option ng-value="4">Worker</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Create Reports </td>
+                            <td>
+                                <select class="form-control" name="createReportPermission" id="createReportPermission" ng-model="vm.privileges.project.createReports">
+                                    <option ng-value="0">Admin</option>
+                                    <option ng-value="1">Manager</option>
+                                    <option ng-value="2">Sub-Contrator</option>
+                                    <option ng-value="3">Team Leader</option>
+                                    <option ng-value="4">Worker</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Create Meeting Rooms </td>
+                            <td>
+                                <select class="form-control" name="createMeetingRoomPermission" id="createMeetingRoomPermission" ng-model="vm.privileges.project.createMeetingRooms">
+                                    <option ng-value="0">Admin</option>
+                                    <option ng-value="1">Manager</option>
+                                    <option ng-value="2">Sub-Contrator</option>
+                                    <option ng-value="3">Team Leader</option>
+                                    <option ng-value="4">Worker</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Create Clients </td>
+                            <td>
+                                <select class="form-control" name="createClientsPermission" id="createClientsPermission" ng-model="vm.privileges.project.createClients">
+                                    <option ng-value="0">Admin</option>
+                                    <option ng-value="1">Manager</option>
+                                    <option ng-value="2">Sub-Contrator</option>
+                                    <option ng-value="3">Team Leader</option>
+                                    <option ng-value="4">Worker</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Create Offer </td>
+                            <td>
+                                <select class="form-control" name="createOfferPermission" id="createOfferPermission" ng-model="vm.privileges.project.createOffer">
+                                    <option ng-value="0">Admin</option>
+                                    <option ng-value="1">Manager</option>
+                                    <option ng-value="2">Sub-Contrator</option>
+                                    <option ng-value="3">Team Leader</option>
+                                    <option ng-value="4">Worker</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="text-center my-4">
+                    <button class="btn btn-orange" ng-click="vm.goToDashboard()">Cancel</button>
+                    <button class="btn btn-cyan" ng-click="vm.submitRoleSettings(vm.privileges)">Submit</button>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

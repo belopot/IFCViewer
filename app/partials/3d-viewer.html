@@ -1,0 +1,865 @@
+<link href="https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i"
+  rel="stylesheet">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css" integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ"
+  crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
+<link rel="stylesheet" href="../bimsurfer/examples/css/newtheme.css">
+<link rel="stylesheet" href="../bimsurfer/examples/css/style.css">
+<link rel="stylesheet" href="../bimsurfer/examples/css/metadata.css">
+<link rel="stylesheet" href="../bimsurfer/examples/css/tree.css">
+<link rel="stylesheet" href="../bimsurfer/examples/css/newtree.css">
+<link rel="stylesheet" href="../bimsurfer/examples/css/annotation-style.css" />
+
+<!-- include mdl -->
+<link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
+<link rel='stylesheet' href='https://code.getmdl.io/1.3.0/material.indigo-pink.min.css'>
+<script defer src='https://code.getmdl.io/1.3.0/material.min.js'></script>
+<link href='https://fonts.googleapis.com/icon?family=Material+Icons' rel='stylesheet'>
+<!-- <div class="topbar">
+    <a class="topbar-brand" href="#!/dashboard">
+      <img src="../assets/images/logo1024.png" />
+      <label class="navbar-brand-title">
+        <span style="color:black">Cloud</span>
+        <span style="color:#F89603">E</span>
+        <span style="color:#00A5C8">S</span>
+      </label>
+    </a>
+    
+    <div class="menubar">
+      <div class="menuItem">
+        <img src="../assets/images/menubar/menu_equipment.png" />
+        <label>EQUIPMENT</label>
+      </div>
+      <div class="menuItem">
+        <img src="../assets/images/menubar/menu_materials.png" />
+        <label>MATERIALS</label>
+      </div>
+      <div class="menuItem">
+        <img src="../assets/images/menubar/menu_supplier.png" />
+        <label>SUPPLIER</label>
+      </div>
+      <div class="menuItem">
+        <img src="../assets/images/menubar/menu_subcontractors.png" />
+        <label>SUBCONTRACTORS</label>
+      </div>
+      <div class="menuItem">
+        <img src="../assets/images/menubar/menu_visualplan.png" />
+        <label>VISUAL PLAN</label>
+      </div>
+      <div class="menuItem">
+        <img src="../assets/images/menubar/menu_keyfigures.png" />
+        <label>KEY FIGURES</label>
+      </div>
+      <div class="menuItem">
+        <img src="../assets/images/menubar/menu_timeline.png" />
+        <label>TIMELINE</label>
+      </div>
+      <div class="menuItem">
+        <img src="../assets/images/menubar/menu_offers.png" />
+        <label>OFFERS</label>
+      </div>
+      <div class="menuItem">
+        <img src="../assets/images/menubar/menu_budget.png" />
+        <label>BUDGET</label>
+      </div>
+      <div class="menuItem">
+        <img src="../assets/images/menubar/menu_profit.png" />
+        <label>PROFIT, RISK & COST PLANNER</label>
+      </div>
+    </div>
+  </div> -->
+<div class="mainContainer">
+  <div id="modal_dlg_container" class="modalDlgContainer">
+    <!-- Project Open Dialog -->
+    <section id="dlg_openproject" class="dialog dialog-openproject">
+      <header id="dlg_openproject_header" class="dialog-header">
+        <div class="dialog-actions" onclick="closeDlgProject()">
+          <a class="dialog-action dialog-action-dismiss" data-dialog-dismiss></a>
+        </div>
+        <h2 id="dlg_openproject_focus" class="dialog-title">Open Projects</h2>
+      </header>
+      <div class="dialog-body">
+        <div class="scrollable" data-plugin-scrollable>
+          <div class="scrollable-content">
+            <div id="open_project_content">
+              <div id="bimserver_status" class="project-open-status"></div>
+              <div id="project_list"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Upload Dialog -->
+    <section id="dlg_upload" class="dialog dialog-upload">
+      <header id="dlg_upload_header" class="dialog-header">
+        <div class="dialog-actions" onclick="closeDlgUpload()">
+          <a class="dialog-action dialog-action-dismiss" data-dialog-dismiss></a>
+        </div>
+        <h2 id="dlg_upload_focus" class="dialog-title">Upload</h2>
+      </header>
+      <div class="dialog-body">
+        <div class="scrollable" data-plugin-scrollable>
+          <div class="scrollable-content">
+            <div id="upload_content">
+              <div id="upload_content_file">
+                <div class="col-md-12">
+                  <label id="select_filename" style="font-size:1.0em; width:50%;">{{ vm.fileName }}</label>
+                  <div class="btn task_tag ripple ripplePurple" style="font-size:1.0em; margin-top:0px !important;"
+                    ngf-select ng-model="vm.uploadFiles" name="file" ngf-multiple="true" ngf-change="vm.fileUpdated($files, $event)">Add
+                    files...</div>
+                </div>
+              </div>
+              <div id="upload_content_button" style="margin-top:20px;">
+                <div class="col-md-12 text-right">
+                  <button type="button" class="btn btn_create ripple" style="font-size:1.0em" ng-click="vm.preUpload(vm.uploadFiles, vm.nodeObj)">Upload</button>
+                  <button type="button" class="btn btn_create ripple" style="font-size:1.0em" onclick="closeDlgUpload()">Cancel</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="dlg_edittext" class="dialog dialog-edittext">
+      <header class="dialog-header">
+        <div class="dialog-actions" onclick="closeDlgEditText()">
+          <a class="dialog-action dialog-action-dismiss" data-dialog-dismiss></a>
+        </div>
+        <h2 class="dialog-title">Edit Text</h2>
+      </header>
+      <div class="dialog-body">
+        <div class="scrollable" data-plugin-scrollable>
+          <div class="scrollable-content">
+            <label style="font-size:1.2em">Text:</label><br>
+            <input id="text_content" class="form-control form-control-lg" type="text" name="text" value="New Text"><br>
+            <label style="font-size:1.2em">Size</label><br>
+            <input id="text_size" class="form-control form-control-lg" type="number" name="quantity" min="0" max="100"
+              step="1" value="10"><br>
+            <div style="display:inline-flex">
+              <button type="button" class="btn btn_create ripple" data-dismiss="modal" onclick="setValueForText()">Ok</button>
+              <button type="button" class="btn btn_create ripple" data-dismiss="modal" onclick="closeDlgEditText()">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="toptoolbar">
+    <div class="toolbar-group-button" data-toggle="tooltip" data-placement="bottom" title="Drawing Tools" onclick="onShowHideDrawingToolbar()">
+      <img src="../assets/images/toolbar/new_toolbar/drawing_gbutton.png">
+    </div>
+    <div class="toolbar-group-button" data-toggle="tooltip" data-placement="bottom" title="" style="position: absolute; right:10px; top:10px">
+        <img src="../assets/images/toolbar/new_toolbar/-_group.png">
+      </div>
+    <div id="drawing_toolbar_group">
+      <div id="btn_draw_straightline" class="toolbar-icon" data-toggle="tooltip" data-placement="bottom" title="Straight Line">
+        <div class="toolbar-icon-img">
+          <img src="../assets/images/toolbar/new_toolbar/-_Delete copy 66.png" />
+        </div>
+      </div>
+      <div id="btn_draw_freeline" class="toolbar-icon" data-toggle="tooltip" data-placement="bottom" title="Free Hand">
+        <div class="toolbar-icon-img">
+          <img src="../assets/images/toolbar/new_toolbar/-_Delete copy 67.png" />
+        </div>
+      </div>
+      <div id="btn_draw_severalline" class="toolbar-icon" data-toggle="tooltip" data-placement="bottom" title="Several Points">
+        <div class="toolbar-icon-img">
+          <img src="../assets/images/toolbar/new_toolbar/-_Delete copy 68.png" />
+        </div>
+      </div>
+      <div class="toolbar-icon" id="btn_draw_circle" data-toggle="tooltip" data-placement="bottom" title="Circle">
+        <div class="toolbar-icon-img">
+          <img src="../assets/images/toolbar/new_toolbar/circle.png" />
+        </div>
+      </div>
+      <div class="toolbar-icon" id="btn_draw_rect" data-toggle="tooltip" data-placement="bottom" title="Rect">
+        <div class="toolbar-icon-img">
+          <img src="../assets/images/toolbar/new_toolbar/rect.png" />
+        </div>
+      </div>
+      <div id="btn_draw_text" class="toolbar-icon" data-toggle="tooltip" data-placement="bottom" title="Text">
+        <div class="toolbar-icon-img">
+          <img src="../assets/images/toolbar/new_toolbar/-_Delete copy 78.png" />
+        </div>
+      </div>
+      <div id="btn_draw_locationtext" class="toolbar-icon" data-toggle="tooltip" data-placement="bottom" title="Locations Text">
+        <div class="toolbar-icon-img">
+          <img src="../assets/images/toolbar/new_toolbar/-_Delete copy 77.png" />
+        </div>
+      </div>
+      <div id="btn_bucket" class="toolbar-icon" data-toggle="tooltip" data-placement="bottom" title="Color">
+        <div class="toolbar-icon-img">
+          <img src="../assets/images/toolbar/new_toolbar/-_Delete copy 79.png" />
+        </div>
+      </div>
+      <div id="btn_squaremarker" class="toolbar-icon" data-toggle="tooltip" data-placement="bottom" title="Square Marker">
+        <div class="toolbar-icon-img">
+          <img src="../assets/images/toolbar/new_toolbar/-_Delete copy 70.png" />
+        </div>
+      </div>
+      <div id="pushpull" class="toolbar-icon" data-toggle="tooltip" data-placement="bottom" title="Push/Pull">
+        <div class="toolbar-icon-img">
+          <img src="../assets/images/toolbar/new_toolbar/pushpull.png" />
+        </div>
+      </div>
+      <div id="connectcorner" class="toolbar-icon" data-toggle="tooltip" data-placement="bottom" title="ConnectCorner">
+        <div class="toolbar-icon-img">
+          <img src="../assets/images/toolbar/new_toolbar/connectcorner.png" />
+        </div>
+      </div>
+      <div id="rotateentity" class="toolbar-icon" data-toggle="tooltip" data-placement="bottom" title="Rotate">
+        <div class="toolbar-icon-img">
+          <img src="../assets/images/toolbar/new_toolbar/18.png" />
+        </div>
+      </div>
+    </div>
+    <div class="camview-toolbar">
+      <div class="item">
+        <div class="dropdown">
+          <button class="top-toolbar-btn" type="button" data-toggle="dropdown" aria-expanded="false" onclick="onCheckCam()">
+            <img src="../assets/images/toolbar/video-camera.png">
+            <label>Cameras</label>
+          </button>
+          <div id="cam_menu" class="dropdown-menu">
+            <a id="chk_cam_persp" class="dropdown-item submenu px-2" onclick="onCheckCameras('perspective')"><i id="chk_persp"
+                class="fas fa-check fa-sm text-success"></i>Perspective&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;P</a>
+            <a id="chk_cam_ortho" class="dropdown-item submenu px-2" onclick="onCheckCameras('ortho')"><i id="chk_ortho"
+                class="fas fa-sm text-success"></i>Orthographic&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;O</a>
+            <a id="chk_cam_top" class="dropdown-item submenu px-2" onclick="onCheckCameras('top')"><i id="chk_top"
+                class="fas fa-sm text-success"></i>Top&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Num
+              1</a>
+            <a id="chk_cam_bottom" class="dropdown-item submenu px-2" onclick="onCheckCameras('bottom')"><i id="chk_bottom"
+                class="fas fa-sm text-success"></i>Bottom&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Num
+              2</a>
+            <a id="chk_cam_front" class="dropdown-item submenu px-2" onclick="onCheckCameras('front')"><i id="chk_front"
+                class="fas fa-sm text-success"></i>Front&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Num
+              3</a>
+            <a id="chk_cam_back" class="dropdown-item submenu px-2" onclick="onCheckCameras('back')"><i id="chk_back"
+                class="fas fa-sm text-success"></i>Back&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Num
+              4</a>
+            <a id="chk_cam_left" class="dropdown-item submenu px-2" onclick="onCheckCameras('left')"><i id="chk_left"
+                class="fas fa-sm text-success"></i>Left&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Num
+              5</a>
+            <a id="chk_cam_right" class="dropdown-item submenu px-2" onclick="onCheckCameras('right')"><i id="chk_right"
+                class="fas fa-sm text-success"></i>Right&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Num
+              6</a>
+          </div>
+        </div>
+      </div>
+      <div class="separator-camview"></div>
+      <div class="item">
+        <div class="dropdown">
+          <button class="top-toolbar-btn" type="button" data-toggle="dropdown" aria-expanded="false" onclick="onCheckView()">
+            <img src="../assets/images/toolbar/views.png">
+            <label>&nbsp;Views&nbsp;</label>
+          </button>
+          <div id="view_menu" class="dropdown-menu" style="right:-110px">
+            <a id="chk_view_shaded" class="dropdown-item submenu px-2" onclick="onCheckViews('shaded')"><i id="chk_shaded"
+                class="fas fa-check fa-sm text-success"></i>Shaded</a>
+            <a id="chk_view_wire" class="dropdown-item submenu px-2" onclick="onCheckViews('wire')"><i id="chk_wire"
+                class="fas fa-sm text-success"></i>Wireframe</a>
+            <a id="chk_view_transp" class="dropdown-item submenu px-2" onclick="onCheckViews('transp')"><i id="chk_transp"
+                class="fas fa-sm text-success"></i>Transparence</a>
+            <a id="chk_view_edge" class="dropdown-item submenu px-2" onclick="onCheckViews('edge')"><i id="chk_edge"
+                class="fas fa-sm text-success"></i>Edged Faces</a>
+            <a id="chk_view_grid" class="dropdown-item submenu px-2" onclick="onCheckViews('grid')"><i id="chk_grid"
+                class="fas fa-check fa-sm text-success"></i>Grid</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="viewContainer" id="toolbarContainer">
+    <div class="leftPart">
+      <div id="left_toolbar" class="left-toolbar">
+        <div id="btn_orbit" class="toolbar-icon" onclick="onbtnOrbit()" data-toggle="tooltip" data-placement="right"
+          title="Orbit">
+          <div class="toolbar-icon-img">
+            <img src="../assets/images/toolbar/new_toolbar/orbit.png" />
+          </div>
+        </div>
+        <div id="btn_split" class="toolbar-icon" onclick="" data-toggle="tooltip" data-placement="right" title="Split">
+          <div class="toolbar-icon-img">
+            <img src="../assets/images/toolbar/new_toolbar/split.png" />
+          </div>
+        </div>
+        <div id="btn_home" class="toolbar-icon" onclick="" data-toggle="tooltip" data-placement="right" title="Home">
+          <div class="toolbar-icon-img">
+            <img src="../assets/images/toolbar/new_toolbar/home.png" />
+          </div>
+        </div>
+        <div id="btn_pan" class="toolbar-icon" onclick="onbtnPanMove()" data-toggle="tooltip" data-placement="right"
+          title="Pan">
+          <div class="toolbar-icon-img">
+            <img src="../assets/images/toolbar/new_toolbar/panmove.png" />
+          </div>
+        </div>
+        <div id="btn_open_project" class="toolbar-icon" data-toggle="tooltip" data-placement="right" title="Open Project">
+          <div class="toolbar-icon-img">
+            <img src="../assets/images/toolbar/new_toolbar/openproject.png" />
+          </div>
+        </div>
+        <div id="btn_upload" class="toolbar-icon" data-toggle="tooltip" data-placement="right" title="Upload">
+          <div class="toolbar-icon-img">
+            <img src="../assets/images/toolbar/new_toolbar/-_Delete copy 80.png" />
+          </div>
+        </div>
+        <div id="btn_picker" class="toolbar-icon" onclick="onbtnPicker()" data-toggle="tooltip" data-placement="right"
+          title="Picker">
+          <div class="toolbar-icon-img">
+            <img src="../assets/images/toolbar/new_toolbar/-_Delete copy 65.png" />
+          </div>
+        </div>
+        <div class="toolbar-group-button small-group-button" data-toggle="tooltip" data-placement="right" title="Switch 2D/3D">
+          <img src="../assets/images/toolbar/new_toolbar/switch.png">
+        </div>
+
+        <div class="toolbar-group-button small-group-button" data-toggle="tooltip" data-placement="right" title="Measure" onclick="onShowHideMeasureToolbar()">
+          <img src="../assets/images/toolbar/new_toolbar/measure.png">
+        </div>
+
+        <div id="measure_toolbar_group" class="toolbar-group inline-table">
+          <div id="btn_calc_targetlength" class="toolbar-icon" data-toggle="tooltip" data-placement="right" title="Length">
+            <div class="toolbar-icon-img">
+              <img src="../assets/images/toolbar/new_toolbar/targetlength.png" />
+            </div>
+          </div>
+          <div id="btn_calc_vertexcalibrate" class="toolbar-icon" data-toggle="tooltip" data-placement="right" title="Vertex Calibrate">
+            <div class="toolbar-icon-img">
+              <img src="../assets/images/toolbar/new_toolbar/vertexlength.png" />
+            </div>
+          </div>
+          <div id="btn_calc_edgecalibrate" class="toolbar-icon" data-toggle="tooltip" data-placement="right" title="Edge Calibrate">
+            <div class="toolbar-icon-img">
+              <img src="../assets/images/toolbar/new_toolbar/edgelength.png" />
+            </div>
+          </div>
+          <div id="btn_calc_volume" class="toolbar-icon" data-toggle="tooltip" data-placement="right" title="Volume">
+            <img class="toolbar-icon-img" src="../assets/images/toolbar/new_toolbar/volume.png" />
+          </div>
+          <div id="btn_calc_sameplane" class="toolbar-icon" data-toggle="tooltip" data-placement="right" title="Same Plane">
+            <div class="toolbar-icon-img">
+              <img src="../assets/images/toolbar/new_toolbar/sameplane.png" />
+            </div>
+          </div>
+          <div id="btn_calc_totalarea" class="toolbar-icon" data-toggle="tooltip" data-placement="right" title="Total Area">
+            <div class="toolbar-icon-img">
+              <img src="../assets/images/toolbar/new_toolbar/totalarea.png" />
+            </div>
+          </div>
+
+          <div id="btn_calc_angle" class="toolbar-icon" data-toggle="tooltip" data-placement="right" title="Angle Measure">
+            <div class="toolbar-icon-img">
+              <img src="../assets/images/toolbar/new_toolbar/-_Delete copy 69.png" />
+            </div>
+          </div>
+          <div id="btn_calc_circle_diameter" class="toolbar-icon" data-toggle="tooltip" data-placement="right" title="Diameter">
+            <div class="toolbar-icon-img">
+              <img src="../assets/images/toolbar/new_toolbar/-_Delete copy 72.png" />
+            </div>
+          </div>
+          <!-- <div id="btn_calc_circle_circum" class="toolbar-icon" data-toggle="tooltip" data-placement="right" title="Circumference">
+              <div class="toolbar-icon-img">
+                <img src="../assets/images/toolbar/new_toolbar/-_Delete copy 71.png" />
+              </div>
+            </div> -->
+
+          <!-- <div id="btn_calc_commonlength" class="toolbar-icon" data-toggle="tooltip" data-placement="right" title="Common Length">
+            <div class="toolbar-icon-img">
+              <img src="../assets/images/toolbar/new_toolbar/commonlength.png" />
+            </div>
+          </div> -->
+          <!-- <div id="btn_delete_dimension" class="toolbar-icon" data-toggle="tooltip" data-placement="right" title="Delete All Dimensions">
+            <div class="toolbar-icon-img">
+              <img src="../assets/images/toolbar/new_toolbar/-_Delete copy 75.png" />
+            </div>
+          </div> -->
+        </div>
+        <div id="btn_new_project" class="toolbar-group-button" style="position:absolute; bottom:30px" data-toggle="tooltip"
+          data-placement="top" title="New Project">
+          <img src="../assets/images/toolbar/new_toolbar/newproject.png" />
+        </div>
+        <div id="btn_rendering" class="toolbar-group-button" style="position:absolute; bottom:30px; left: 5em;" data-toggle="tooltip"
+          data-placement="top" title="Rendering">
+          <img src="../assets/images/toolbar/new_toolbar/rendering.png" />
+        </div>
+        <!-- <div id="btn_save_project" class="toolbar-icon" data-toggle="tooltip" data-placement="right" title="Save Project">
+          <div class="toolbar-icon-img">
+            <img src="../assets/images/toolbar/new_toolbar/saveproject.png" />
+          </div>
+        </div> -->
+
+      </div>
+    </div>
+    <div class="viewerPart">
+      <iframe scrolling="no" src="../bimsurfer/bimsurfer.html" id="bimviewer" frameborder="0" oncontextmenu="return false;">
+      </iframe>
+    </div>
+    <div class="rightPart">
+      <!-- Components dialog -->
+      <section class="card">
+        <header class="card-header">
+          <div class="card-actions">
+            <a class="card-action card-action-toggle" data-card-toggle></a>
+          </div>
+          <label class="card-title">Components</label>
+        </header>
+        <div class="card-body">
+          <div class="top-part">
+            <table>
+              <tbody>
+                <tr style="height:70%">
+                  <td id="td_component_preview">
+                    <div style="width: 160px;text-align: center;left: 100px;margin-left: 80px;">
+                      <img src="../assets/images/dialog/sample.png">
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="btn-group flex-wrap dropdown">
+                      <button id="btn_component_select" type="button" class="mb-1 mt-1 mr-1 dropdown-btn btn-default"
+                        data-toggle="dropdown">Select<i class="caret"></i></button>
+                      <div id="component_names" class="dropdown-menu">
+                      </div>
+                    </div>
+                    <div class="btn-group flex-wrap">
+                      <input id="component_name" type="text" class="component-name">
+                    </div>
+                    <div class="edit-icon"><img src="../assets/images/dialog/edit.png" /></div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="separator-horizontal" style="position:relative;top:-5px;"></div>
+          <div class="bottom-part">
+            <input type="text" class="search" placeholder="Search" id="inputComponentSearch">
+            <div class="component-lists">
+              <div id="component_list" class="component-list">
+              </div>
+              <textarea id="component_tip" rows="4" cols="50" class="component-tip"></textarea>
+            </div>
+            <div class="component-control">
+              <div class="view-3d">
+                <img src="../assets/images/dialog/3D.png" />
+              </div>
+              <div class="up-arrow">
+                <img src="../assets/images/dialog/up-arrow.png" />
+              </div>
+              <div class="down-arrow">
+                <img src="../assets/images/dialog/down-arrow.png" />
+              </div>
+              <div class="save">
+                <img src="../assets/images/dialog/save.png" />
+              </div>
+            </div>
+          </div>
+          <div class="separator-horizontal"></div>
+          <div class="story-measure">
+            <div class="measure-item">
+              <div class="preview">
+                <div class="image">
+                  <img src="../assets/images/dialog/sample.png">
+                </div>
+              </div>
+              <div class="measure">
+                <label class="name">Connection surface</label>
+                <div class="btn-group flex-wrap dropdown value">
+                  <button type="button" class="mb-1 mt-1 mr-1 dropdown-btn btn-default border-none" data-toggle="dropdown">5000mm<i
+                      class="caret"></i></button>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> 5000mm</a>
+                    <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> 5000mm</a>
+                    <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> 5000mm</a>
+                    <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> 5000mm</a>
+                    <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> 5000mm</a>
+                    <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> 5000mm</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="measure-item">
+              <div class="preview">
+                <div class="image">
+                  <img src="../assets/images/dialog/sample.png">
+                </div>
+              </div>
+              <div class="measure">
+                <label class="name">Hight</label>
+                <div class="btn-group flex-wrap dropdown value">
+                  <button type="button" class="mb-1 mt-1 mr-1 dropdown-btn btn-default border-none" data-toggle="dropdown">5000mm<i
+                      class="caret"></i></button>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> 5000mm</a>
+                    <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> 5000mm</a>
+                    <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> 5000mm</a>
+                    <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> 5000mm</a>
+                    <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> 5000mm</a>
+                    <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> 5000mm</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="measure-item">
+              <div class="preview">
+                <div class="image">
+                  <img src="../assets/images/dialog/sample.png">
+                </div>
+              </div>
+              <div class="measure">
+                <label class="name">Wide</label>
+                <div class="btn-group flex-wrap dropdown value">
+                  <button type="button" class="mb-1 mt-1 mr-1 dropdown-btn btn-default border-none" data-toggle="dropdown">5000mm<i
+                      class="caret"></i></button>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> 5000mm</a>
+                    <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> 5000mm</a>
+                    <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> 5000mm</a>
+                    <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> 5000mm</a>
+                    <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> 5000mm</a>
+                    <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> 5000mm</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="measure-item">
+              <div class="preview">
+                <div class="image">
+                  <img src="../assets/images/dialog/sample.png">
+                </div>
+              </div>
+              <div class="measure">
+                <label class="name">Length</label>
+                <div class="btn-group flex-wrap dropdown value">
+                  <button type="button" class="mb-1 mt-1 mr-1 dropdown-btn btn-default border-none" data-toggle="dropdown">5000mm<i
+                      class="caret"></i></button>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> 5000mm</a>
+                    <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> 5000mm</a>
+                    <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> 5000mm</a>
+                    <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> 5000mm</a>
+                    <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> 5000mm</a>
+                    <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> 5000mm</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- Materials and colors dialog -->
+      <section class="card">
+        <header class="card-header">
+          <div class="card-actions">
+            <a class="card-action card-action-toggle" data-card-toggle></a>
+          </div>
+
+          <label class="card-title">Materials and Colors</label>
+        </header>
+        <div class="card-body">
+          <div class="top-part">
+            <table>
+              <tbody>
+                <tr style="height:70%">
+                  <td id="td_material_preview">
+                    <div style="width: 160px;text-align: center;left: 100px;margin-left: 80px;">
+                      <img src="../assets/images/dialog/sample.png">
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="btn-group flex-wrap">
+                      <button id="btn_material_select" type="button" class="mb-1 mt-1 mr-1 dropdown-btn btn-default"
+                        data-toggle="dropdown">Select<i class="caret"></i></button>
+                      <div id="material_names" class="dropdown-menu" role="menu">
+                        <!-- <a class="dropdown-item small px-2 material-name"><i class="fas fa-sm text-success"></i> Material1</a> -->
+                      </div>
+                    </div>
+
+                    <div class="btn-group flex-wrap">
+                      <button type="button" class="mb-1 mt-1 mr-1 dropdown-btn btn-default">Edit</button>
+                    </div>
+                    <div id="btn_edit_material" class="edit-icon"><img src="../assets/images/dialog/edit.png" /></div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="separator-horizontal" style="position:relative;top:-5px;"></div>
+          <div class="bottom-part">
+            <input type="text" class="search" placeholder="Search" id="inputMaterialSearch">
+            <div id="material_list" class="material-list">
+              <div class="material-sample-icon"><img src="../assets/images/dialog/sample.png"></div>
+              <div class="material-sample-icon"><img src="../assets/images/dialog/sample.png"></div>
+              <div class="material-sample-icon"><img src="../assets/images/dialog/sample.png"></div>
+              <div class="material-sample-icon"><img src="../assets/images/dialog/sample.png"></div>
+              <div class="material-sample-icon"><img src="../assets/images/dialog/sample.png"></div>
+              <div class="material-sample-icon"><img src="../assets/images/dialog/sample.png"></div>
+              <div class="material-sample-icon"><img src="../assets/images/dialog/sample.png"></div>
+              <div class="material-sample-icon"><img src="../assets/images/dialog/sample.png"></div>
+              <div class="material-sample-icon"><img src="../assets/images/dialog/sample.png"></div>
+              <div class="material-sample-icon"><img src="../assets/images/dialog/sample.png"></div>
+              <div class="material-sample-icon"><img src="../assets/images/dialog/sample.png"></div>
+              <div class="material-sample-icon"><img src="../assets/images/dialog/sample.png"></div>
+
+            </div>
+            <div class="material-control">
+              <div class="up-arrow">
+                <img src="../assets/images/dialog/up-arrow.png" />
+              </div>
+              <div class="down-arrow">
+                <img src="../assets/images/dialog/down-arrow.png" />
+              </div>
+              <div class="save">
+                <img src="../assets/images/dialog/save.png" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <section id="dlg_edit_materials" class="dialog dialog-edit-materials" style="display:none">
+          <header class="edit-header">
+            <div class="dialog-actions" onclick="getElementById('dlg_edit_materials').style.display = 'none'">
+              <a class="dialog-action dialog-action-dismiss" data-dialog-dismiss></a>
+            </div>
+            <div id="edit_mat_name"></div>
+          </header>
+          <div class="dialog-body">
+            <div class="scrollable" data-plugin-scrollable>
+              <div class="scrollable-content">
+                <div>
+                  <table class="table table-responsive-md mb-0">
+                    <tbody id="edit_mat_values">
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </section>
+      <!-- Collision check -->
+      <section class="card">
+        <header class="card-header">
+          <div class="card-actions">
+            <a class="card-action card-action-toggle" data-card-toggle></a>
+          </div>
+
+          <label class="card-title">Collision Check</label>
+        </header>
+        <div class="card-body">
+          <div class="top-part">
+            <table>
+              <tbody>
+                <tr style="height:70%">
+                  <td>
+                    <div style="width: 140px;text-align: center;left: 100px;margin-left: 80px;">
+                      <img src="../assets/images/dialog/collision.png">
+                    </div>
+                    <!-- <canvas id = "material_preview" class="material-preview"></canvas> -->
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="btn-group flex-wrap">
+                      <button type="button" class="mb-1 mt-1 mr-1 dropdown-btn btn-default" data-toggle="dropdown">Select<i
+                          class="caret"></i></button>
+                      <div class="dropdown-menu" role="menu">
+                        <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i>
+                          Collision</a>
+                        <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i>
+                          Collision</a>
+                        <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i>
+                          Collision</a>
+                        <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i>
+                          Collision</a>
+                        <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i>
+                          Collision</a>
+                      </div>
+                    </div>
+                    <div class="btn-group flex-wrap">
+                      <button type="button" class="mb-1 mt-1 mr-1 dropdown-btn btn-default">Edit</button>
+                    </div>
+                    <!-- <div class="edit-icon"><img src="../assets/images/dialog/edit.png"/></div> -->
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="separator-horizontal" style="position:relative;top:-5px;"></div>
+          <div class="collision-bottom">
+            <input type="text" class="search" placeholder="Search" id="inputCollisionSearch">
+            <div class="collision-list">
+              <div class="toggle toggle-primary" data-plugin-toggle>
+                <section class="toggle active">
+                  <label class="collision-sub">
+                    <div class="eye-small" style="display: none;"><img src="../assets/images/dialog/eye_small.png"></div>
+                    <div class="eye-large"><img src="../assets/images/dialog/eye_large.png"></div>
+                    <div class="subtitle">Collision1</div>
+                    <div class="preview"><img src="../assets/images/dialog/collision.png"></div>
+                  </label>
+                  <div class="separator-horizontal-light"></div>
+                  <div class="toggle-content">
+                    <div class="preview">
+                      <img src="../assets/images/dialog/collision_sample.png">
+                      <div class="edit-icon"><img src="../assets/images/dialog/edit.png"></div>
+                    </div>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pellentesque neque eget
+                      diam
+                      posuere porta. Quisque ut nulla at nunc lacinia. Proin adipiscing porta
+                      tellus, ut feugiat nibh adipiscing sit amet.</p>
+                  </div>
+                </section>
+                <section class="toggle">
+                  <label class="collision-sub">
+                    <div class="eye-small"><img src="../assets/images/dialog/eye_small.png"></div>
+                    <div class="eye-large" style="display: none;"><img src="../assets/images/dialog/eye_large.png"></div>
+                    <div class="subtitle">Collision2</div>
+                    <div class="preview"><img src="../assets/images/dialog/collision.png"></div>
+                  </label>
+                  <div class="separator-horizontal-light"></div>
+                  <div class="toggle-content">
+                    <div class="preview">
+                      <img src="../assets/images/dialog/collision_sample.png">
+                      <div class="edit-icon"><img src="../assets/images/dialog/edit.png"></div>
+                    </div>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pellentesque neque eget
+                      diam
+                      posuere porta. Quisque ut nulla at nunc lacinia. Proin adipiscing porta
+                      tellus, ut feugiat nibh adipiscing sit amet.</p>
+                  </div>
+                </section>
+                <section class="toggle">
+                  <label class="collision-sub">
+                    <div class="eye-small"><img src="../assets/images/dialog/eye_small.png"></div>
+                    <div class="eye-large" style="display: none;"><img src="../assets/images/dialog/eye_large.png"></div>
+                    <div class="subtitle">Collision3</div>
+                    <div class="preview"><img src="../assets/images/dialog/collision.png"></div>
+                  </label>
+                  <div class="separator-horizontal-light"></div>
+                  <div class="toggle-content">
+                    <div class="preview">
+                      <img src="../assets/images/dialog/collision_sample.png">
+                      <div class="edit-icon"><img src="../assets/images/dialog/edit.png"></div>
+                    </div>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pellentesque neque eget
+                      diam
+                      posuere porta. Quisque ut nulla at nunc lacinia. Proin adipiscing porta
+                      tellus, ut feugiat nibh adipiscing sit amet.</p>
+                  </div>
+                </section>
+                <section class="toggle">
+                  <label class="collision-sub">
+                    <div class="eye-small"><img src="../assets/images/dialog/eye_small.png"></div>
+                    <div class="eye-large" style="display: none;"><img src="../assets/images/dialog/eye_large.png"></div>
+                    <div class="subtitle">Collision4</div>
+                    <div class="preview"><img src="../assets/images/dialog/collision.png"></div>
+                  </label>
+                  <div class="separator-horizontal-light"></div>
+                  <div class="toggle-content">
+                    <div class="preview">
+                      <img src="../assets/images/dialog/collision_sample.png">
+                      <div class="edit-icon"><img src="../assets/images/dialog/edit.png"></div>
+                    </div>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pellentesque neque eget
+                      diam
+                      posuere porta. Quisque ut nulla at nunc lacinia. Proin adipiscing porta
+                      tellus, ut feugiat nibh adipiscing sit amet.</p>
+                  </div>
+                </section>
+                <section class="toggle">
+                  <label class="collision-sub">
+                    <div class="eye-small"><img src="../assets/images/dialog/eye_small.png"></div>
+                    <div class="eye-large" style="display: none;"><img src="../assets/images/dialog/eye_large.png"></div>
+                    <div class="subtitle">Collision5</div>
+                    <div class="preview"><img src="../assets/images/dialog/collision.png"></div>
+                  </label>
+                  <div class="separator-horizontal-light"></div>
+                  <div class="toggle-content">
+                    <div class="preview">
+                      <img src="../assets/images/dialog/collision_sample.png">
+                      <div class="edit-icon"><img src="../assets/images/dialog/edit.png"></div>
+                    </div>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pellentesque neque eget
+                      diam
+                      posuere porta. Quisque ut nulla at nunc lacinia. Proin adipiscing porta
+                      tellus, ut feugiat nibh adipiscing sit amet.</p>
+                  </div>
+                </section>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- Structures -->
+      <section class="card">
+        <header class="card-header">
+          <div class="card-actions">
+            <a class="card-action card-action-toggle" data-card-toggle></a>
+          </div>
+
+          <label class="card-title">Structures</label>
+        </header>
+        <div class="card-body">
+          <div id="dlg_structures_content" class="scrollable-content">
+          </div>
+      </section>
+      <!-- Layers -->
+      <section class="card">
+        <header class="card-header">
+          <div class="card-actions">
+            <a class="card-action card-action-toggle" data-card-toggle></a>
+          </div>
+
+          <label class="card-title">Layers</label>
+        </header>
+        <div class="card-body">
+          <table class="layertable">
+            <thead class="text-dark">
+            </thead>
+            <tbody id="dlg_layers_content">
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <!-- Types -->
+      <section class="card">
+        <header class="card-header">
+          <div class="card-actions">
+            <a class="card-action card-action-toggle" data-card-toggle></a>
+          </div>
+
+          <label class="card-title">Types</label>
+        </header>
+        <div class="card-body">
+          <table class="typetable">
+            <thead class="text-dark">
+            </thead>
+            <tbody id="dlg_types_content">
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </div>
+  <div id="viewerStatus">
+  </div>
+</div>
+
+<!-- Theme Base, Components and Settings -->
+<script src="../bimsurfer/examples/js/modernizr.js"></script>
+<script src="../bimsurfer/examples/js/jquery.browser.mobile.js"></script>
+<script src="../bimsurfer/examples/js/popper.min.js"></script>
+<script src="../bimsurfer/examples/js/common.js"></script>
+<script src="../bimsurfer/examples/js/nanoscroller.js"></script>
+<script src="../bimsurfer/examples/js/jquery.magnific-popup.js"></script>
+<script src="../bimsurfer/examples/js/jquery-placeholder.js"></script>
+<script src="../bimsurfer/examples/js/theme.js"></script>
+<script src="../bimsurfer/examples/js/theme.init.js"></script>
+<script src="../bimsurfer/examples/js/vanilla-picker.js"></script>
+<script src="../bimsurfer/src/3d-viewer.js"></script>
+<script src="../bimsurfer/lib/three.js"></script>

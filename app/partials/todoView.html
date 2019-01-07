@@ -1,0 +1,63 @@
+<div ng-include="'/partials/header-new.html'"></div>
+
+<section class="subcontractor-detail todo_list_sec sectionbg heightfull">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <div class="outlineblock animated fadeInUp" data-wow-delay="0.3s">
+          <div class="d-md-flex">
+            <div class="col-lg-4 col-md-5 pad0 text-center left_part">
+              <img
+                src="/assets/images/To-Do-Icon-big.png"
+                class="img-fluid d-block m-auto"
+              />
+              <!-- {{todo}} ---- {{todo.durationTime}} -->
+              <h4 class="todo-title">
+                {{
+                  todo.markAsDone || todo.durationTime <= 0
+                    ? "Expired"
+                    : todo.durationTime > 0 && !todo.markAsDone
+                    ? "Complete In"
+                    : ""
+                }}
+              </h4>
+              <ul
+                class="list-unstyled issue_list todo_deatil"
+                ng-if="!todo.markAsDone&&todo.durationTime>0"
+              >
+                <li class="red-color d-block m-auto">
+                  <p class="mb-0 f700 text-uppercase">
+                    {{ todo.durationTime }} hours
+                  </p>
+                </li>
+              </ul>
+            </div>
+            <div class="col-lg-8 col-md-7 pad0">
+              <div class="all-todo-detail">
+                <h5 class="f900">
+                  <div
+                    class="d-md-flex justify-content-between align-items-center py-1"
+                  >
+                    <span>{{
+                      todo.markAsDone ? "Re Open" : "Mark As Done"
+                    }}</span>
+                    <label class="switch switch-xs mb-0">
+                      <input
+                        type="checkbox"
+                        ng-model="todo.markAsDone"
+                        ng-change="vm.updateTodo(todo)"
+                      />
+                      <span class="slider round"></span>
+                    </label>
+                  </div>
+                </h5>
+                <h2 class="f500 space40">{{ todo.title }}</h2>
+                <h3 class="space40">{{ todo.description }}</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,46 @@
+{
+  "name": "angular-chips",
+  "version": "1.0.11",
+  "homepage": "https://github.com/mohbasheer/angular-chips",
+  "authors": [
+    "Mohammed Basheer"
+  ],
+  "description": "Angular-Chips is the angular based component. You can use it to add dynamic chips",
+  "main": [
+    "./dist/angular-chips.js",
+    "./dist/main.css"
+  ],
+  "keywords": [
+    "angular",
+    "chips",
+    "multiselect",
+    "single select",
+    "chip with promise",
+    "chips with promise",
+    "tags",
+    "inline tagging",
+    "inline tag",
+    "free form tags",
+    "promise based tags",
+    "promise based chip"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test"
+  ],
+  "devDependencies": {
+    "angular-bootstrap": "~1.2.1",
+    "components-font-awesome": "~4.5.0",
+    "bootstrap": "~3.3.6",
+    "angular-mocks": "1.4.8"
+  },
+  "dependencies": {
+    "angular": "v1.5.*"
+  },
+  "resolutions": {
+    "angular": "v1.5.*"
+  }
+}

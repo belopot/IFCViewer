@@ -1,0 +1,508 @@
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" crossorigin="anonymous">
+
+<div id="visual_planner" class="page-layout simple fullwidth">
+    <div id="stage"></div>
+    <div id="stage_tools">
+        <header class="container-fluid">
+            <div class="row m-0">
+                <div class="col-2 pt-3 pb-2">
+                    <ul class="m-0 p-0 redoundo">
+                        <li ng-click="vm.closeVisualPlanner()">
+                            <img src="\assets\images\logos\cloud-es-icon.png">
+                        </li>
+                        <li>
+                            <span ng-click="vm.undoOrRedo(0)" class="ve_icon undo"></span>
+                        </li>
+                        <li>
+                            <span ng-click="vm.undoOrRedo(1)" class="ve_icon redo"></span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-2  pt-3 pb-2 zoomRange pl-0">
+                    <div class="slidecontainer">
+                        <input type="range" min="50" max="1000" value="100" class="slider" id="myRange" ng-click="vm.zoomSlider(vm.zoomLevel)" ng-model="vm.zoomLevel">
+                        <span class="zoomRangeTxt">{{vm.zoomLevel}} %</span>
+                        <span ng-click="vm.resetZoom()" class="ve_icon recenter"></span>
+                    </div>
+                </div>
+                <div class="col-2 pt-2 pb-2 px-0 strokeFill">
+                    <div class="slidecontainer">
+                        <span class="strokeWidthTxt">Stroke width </span>
+                        <input type="range" min="1" max="10" class="slider" id="red-slider" ng-change="vm.changeStrokeWidth()" ng-model="vm.shapeProps.strokeWidth">
+                        <span class="strokeWidthSize">{{vm.shapeProps.strokeWidth}} </span>
+                    </div>
+                    <p class="stroke"> Stroke
+                        <color-picker options="vm.cpOptions" event-api="vm.cpEvents" ng-model="vm.shapeProps.strokeColor"></color-picker>
+                    </p>
+                    <p class="fill">Fill
+                        <color-picker options="vm.cpOptions" event-api="vm.cpEvents" ng-model="vm.shapeProps.fillColor"></color-picker>
+                    </p>
+                </div>
+                <div class="col-2 pt-4 pb-2 pl-0">
+                    <select class="form-control" ng-model="toolBar" name="toolBar" id="toolBar">
+                        <option value="" selected> please select </option>
+                        <option value="file"> File </option>
+                        <option value="tools"> Tools </option>
+                        <option value="layer"> Layer </option>
+                        <option value="properties"> Properties </option>
+                        <option value="projects"> Projects </option>
+                    </select>
+                </div>
+                <div class="col-3 pt-0 pb-2">
+                    <div class="window_info row">
+                        <p class="calibration col-6 m-0">
+                            Calibration:
+                            <span ng-show="vm.calibrationData.value === null">No data</span>
+                            <span ng-hide="vm.calibrationData.value === null">1 unit = {{ vm.formatCalibration (vm.calibrationData.value) + ' ' + vm.calibrationData.unit }}</span>
+                        </p>
+                        <p class="cursor_position col-3 m-0">
+                            <span>
+                                <small>X : {{vm.pointerPosition.x}}</small>
+                                <small>Y : {{vm.pointerPosition.y}}</small>
+                            </span>
+
+                        </p>
+                        <p class="cursor_position col-3 m-0">
+                            <span>
+                                <small>W : {{vm.imageProps.x}}</small>
+                                <small>H : {{vm.imageProps.y}}</small>
+                            </span>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-1 pt-3 pb-2">
+                    <p class="text-center">
+                        <span ng-click="vm.saveRoofPlan()" class="ve_icon save"></span>
+                        <span ng-click="vm.downloadImage()" class="ve_icon download"></span>
+                    </p>
+                </div>
+            </div>
+        </header>
+
+        <div class="ve_tools drag_element" id="ve_tools">
+            <ul>
+                <li>
+                    <span ng-click="vm.panImage()" class="ve_icon grab"></span>
+                </li>
+                <li>
+                    <span ng-click="vm.dragSelection()" class="ve_icon hand"></span>
+                </li>
+                <li class="line"></li>
+                <li>
+                    <span ng-click="vm.calibrator()" ng-class="{'active' : vm.currentDrawState.measurement.calibrator}" class="ve_icon ruler"></span>
+                </li>
+                <li class="line"></li>
+                <li>
+                    <span ng-click="vm.freeHand()" ng-class="{'active' : vm.currentDrawState.markings.freehand}" class="ve_icon pencil"></span>
+                </li>
+                <li>
+                    <span ng-click="vm.rectangle(true)" ng-class="{'active' : vm.currentDrawState.shapes.square}" class="ve_icon square"></span>
+                </li>
+                <li>
+                    <span ng-click="vm.ellipse(true)" ng-class="{'active' : vm.currentDrawState.shapes.circle}" class="ve_icon circle"></span>
+                </li>
+                <li>
+                    <span ng-click="vm.simpleLine('line')" ng-class="{'active' : vm.currentDrawState.markings.line}" class="ve_icon line"></span>
+                </li>
+                <li>
+                    <span ng-click="vm.polygon()" ng-class="{'active' : vm.currentDrawState.shapes.polygon}" class="ve_icon polygon"></span>
+                </li>
+                <li>
+                    <span ng-click="vm.textWidget()" ng-class="{'active' : vm.currentDrawState.markings.text}" class="ve_icon text"></span>
+                </li>
+                <li>
+                    <span ng-click="vm.loadMaterial()" ng-class="{'active' : vm.currentDrawState.measurement.material}" class="ve_icon ruler"></span>
+                </li>
+                <li>
+                    <span class="ve_icon close"></span>
+                </li>
+            </ul>
+        </div>
+        <p class="closeVE">
+            <span class="ve_icon back" ng-click="vm.closeVisualPlanner()"></span>
+        </p>
+
+        <div class="layerPanel" id="layerPanel">
+            <p class="mb-0 mt-2 drag_element">
+                <strong>Layer</strong>
+                <span class="float-right">
+                    <i ng-click="vm.addProcess()" style="font-size: 12px" class="fas fa-plus"></i>
+                </span>
+            </p>
+            <div class="nondrag_element">
+                <hr class="my-2">
+                <ul class="layerShapeList">
+                    <li class="row">
+                        <span class="col-8">Select All Shapes</span>
+                        <span class="col-4">
+                            <div class="form-group mb-0">
+                                <i ng-click="vm.hideSelection()" class="far fa-eye" style="font-size: 14px;cursor:pointer;"></i>
+                                <i ng-click="vm.deleteSelection()" class="far fa-trash-alt" style="font-size: 14px;cursor:pointer;"></i>
+                                <label for="selectAll" class="far" ng-class="vm.selectAllToggle ? 'fa-check-square' : 'fa-square'"></label>
+                                <input type="checkbox" class="form-control childShapeSelect" id="selectAll" ng-model="vm.selectAllToggle" ng-change="vm.selectAllShapes(vm.selectAllToggle)">
+                            </div>
+
+                        </span>
+                    </li>
+                    <hr class="my-1">
+                    <li ng-init="p.showDetails[$index] = true" ng-class="{active: $index===vm.selectedIndex}" class="layer border-bottom mb-2"
+                        ng-repeat="p in vm.processes | orderBy:'name()'">
+                        <div class="row">
+                            <div class="col-2 pr-0">
+                                <div class="layer-toggle float-left">
+                                    <div class="form-group checkallShape mb-0">
+                                        <label for="layerToggle_{{$index}}" class="fas" ng-class="p.layerToggle ? 'fa-eye-slash' : 'fa-eye'"></label>
+                                        <input type="checkbox" class="form-control" ng-model="p.layerToggle" id="layerToggle_{{$index}}" name="layerToggle" ng-click="p.layerToggle ? vm.showProcess($index) : vm.hideProcess($index)">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-8 pr-0" ng-click="vm.selectLayer($index)">
+                                <strong>Process - {{$index + 1}}</strong>
+                            </div>
+                            <div class="col-2" ng-click="p.showDetails[$index] = !p.showDetails[$index]">
+                                <i class="fas" ng-class="p.showDetails[$index] ? 'fa-angle-up':'fa-angle-down' "></i>
+                            </div>
+                        </div>
+
+                        <ul class="w-100 p-0 m-0" ng-show="p.showDetails[$index]" class="childLayer">
+                            <li ng-repeat="child in p.getChildren() | orderBy:'name()'">
+                                <div class="row">
+                                    <div class="col-2 mt-0 ve_icon {{child.visible() ?'active' :  ''}}" ng-class="vm.layerIconName(child.name())" ng-click="vm.toggleShapeVisibility(child)">
+                                    </div>
+
+                                    <div class="col-7 pl-0" style="line-height: 30px;"> {{child.name()}} </div>
+                                    <div class="col-3 p-0 text-right pr-2" style="line-height: 30px;">
+                                        <div class="form-group mb-0">
+                                            <i class="fas fa-trash-alt fa-xs" style="font-size: 1em;" ng-click="vm.deleteShape(child)"></i>
+                                            <label for="{{child.name()}}_{{$index}}" class="far" ng-class="child.selected ? 'fa-check-square' : 'fa-square'"></label>
+                                            <input type="checkbox" class="form-control childShapeSelect" id="{{child.name()}}_{{$index}}" ng-model="child.selected" ng-change="vm.selectOrUnselect(child)">
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-group" ng-show="vm.hideInitModal" style="display: none">
+            <div layout="row">
+                <div flex="50">
+                    <md-input-container>
+                        <md-select ng-model="vm.selectedPlan" class="w-250 roofPlanSelect" ng-change="vm.choosePlan(vm.selectedPlan)">
+                            <md-option class="mv-10" ng-value="plan._id" ng-repeat="plan in vm.roofPlans">
+                                <div layout="row" class="align-items-center w-250">
+                                    <div flex="60">{{plan.assetObj.title}}</div>
+                                    <div flex="40">
+                                        <div class="dropdown-img">
+                                            <img ng-src="{{plan.assetObj.imgUrl}}" class="md-card-image" alt="image caption">
+                                        </div>
+                                    </div>
+                                </div>
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+                <div flex="50">
+                    <md-input-container>
+                        <md-select ng-model="vm.drawingStatus" class="w-250 drawingStatus" placeholder="Drawing Status">
+                            <md-option value="Not Started">Not Started</md-option>
+                            <md-option value="In Progress">In Progress</md-option>
+                            <md-option value="Completed">Completed</md-option>
+                            <md-option value="Waiting on someone else">Waiting on someone else</md-option>
+                            <md-option value="Deferred">Deferred</md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+            </div>
+        </div>
+        <!-- The Modal -->
+        <div class="modal" id="chooseRoofModal">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-3 p-2" ng-repeat="plan in vm.roofPlans" ng-click="vm.choosePlan(plan._id)">
+                                <div class="card mb-2">
+                                    <img class="card-img-top" ng-src="{{plan.assetObj.imgUrl}}" alt="image caption">
+                                    <div class="card-body p-2">
+                                        <p>{{plan.assetObj.title}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" ng-click="vm.closeVisualPlanner()" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-widget" id="info-widget" ng-show="vm.shapeInfoWidget">
+            <p class="my-2">
+                <strong>Shape Information</strong>
+                <span class="float-right">
+                    <i ng-click="vm.closeInfoWidget()" style="font-size: 12px" class="fas fa-times"></i>
+                </span>
+            </p>
+            <p class="m-0">{{vm.infoWidgetProps.name}} {{vm.shapeInfo.area + ' ' + vm.shapeInfo.unit}} -
+                <a href="" ng-click="vm.loadMaterial(vm.infoWidgetProps)">Assign Entity</a>
+            </p>
+            <hr class="my-2">
+            <div class="body shapeStyle">
+                <fieldset class="mv-15">
+                    <p class="mb-2">Color Options</p>
+                    <div class="row mb-3">
+                        <div class="col-7">
+                            <div class="mb-2 btn-group btn-group-toggle" ng-init="vm.infoWidgetProps.colorType = 'stroke'">
+                                <label class="btn btn-cyan" ng-class="{'active' : vm.infoWidgetProps.colorType === t.value}" ng-repeat="t in vm.colorTypes">
+                                    <input type="radio" ng-model="vm.infoWidgetProps.colorType" name="colorType" value="{{t.value}}" autocomplete="off"> {{t.type}}
+                                </label>
+
+                            </div>
+                        </div>
+                        <div class="col-5">
+                            <color-picker options="vm.cpOptions" event-api="vm.infoWidgetEvents" ng-model="vm.infoWidgetProps[vm.infoWidgetProps.colorType]"
+                                ng-change="vm.changePropsInfoWidget(vm.infoWidgetProps.colorType, vm.infoWidgetProps[vm.infoWidgetProps.colorType])"></color-picker>
+                        </div>
+                    </div>
+                </fieldset>
+                <p class="mb-2">Stroke Width: </p>
+
+                <br>
+
+                <div class="slidecontainer">
+                    <input type="range" min="1" max="10" class="slider" id="red-slider" ng-change="vm.infoWidgetStroke(vm.infoWidgetProps.strokeWidth)"
+                        ng-model="vm.infoWidgetProps.strokeWidth">
+                    <span class="strokeWidthSize">{{vm.infoWidgetProps.strokeWidth}} </span>
+                </div>
+
+                <div class="text-center">
+                    <button type="button" class="btn btn-danger btn-clock" ng-click="vm.deleteShape()">Delete Shape</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-widget drag_element" id="info-widget_text" ng-show="vm.textInfoWidget">
+            <p class="my-2">
+                <strong>Text Information</strong>
+                <span class="float-right">
+                    <i ng-click="vm.closeTextInfoWidget()" style="font-size: 12px" class="fas fa-times"></i>
+                </span>
+            </p>
+            <div class="body">
+                <div class="form-group">
+                    <label for="text">Text</label>
+                    <textarea row="3" class="form-control" id="text" ng-model="vm.textInfoWidgetProps.text" ng-change="vm.changeTextInfo('text', vm.textInfoWidgetProps.text)"
+                        placeholder="text"></textarea>
+                </div>
+                <fieldset class="m-0">
+                    <p class="my-2"> Color Options: {{vm.textInfoWidgetProps.colorType}}</p>
+                    <div class="row mb-2">
+                        <div class="col-9">
+                            <div class="mb-2 btn-group btn-group-toggle" ng-init="vm.textInfoWidgetProps.colorType = 'stroke'">
+                                <label class="btn btn-cyan" ng-class="{'active' : vm.textInfoWidgetProps.colorType == t.value}" ng-repeat="t in vm.textColorTypes">
+                                    <input type="radio" ng-model="vm.textInfoWidgetProps.colorType" name="colorType" value="{{t.value}}" autocomplete="off"> {{t.type}}
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <color-picker options="vm.cpOptions" event-api="vm.textInfoWidgetEvents" ng-model="vm.textInfoWidgetProps[vm.textInfoWidgetProps.colorType]"></color-picker>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <p class="mb-1"> Font size: </p>
+                <div class="slidecontainer mb-3">
+                    <input type="range" min="8" max="30" class="slider" id="red-slider" ng-change="vm.changeTextInfo('fontSize', vm.textInfoWidgetProps.fontSize)"
+                        ng-model="vm.textInfoWidgetProps.fontSize">
+                    <span class="strokeWidthSize">{{vm.textInfoWidgetProps.fontSize}} </span>
+                </div>
+
+                <p class="mb-1"> Font family: </p>
+                <select ng-model="vm.textInfoWidgetProps.fontFamily" ng-change="vm.changeTextInfo('fontFamily', vm.textInfoWidgetProps.fontFamily)"
+                    class="form-control mb-2">
+                    <option ng-repeat="f in vm.webSafeFonts" ng-value="f">{{f}}</option>
+                </select>
+                <div class="mb-2 btn-group btn-group-toggle">
+                    <label class="btn btn-cyan" ng-class="{'active' : vm.textInfoWidgetProps.fontStyle === s.value}" ng-repeat="s in vm.fontStyles">
+                        <input type="radio" ng-model="vm.textInfoWidgetProps.fontStyle" ng-change="vm.changeTextInfo('fontStyle', vm.textInfoWidgetProps.fontStyle)"
+                            ng-value="s.value" autocomplete="off"> {{s.type}}
+                    </label>
+
+                </div>
+
+                <button type="button" class="btn btn-danger btn-block" ng-click="vm.deleteShape()">Delete Shape</button>
+            </div>
+        </div>
+
+        <div class="modal-wrapper" ng-class="vm.hideInitModal ? '' : 'show'">
+            <div class="modal">
+                <div class="modal-header ph-20 pv-10" layout="row">
+                    Select RoofPlan
+                </div>
+                <div class="modal-body p-20 " ms-scroll>
+                    <div layout="row" layout-wrap>
+                        <ms-widget layout="column" flex="100" flex-gt-xs="50" flex-gt-md="33" ng-repeat="image in  vm.roofPlans" ng-click="vm.selectPlan(image)">
+                            <md-card>
+                                <div class="file-thumb-container">
+                                    <img ng-src="{{image.assetObj.imgUrl}}" class="md-card-image" alt="image caption">
+                                </div>
+                                <md-card-content class="pt-5 pb-5">
+                                    <h3 class="m-0 mb-5 font-size-13">
+                                        <span class="font-weight-500">Title: </span>{{image.assetObj.title}}</h3>
+                                    <h3 class="m-0 mb-5 font-size-13">
+                                        <span class="font-weight-500">Description: </span>{{image.assetObj.description}}</h3>
+                                </md-card-content>
+                            </md-card>
+                        </ms-widget>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="visibility: hidden">
+            <div class="md-dialog-container" id="roofPlansDialog">
+                <md-dialog aria-label="Roof Plans">
+
+                    <ms-widget layout="column" flex="100" flex-gt-xs="50" flex-gt-md="25" ng-repeat="image in vm.roofPlans">
+                        <md-card>
+                            <div class="file-thumb-container">
+                                <img ng-src="{{image.assetObj.imgUrl}}" class="md-card-image" alt="image caption">
+                            </div>
+                            <md-card-content class="pt-5 pb-5">
+                                <h3 class="m-0 mb-5 font-size-13">
+                                    <span class="font-weight-500">Title: </span>{{image.assetObj.title}}</h3>
+                                <h3 class="m-0 mb-5 font-size-13">
+                                    <span class="font-weight-500">Description: </span>{{image.assetObj.description}}</h3>
+                            </md-card-content>
+                            <md-card-actions layout="row" layout-align="end center" class="mt-0">
+                                <a href="{{image.assetObj.imgUrl}}" target="_blank">
+                                    <md-icon class="m-0 mr-10" md-font-icon="orange-500-fg icon-magnify-plus s25"></md-icon>
+                                </a>
+                                <a href="{{image.assetObj.pdfUrl}}" download>
+                                    <md-icon class="m-0 mr-10" md-font-icon="orange-500-fg icon-download s25"></md-icon>
+                                </a>
+                                <a href="#" ng-click="openInCanvas(projectObj.roofPlans)">
+                                    <md-icon class="m-0 mr-10" md-font-icon="orange-500-fg icon-pencil s25"></md-icon>
+                                </a>
+                            </md-card-actions>
+                        </md-card>
+                    </ms-widget>
+                </md-dialog>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- IMPORTANT: Pass associations from the visual planner controller to the directive and don't instantiate associations inside the directive's scope -->
+<material-picker material-type="vm.materialType" current-shape="vm.infoWidgetProps" associations="vm.associations" selected-material="vm.selectedMaterial"></material-picker>
+<div class="modal" id="calibrateModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <!-- Modal body -->
+            <form name="scaleform" novalidate>
+                <div class="modal-header">
+                    <h5 class="modal-title">Enter Scale</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <p>Length of the line :
+                                <strong>{{vm.calibrationDistance}} units</strong>.</p>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="value">Please enter a scale</label>
+                                <input type="number" name="value" ng-model="vm.calibrationScale.value" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="unit">Unit</label>
+                                <select class="form-control" ng-model="vm.calibrationScale.unit" name="unit" id="unit">
+                                    <option value="">Please select unit</option>
+                                    <option value="ft">ft.</option>
+                                    <option value="mt">mt.</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" ng-click="vm.saveCalibration();">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog" id="addMaterialModel" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <ul class="list-group">
+                    <li ng-click="vm.addMaterial(1)" class="list-group-item">Select From Material</li>
+                    <li ng-click="vm.addMaterial(2)" class="list-group-item">Select From DCP</li>
+                    <li ng-click="vm.addMaterial(3)" class="list-group-item">Select From Equipment</li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- <script type="text/ng-template" id="scale.html">
+  <div class="md-dialog-container">
+    <md-dialog class="material-dialog" flex="60">
+      <form name="scaleform" novalidate>
+        <md-toolbar class="md-accent md-hue-2">
+          <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+            <span class="title">Enter Scale</span>
+            <md-button class="md-icon-button" ng-click="closeDialog()">
+              <md-icon md-font-icon="icon-close" aria-label="Close dialog"></md-icon>
+            </md-button>
+          </div>
+        </md-toolbar>
+        <md-content class="md-no-momentum p-15" layout-padding ms-scroll>
+          <md-content flex="100" class="md-block">
+            <p>Length of the line : {{distance}} units.</p>
+          </md-content>
+
+          <div layout="column" layout-padding layout-gt-xs="row" class="p-0">
+
+            <md-input-container flex="50" class="md-block">
+              <label>Please enter a scale</label>
+              <input type="number" name="value" ng-model="scale.value">
+            </md-input-container>
+            <md-input-container flex="50" class="md-block">
+              <label>Unit</label>
+              <md-select ng-model="scale.unit" placeholder="Select unit">
+                <md-option value="ft">ft.</md-option>
+                <md-option value="mt">mt.</md-option>
+              </md-select>
+            </md-input-container>
+
+          </div>
+        </md-content>
+        <md-dialog-actions layout="row" layout-align="center center">
+          <md-button type="submit" class="md-accent md-raised" ng-click="save();">Save</md-button>
+        </md-dialog-actions>
+      </form>
+    </md-dialog>
+</script> -->

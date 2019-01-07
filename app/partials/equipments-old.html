@@ -1,0 +1,310 @@
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" crossorigin="anonymous">
+<div ng-include="'/partials/header.html'"></div>
+<div id="materials" class="page-content pt-4 page-layout simple fullwidth">
+    <section class="container-fluid mt-4">
+        <div class="row justify-content-between" id="materialList" ng-cloak>
+            <div class="col-3">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <span class="fas fa-search"></span>
+                        </span>
+                    </div>
+                    <input type="search" class="form-control rounded-30 searchTable" placeholder="Search product" ng-model="vm.searchText" ng-change="vm.searchEquipment (vm.searchText)"
+                        aria-controls="DataTables_Table_0">
+                </div>
+            </div>
+            <div class="col-3 text-right">
+                <button type="button" class="btn btn-gray rounded-30" data-toggle="modal" data-target="#addEquipments">Add Equipments</button>
+            </div>
+            <div class="w-100"></div>
+            <div class="col-12">
+                <table ng-cloak class="dataTable table-bordered hover" datatable="ng" dt-options="vm.dtOptions">
+                    <thead class="bg-success text-white">
+                        <tr ng-cloak>
+                            <th class="secondary-text" style="width: 100px;">
+                                <div class="table-header">
+                                    <span class="column-title">Image </span>
+
+                                </div>
+                            </th>
+                            <th class="secondary-text" style="cursor:pointer">
+                                <div class="table-header" ng-click="vm.sortEquipment('name')">
+                                    <span class="column-title">Name</span>
+                                    <span class="float-right">
+                                        <i class="fa" ng-class="vm.toggleObj.name ? 'fa-angle-up' : 'fa-angle-down'"></i>
+                                    </span>
+                                </div>
+                            </th>
+                            <th class="secondary-text" style="cursor:pointer">
+                                <div class="table-header" ng-click="vm.sortEquipment('systemTag')">
+                                    <span class="column-title">System Tag</span>
+                                    <span class="float-right">
+                                        <i class="fa" ng-class="vm.toggleObj.systemTag ? 'fa-angle-up' : 'fa-angle-down'"></i>
+                                    </span>
+                                </div>
+                            </th>
+                            <th class="secondary-text">
+                                <div class="table-header" ng-click="vm.sortEquipment('materialCost')">
+                                    <span class="column-title">Equipment Cost</span>
+                                    <span class="float-right">
+                                        <i class="fa" ng-class="vm.toggleObj.equipmentCost ? 'fa-angle-up' : 'fa-angle-down'"></i>
+                                    </span>
+                                </div>
+                            </th>
+                            <th class="secondary-text">
+                                <div class="table-header" ng-click="vm.sortEquipment('rooferCost')">
+                                    <span class="column-title">Worker Cost</span>
+                                    <span class="float-right">
+                                        <i class="fa" ng-class="vm.toggleObj.rooferCost ? 'fa-angle-up' : 'fa-angle-down'"></i>
+                                    </span>
+                                </div>
+                            </th>
+                            <th class="secondary-text" style="cursor:pointer">
+                                <div class="table-header" ng-click="vm.sortEquipment('createdAt')">
+                                    <span class="column-title">Created date</span>
+                                    <span class="float-right">
+                                        <i class="fa" ng-class="vm.toggleObj.createdAt ? 'fa-angle-up' : 'fa-angle-down'"></i>
+                                    </span>
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr ng-cloak ng-repeat="equipment in vm.equipment">
+                            <td class="table-data text-center">
+                                <img ng-src="{{ equipment.files[0].url }}" style="max-width: 90px;" alt="">
+                            </td>
+                            <td class="table-data">
+                                <!-- <a href="#!material/{{ material._id }}">{{ material.name }}</a> -->
+                                {{ equipment.name }}
+                            </td>
+                            <td class="table-data">{{ equipment.systemTag }}</td>
+                            <td class="table-data">{{ equipment.currentRate.equipmentCost.value + "&nbsp;" + equipment.currentRate.materialCost.currencyCode
+                                }}
+                            </td>
+                            <td class="table-data">{{ equipment.currentRate.rooferCost.value + "&nbsp;" + equipment.currentRate.rooferCost.currencyCode
+                                }}
+                            </td>
+                            <td class="table-data">{{ equipment.createdAt | date : 'MM/dd/yyyy HH:MM:ss' }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div id="equipmentPagination" class="mt-3"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Add material modal -->
+    <div class="modal fade" id="addEquipments" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Create Equipment</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form name="vm.addMaterialForm" ng-model="vm.addMaterial" novalidate></form>
+                <div class="modal-body">
+                    <uib-tabset active="activeJustified" justified="true">
+                        <uib-tab index="0">
+                            <uib-tab-heading class="info">
+                                <i class="fa fa-check-circle" aria-hidden="true"></i>
+                                <span class="number">1</span>
+                                Equipment Info
+                            </uib-tab-heading>
+                            <div class="row mt-5">
+                                <div class="form-group col">
+                                    <label for="materialName">Name</label>
+                                    <input type="text" class="form-control" ng-change="vm.tabStyle()" ng-model="vm.addMaterial.materialName" name="materialName"
+                                        maxlength="100" ng-minlength="2" required>
+                                </div>
+                                <div class="form-group col">
+                                    <label for="materialUnit">Unit</label>
+                                    <select class="form-control" ng-change="vm.tabStyle()" ng-model="vm.addMaterial.materialUnit" name="materialUnit" id="materialUnit">
+                                        <option ng-repeat="unit in vm.mUnits" value="{{unit.value}}">{{unit.name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="form-group col">
+                                    <label for="currency">Currency</label>
+                                    <select class="form-control" ng-model="vm.addMaterial.currency" ng-change="vm.showConversionRate(vm.companyData.currentCurrency.currencyCode, vm.addMaterial.currency)">
+                                        <option value="">Select your currency</option>
+                                        <option ng-repeat="currency in vm.currencies" value="{{currency.cc}}">{{currency.name}}</option>
+                                    </select>
+                                    <!-- <input auto-complete class="form-control" ui-items="currency" ng-init="currency='no currency selected'" ng-model="currency"> -->
+                                </div>
+                                <div class="form-group col">
+                                    <label for="conversionFactor">Conversion Factor</label>
+                                    <input type="number" class="form-control" ng-model="vm.addMaterial.conversionFactor" name="conversionFactor" required ng-change="vm.changeConversionFactor()">
+                                </div>
+                            </div>
+
+                        </uib-tab>
+                        <uib-tab index="1" disable="true">
+                            <uib-tab-heading class="cost">
+                                <i class="fa fa-check-circle" aria-hidden="true"></i>
+                                <span class="number">2</span>
+                                Set Cost
+                            </uib-tab-heading>
+                            <div class="row mt-5">
+                                <div class="form-group col">
+                                    <label for="materialCost">Equipment Cost ({{vm.addMaterial.currency}})</label>
+                                    <input type="number" class="form-control" ng-change="vm.changeCost(vm.addMaterial.materialCostValue)" name="materialCost"
+                                        ng-model="vm.addMaterial.equipmentCostValue" required>
+                                </div>
+                                <div class="form-group col">
+                                    <label for="rooferCost">Worker Cost ({{vm.addMaterial.currency}})</label>
+                                    <input type="number" class="form-control" ng-model="vm.addMaterial.rooferCostValue" name="rooferCost" ng-change="vm.changeCost(vm.addMaterial.rooferCostValue)"
+                                        type="number" required>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group col">
+                                    <div class="btn btn-success bg-success border-0" ngf-select ng-model="vm.inputFiles" name="file" ngf-pattern="'image/*'"
+                                        ngf-multiple="true" ngf-accept="'image/*'">Upload Images</div>
+                                    <div>
+                                        <span ng-repeat="filename in vm.inputFiles">{{filename.$ngfName}}, </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col text-center">
+                                    <p>
+                                        <strong>Conversion Factor</strong>
+                                    </p>
+                                    <p>{{vm.addMaterial.conversionFactor}}</p>
+                                </div>
+                                <div class="col text-center">
+                                    <p>
+                                        <strong>Actual Equipment Cost ({{vm.companyData.currentCurrency.currencyCode}})</strong>
+                                    </p>
+                                    <p>{{vm.addMaterial.equipmentCostValue | convertCurrency:vm.addMaterial.conversionFactor}}</p>
+                                </div>
+                                <div class="col text-center">
+                                    <p>
+                                        <strong>Actual Worker Cost ({{vm.companyData.currentCurrency.currencyCode}})</strong>
+                                    </p>
+                                    <p>{{vm.addMaterial.rooferCostValue | convertCurrency:vm.addMaterial.conversionFactor}}</p>
+                                </div>
+                            </div>
+                        </uib-tab>
+                    </uib-tabset>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" ng-hide="active = activeJustified" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-success bg-success border-0 next" disabled ng-hide="active = activeJustified" ng-click="vm.addMaterialNext()">Next</button>
+                    <button type="button" class="btn btn-primary btn-gray" ng-show="active = activeJustified" ng-click="activeJustified = 0">Previous</button>
+                    <button type="submit" class="btn btn-success bg-success border-0" ng-click="vm.addMaterialDetails()" ng-show="active = activeJustified">Done</button>
+                </div>
+                </form>
+                <!-- ng-hide="activeJustified = 0"
+                 ng-show="activeJustified = 1" -->
+            </div>
+        </div>
+    </div>
+    <!-- <section class="container-fluid">
+        <div class="row" id="materialList">
+            <div class="col-3">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <span class="fas fa-search"></span>
+                        </span>
+                    </div>
+                    <input type="search" class="form-control rounded-30 searchTable" placeholder="Search product" aria-controls="DataTables_Table_0">
+                </div>
+            </div>
+            <div class="w-100"></div>
+            <div class="col-12">
+                <table class="table table-bordered materialList">
+                    <thead class="bg-success text-white">
+                        <tr>
+                            <th style="width: 10%">Image</th>
+                            <th style="width: 30%">Producer</th>
+                            <th style="width: 12%">Data</th>
+                            <th style="width: 8%">Stock</th>
+                            <th style="width: 8%">Price</th>
+                            <th style="width: 12%">Delivery Cost</th>
+                            <th style="width: 12%">Delivery time</th>
+                            <th style="width: 8%">Order</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <img src="/assets/images/eq.png" alt="">
+                            </td>
+                            <td>
+                                <h5>#MAT001</h5>
+                                <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+                                    ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitatio.</p>
+                            </td>
+                            <td>07/25/2018</td>
+                            <td>61</td>
+                            <td>400</td>
+                            <td>$320</td>
+                            <td>5 Day</td>
+                            <td>5</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <img src="/assets/images/eq.png" alt="">
+                            </td>
+                            <td>
+                                <h5>#MAT001</h5>
+                                <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+                                    ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitatio.</p>
+                            </td>
+                            <td>07/25/2018</td>
+                            <td>62</td>
+                            <td>400</td>
+                            <td>$320</td>
+                            <td>5 Day</td>
+                            <td>5</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <img src="/assets/images/eq.png" alt="">
+                            </td>
+                            <td>
+                                <h5>#MAT001</h5>
+                                <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+                                    ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitatio.</p>
+                            </td>
+                            <td>07/25/2018</td>
+                            <td>63</td>
+                            <td>400</td>
+                            <td>$320</td>
+                            <td>5 Day</td>
+                            <td>5</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <img src="/assets/images/eq.png" alt="">
+                            </td>
+                            <td>
+                                <h5>#MAT001</h5>
+                                <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+                                    ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitatio.</p>
+                            </td>
+                            <td>07/25/2018</td>
+                            <td>64</td>
+                            <td>400</td>
+                            <td>$320</td>
+                            <td>5 Day</td>
+                            <td>5</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section> -->
+
+</div>

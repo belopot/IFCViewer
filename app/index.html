@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <link
+      rel="stylesheet"
+      href="/libs/bower_components/bootstrap/dist/css/bootstrap.css"
+    />
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="libs/bower_components/bootstrap/dist/css/bootstrap.min.css"
+      integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
+      crossorigin="anonymous"
+    />
+
+    <link
+      rel="stylesheet"
+      href="/libs/bower_components/ngprogress/ngProgress.css"
+    />
+    <link
+      rel="stylesheet"
+      href="/libs/bower_components/ng-tags-input/ng-tags-input.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="/libs/bower_components/angular-ui-notification/dist/angular-ui-notification.css"
+    />
+    <link
+      rel="stylesheet"
+      href="/libs/bower_components/angular-color-picker/dist/angularjs-color-picker.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="/libs/bower_components/angular-chips/dist/main.css"
+    />
+    <link
+      rel="stylesheet"
+      href="/libs/bower_components/angular-color-picker/dist/themes/angularjs-color-picker-bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker3.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="/libs/bower_components/angular-ui-select/dist/select.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="/libs/bower_components/angular-ui-tree/dist/angular-ui-tree.min.css"
+    />
+    <!--
+      <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css">
+    -->
+    <!--
+      <link rel="stylesheet" href="http://cdn.datatables.net/1.10.2/css/jquery.dataTables.min.css"></style>
+    -->
+    <!--
+      <link rel="stylesheet" type="text/css" href="https://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css">
+    -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/libs/bower_components/angular-auto-complete/angular-auto-complete.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/2.5.3/css/bootstrap-colorpicker.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="css/dist/style.min.css" />
+    <link rel="stylesheet" href="/libs/bower_components/select2/select2.css" />
+    <title>CloudES</title>
+
+    <!-- Angular scripts -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      type="text/javascript"
+      src="/libs/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="/libs/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.standalone.min.css"
+    />
+    <link rel="stylesheet" href="/libs/simplePagination.css" />
+    <link rel="stylesheet" href="/libs/select.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/flexslider/2.7.1/flexslider.min.css"
+    />
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.283.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flexslider/2.7.1/jquery.flexslider-min.js"></script>
+    <script src="/libs/bower_components/lodash/dist/lodash.min.js"></script>
+    <script src="/libs/bower_components/evaporatejs/evaporate.js"></script>
+    <script src="/libs/bower_components/angular/angular.min.js"></script>
+    <script src="/libs/bower_components/cloudinary-core/cloudinary-core.min.js"></script>
+    <script src="/libs/bower_components/cloudinary_ng/js/angular.cloudinary.js"></script>
+    <script src="/libs/bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+    <script src="/libs/bower_components/angular-simple-logger/dist/angular-simple-logger.min.js"></script>
+    <script src="/libs/bower_components/angular-local-storage/dist/angular-local-storage.min.js"></script>
+    <script src="//unpkg.com/@uirouter/angularjs/release/angular-ui-router.min.js"></script>
+    <script src="/libs/bower_components/ngprogress/build/ngprogress.min.js"></script>
+    <script src="/libs/bower_components/angular-ui-notification/dist/angular-ui-notification.min.js"></script>
+    <script src="/libs/bower_components/angular-google-maps/dist/angular-google-maps.min.js"></script>
+    <script src="/libs/bower_components/ngmap/build/scripts/ng-map.min.js"></script>
+    <script src="https://cdn.rawgit.com/konvajs/konva/2.0.2/konva.min.js"></script>
+    <script src="/libs/bower_components/tinycolor/dist/tinycolor-min.js"></script>
+    <script src="/libs/bower_components/angular-color-picker/dist/angularjs-color-picker.min.js"></script>
+    <script src="/libs/bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js"></script>
+    <script src="/libs/bower_components/angular-ui-select/dist/select.min.js"></script>
+    <script src="/libs/jquery.dataTables.min.js"></script>
+    <script src="/libs/bower_components/ng-file-upload/ng-file-upload.min.js"></script>
+    <script src="/libs/jquery.simplePagination.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.0.550/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-moment/1.3.0/angular-moment.min.js"></script>
+    <script src="/libs/angular-datatables.min.js"></script>
+    <script src="/libs/bower_components/angular-chips/dist/angular-chips.min.js"></script>
+    <script src="/libs/bower_components/angular-bootstrap-multiselect/dist/angular-bootstrap-multiselect.min.js"></script>
+    <script src="/libs/bower_components/angular-ui-tree/dist/angular-ui-tree.js"></script>
+    <script src="/libs/bower_components/ng-tags-input/ng-tags-input.min.js"></script>
+    <script src="/libs/bower_components/angular-bootstrap-contextmenu/contextMenu.js"></script>
+    <script src="/libs/ui-bootstrap-tpls-3.0.4.min.js"></script>
+    <script src="/libs/select.min.js"></script>
+    <script
+      type="text/javascript"
+      src="/libs/bower_components/angular-auto-complete/angular-auto-complete.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="/libs/bower_components/sendbird/SendBird.min.js"
+    ></script>
+    <script type="text/javascript" src="js/dist/app.min.js"></script>
+    <script src="/libs/bower_components/select2/select2.js"></script>
+    <script src="/libs/bower_components/angular-ui-select2/src/select2.js"></script>
+    <script
+      src="/libs/bower_components/file-saver.js/FileSaver.js"
+      type="text/javascript"
+    ></script>
+    <script
+      src="/libs/bower_components/angular-filesaver/angular-filesaver.js"
+      type="text/javascript"
+    ></script>
+    <!-- <script src="js/dist/wow.js"></script> -->
+    <script src="https://unpkg.com/merge-images"></script>
+    <script type="text/javascript">
+      new WOW().init();
+    </script>
+  </head>
+
+  <body>
+    <ui-view></ui-view>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA3MIA-mKWq_60q1K0zOHguraxT-1QPxNU&libraries=places"></script>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <!--
+      <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"></script>
+    -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+      integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="libs/bower_components/bootstrap/dist/js/bootstrap.min.js"
+      integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+      crossorigin="anonymous"
+    ></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
+    <!--
+      <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
+    -->
+    <script src="https://cdn.rawgit.com/niklasvh/html2canvas/0.5.0-alpha2/dist/html2canvas.min.js"></script>
+    <script src="libs/bower_components/jsPDF/dist/jspdf.debug.js"></script>
+    <script src="libs/bower_components/jsPDF/dist/jspdf.debug.js"></script>
+    <script src="libs/jspdf.plugin.autotable.js"></script>
+    <script src="libs/bower_components/angular-save-html-to-pdf/dist/saveHtmlToPdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-drag-and-drop-lists/2.1.0/angular-drag-and-drop-lists.js"></script>
+    <!--
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-drag-and-drop-lists/2.1.0/angular-drag-and-drop-lists.min.js"></script>
+    -->
+    <script
+      type="text/javascript"
+      src="http://goldfirestudios.com/proj/canvasinput/CanvasInput.min.js?v=1.2.0"
+    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/2.5.3/js/bootstrap-colorpicker.js"></script>
+
+    <script src="https://cdn.rawgit.com/indrimuska/angular-moment-picker/master/dist/angular-moment-picker.min.js"></script>
+    <link
+      href="https://cdn.rawgit.com/indrimuska/angular-moment-picker/master/dist/angular-moment-picker.min.css"
+      rel="stylesheet"
+    />
+
+    <script
+      type="text/javascript"
+      src="//media.twiliocdn.com/sdk/js/video/releases/2.0.0-beta1/twilio-video.min.js"
+    ></script>
+
+    <script
+      type="text/javascript"
+      src="/libs/bower_components/ng-drag-to-reorder/ngDragToReorder.js"
+    ></script>
+    <!--
+      <script src="//media.twiliocdn.com/sdk/js/video/v1/twilio-video.min.js"></script>
+    -->
+  </body>
+</html>

@@ -1,0 +1,97 @@
+<div class="container-fluid px-5 mt-3">
+<div class="row" >
+     <div class="col-md-6">
+                <div class="border position-relative">
+                    <img src="{{image1}}" class="w-100">
+                    <div class="position-absolute info-hover" style="top: 200px; left: 350px;">
+                        <span class="d-inline-block p-2 bg-primary rounded-circle"></span>
+                        <div class="position-absolute rounded info-box z-100" style="top: -20px;">
+                            <div class="box-shadow">
+                              <div class="bg-warning py-4 pl-4 pr-5 text-white rounded-left">
+                                <h6 class="text-center">Name of the entrprise</h6>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-6 text-right pr-2 ">
+                                        Type    <br>
+                                        Report number<br>
+                                        Subject<br>
+                                        Responsible<br>
+                                        Creation Day<br>
+                                        Last Updated<br>
+                                        Deadline<br>
+                                        Levels<br>
+                                        Drawing<br>
+                                        Room<br>
+                                        Building
+                                    </div>
+                                    <div class="col-md-6 text-nowrap">
+                                        Roof<br>
+                                        8923-3432<br>
+                                        Subject<br>
+                                        responsible<br>
+                                        3-12-2017   <br>
+                                        30-05-2018<br>
+                                        1-07-2018<br>
+                                        1 floor<br>
+                                        Drawing    <br>   
+                                        On site      <br>
+                                        Building
+                                    </div>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <img src="{{image2}}" class="w-100">
+            </div>
+</div>
+</div>
+<div id="selectedissuetable" class="container-fluid px-5 mt-3" >
+        <div class="row">
+            <div class="col-md-12">
+                <table id="statictable" class="dataTable table-bordered hover">
+                    <thead class="bg-success text-white">
+                        <tr style="height: 40px;">
+                            <th>Title</th>
+                            <th>Category</th> 
+                            <th>Project for</th>
+                            <th>Owner</th>
+                            <th>System Tag</th>
+                            <th>Creation By </th>
+                            <th>Created</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="height: 30px;">
+                            <td>{{issue.title}}</td>
+                            <td>{{issue.issueCategory}}</td>
+                            <td>{{issue.projectId.projectName}}</td>
+                            <td>{{issue.ownerId.firstName}}</td>
+                            <td>{{issue.systemTag}}</td>
+                            <td>{{issue.createdBy}}</td>
+                            <td>{{issue.created | date : 'MM/dd/yyyy HH:MM:ss'}}</td>
+                            
+                           
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+     <div id="pdfid3" class="container-fluid px-5 my-3">
+                <div class="row">
+                    <div class="col-md-7">
+                        <h3>Comments</h3>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+                        <p class="small op-7">Shabin mp | 20-08-2017 | 5:45pm</p>
+                        <hr class="my-4">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+                        <p class="small op-7">Shabin mp | 20-08-2017 | 5:45pm</p>
+                        <hr class="my-4">
+                        
+                    </div>
+                </div>
+            </div>

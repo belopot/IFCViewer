@@ -1,0 +1,1138 @@
+<link
+  rel="stylesheet"
+  href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+  crossorigin="anonymous"
+/>
+<div ng-include="'/partials/header.html'"></div>
+<!--
+  <div id="issues" class="page-content pt-4 page-layout simple fullwidth">
+-->
+<section class="issue-section sectionbg ">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <div class="d-flex align-items-center justify-content-between">
+          <h3 class="headOne txtblack">Issues</h3>
+
+ 
+          
+            <button class="btn btn_create_issue ripple" data-target="#issue_modal" data-toggle="modal">Create Issue</button>
+         
+        </div>
+        <div class="row issue-row">
+          <div class="col-xl-4 col-12" ng-repeat="issue in vm.allIssues">
+            <a href="#!issues_details/{{issue._id}}">
+              <div
+                class="issue-box position-relative transition animated fadeInUp wow"
+              >
+                <div class="image-holder1">
+                  <img
+                    ng-src="{{issue.markedImages[0].secure_url || 'assets/images/bulb.png'}}"
+                    class="img-fluid animated zoomIn wow img_center"
+                    data-wow-delay=".8s"
+                    alt="issue-image"
+                  />
+                </div>
+
+                <div
+                  class="issue-info animated fadeIn wow"
+                  data-wow-delay="1.2s"
+                  style="padding-left:20px;"
+                >
+                  <h6
+                    class="f600 headTwo txtblack mb-0 text-sm-left text-center"
+                    style="text-transform:capitalize;"
+                  >
+                    {{ issue.title }}
+                  </h6>
+                  <p class="issue-number f600 text-sm-left text-center">
+                    {{ issue.systemTag }}
+                  </p>
+                  <ul class="list-unstyled d-flex flex-wrap issue_list">
+                    <li>
+                      <p class="mb-0 issue-number f700 text-uppercase">TYPE</p>
+                      <p class="mb-0 fsize18 txtblack">
+                        {{ issue.issueCategory }}
+                      </p>
+                    </li>
+                    <li>
+                      <p class="mb-0 issue-number f700 text-uppercase">
+                        PROJECT
+                      </p>
+                      <p class="mb-0 fsize18 txtblack">
+                        {{ issue.projectId.projectName }}
+                      </p>
+                    </li>
+                    <!--
+                      </ul>
+                      <ul class="list-unstyled d-flex flex-wrap issue_list">
+                    -->
+                    <li>
+                      <p class="mb-0 issue-number f700 text-uppercase">
+                        created
+                      </p>
+                      <p class="mb-0 fsize18 txtblack">
+                        {{ issue.created | date: "MM/dd/yyyy" }}
+                      </p>
+                    </li>
+                    <li>
+                      <p class="mb-0 issue-number f700 text-uppercase">
+                        Deadline
+                      </p>
+                      <p class="mb-0 fsize18 txtblack">
+                        {{ issue.deadLine | date: "MM/dd/yyyy" }}
+                      </p>
+                    </li>
+                  </ul>
+                  <ul
+                    class="list-unstyled d-flex flex-wrap justify-content-between prior_list mb-0"
+                  >
+                    <li ng-If="issue.issueStatus===&quot;High Priority&quot;">
+                      <p class="issue-number mb-0">Priority</p>
+                      <span
+                        class="lbl_stat transition"
+                        style="background-color:#ff1919;color:#ffffff;"
+                        >High</span
+                      >
+                    </li>
+                    <li ng-If="issue.issueStatus===&quot;Medium Priority&quot;">
+                      <p class="issue-number mb-0">Priority</p>
+                      <span
+                        class="lbl_stat transition"
+                        style="background-color:#fad154;color:#ffffff;"
+                        >Medium</span
+                      >
+                    </li>
+                    <li ng-If="issue.issueStatus===&quot;On Hold&quot;">
+                      <p class="issue-number mb-0">Priority</p>
+                      <span
+                        class="lbl_stat transition"
+                        style="background-color:#f5edd3;color:#ffffff;"
+                        >on hold</span
+                      >
+                    </li>
+                    <li ng-If="issue.issueStatus===&quot;Low Priority&quot;">
+                      <p class="issue-number mb-0">Priority</p>
+                      <span
+                        class="lbl_stat transition"
+                        style="background-color:#f5edd3;color:#ffffff;"
+                        >Low</span
+                      >
+                    </li>
+                    <li ng-If="issue.issueStatus===&quot;Completed&quot;">
+                      <p class="issue-number mb-0">Priority</p>
+                      <span
+                        class="lbl_stat transition"
+                        style="background-color:#52cab9;color:#ffffff;"
+                        >{{ issue.issueStatus }}</span
+                      >
+                    </li>
+                    <li>
+                      <p class="issue-number mb-0">Completion Status</p>
+                      <span
+                        class="lbl_stat transition"
+                        style="background-color:#808080;color:#ffffff;"
+                        ng-If="!issue.completionStatus"
+                      >
+                        OPEN</span
+                      >
+                      <span
+                        class="lbl_stat transition"
+                        style="background-color:#808080;color:#ffffff;"
+                        ng-If="issue.completionStatus=='OPEN'"
+                      >
+                        {{ issue.completionStatus }}</span
+                      >
+                      <span
+                        class="lbl_stat transition"
+                        style="background-color:#52cab9;color:#ffffff;"
+                        ng-If="issue.completionStatus=='RESOLVED'"
+                      >
+                        {{ issue.completionStatus }}</span
+                      >
+                    </li>
+                  </ul>
+                </div>
+                <hr
+                  ng-If="issue.issueStatus===&quot;High Priority&quot;"
+                  class="bdr_bottom red_bdr "
+                />
+                <hr
+                  ng-If="issue.issueStatus===&quot;Medium Priority&quot;"
+                  class="bdr_bottom orange_bdr "
+                />
+                <hr
+                  ng-If="issue.issueStatus===&quot;On Hold&quot;"
+                  class="bdr_bottom yellow_bdr "
+                />
+                <hr
+                  ng-If="issue.issueStatus===&quot;Low Priority&quot;"
+                  class="bdr_bottom yellow_bdr "
+                />
+                <hr
+                  ng-If="issue.issueStatus===&quot;Completed&quot;"
+                  class="bdr_bottom green_bdr "
+                />
+              </div>
+            </a>
+          </div>
+        </div>
+        <div id="pagination" class="mt-3 text-center"></div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- </div> -->
+
+<!-- -issue Create dilog box -->
+<div
+  class="modal fade popup2"
+  id="issue_modal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div ng-include="'/partials/addissue.html'"></div>
+</div>
+<!-- issue marker picker -->
+<!--
+  <div class="modal fade popup2" tabindex="-1" role="dialog" id="issuemarker">
+
+         <div ng-include="'/partials/issuemarker.html'"></div>
+
+     </div>
+-->
+
+<!-- Modal New issue -->
+<div
+  class="modal fade popup2"
+  data-easein="slideUpBigIn"
+  id="issue_marker"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  data-refresh="true"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="d-flex align-items-center justify-content-between w-100">
+          <h5 class="modal-title f500 txtwhite">Issue Images</h5>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div
+          class="d-md-flex align-items-center justify-content-between text-center text-left"
+        >
+          <p class="fsize18 txtgrey f500 mb-0">Images</p>
+          <div class="btn-group">
+            <!--
+              <a href="javascript:void(0)" class="dropdown-toggle nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            -->
+            <button
+              class="btn grn task_tag2 ripple rippleGreen
+                         dropdown-toggle nav-link"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              Add Images
+            </button>
+            <!-- </a> -->
+            <div
+              class="dropdown-menu dropdown-menu-right box-shadow border-0 bg-success"
+            >
+              <button
+                class="dropdown-item"
+                type="button"
+                ngf-select
+                ng-model="file"
+                name="file"
+                ngf-multiple="true"
+                ngf-accept="'image/*'"
+                ng-change="getFilesFromLocal(file, vm.createdIssue);"
+                aria-invalid="false"
+                data-wow-delay="0.7s"
+                style="color: #ffffff;"
+              >
+                Upload from computer
+              </button>
+              <button
+                class="dropdown-item"
+                type="button"
+                style="color: #ffffff;"
+                ng-click="getImagesInCarosel()"
+              >
+                Pick from Project Plans
+              </button>
+              <button
+                class="dropdown-item"
+                type="button"
+                style="color: #ffffff;"
+              >
+                Pick from Project Files
+              </button>
+              <button
+                class="dropdown-item"
+                type="button"
+                style="color: #ffffff;"
+              >
+                Pick from Other issues
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="space15"></div>
+        <div id="carousellist" class="flexslider" style="margin:0 0 0 0;">
+          <ul class="slides">
+            <li
+              class="img-box img-scale-rotate lightbox"
+              ng-repeat="plan in vm.planToMark | orderBy: reverse:true"
+            >
+              <img
+                id="id1"
+                class="slideImg "
+                src="{{plan.secure_url}}"
+                style="height:190px;width:190px;padding: 10px;"
+                ng-click="openSliderImage(plan,$index,count=count+1)"
+                ng-init="count=0"
+              />
+              <span ng-click="vm.removeImage(plan._id)" class="removeImg"
+                >x</span
+              >
+            </li>
+          </ul>
+        </div>
+
+        <div style="float:right">
+          <button
+            type="button"
+            class="btn btn-default"
+            ng-click="UndoDrawing()"
+          >
+            <img src="/assets/images/undo-arrow.png" />
+          </button>
+          <button
+            type="button"
+            class="btn btn-primary"
+            ng-click="RedoDrawing()"
+          >
+            <img src="/assets/images/redo-arrow.png" />
+          </button>
+          <!-- <button class="mt-1 btn btn-success" ng-click="vm.addMarkedImgData(vm.currentMarkingImage)">
+            <img src="/assets/images/save-file.png" alt="" />
+          </button> -->
+        </div>
+        <div><br /></div>
+        <div><br /></div>
+        <div><br /></div>
+        <div id="markerDiv"></div>
+        <!--
+          <canvas id="slideCanvas" height="500" width="650">
+
+          </canvas>
+        -->
+
+        <div ng-If="textForm==true">
+          <input type="text" ng-model="TextData" />
+          <button
+            type="submit"
+            class="btn btn-primary"
+            ng-click="textSave(TextData)"
+          >
+            done
+          </button>
+        </div>
+      </div>
+      <div class="modal-footer justify-content-between flex-column flex-md-row">
+        <ul class="list-unstyled d-flex tool_list mb-0">
+          <li>
+            <button
+              type="button"
+              class="btn tool_btn wobble-vertical"
+              id="gpsbtn"
+              ng-click="drawmarkerOnCanvas()"
+            >
+              <img src="{{btnMarker}}" />
+            </button>
+          </li>
+          <li>
+            <button
+              type="button"
+              class="btn  tool_btn wobble-vertical"
+              id="circlebtn"
+              ng-click="drawCircleOnCanvas()"
+            >
+              <img src="{{btnCircle}}" />
+            </button>
+          </li>
+          <li>
+            <button
+              type="button"
+              class="btn tool_btn wobble-vertical"
+              id="linebutton"
+              ng-click="drawLineOnCanvas()"
+            >
+              <img src="{{btnLine}}" />
+            </button>
+          </li>
+          <li>
+            <button
+              type="button"
+              class="btn  tool_btn wobble-vertical mr-auto"
+              id="txtbtn"
+              ng-click="fillTextOnCanvas()"
+            >
+              <img src="{{btnText}}" />
+            </button>
+          </li>
+        </ul>
+        <input
+          type="color"
+          id="colorPick"
+          ng-click="pickColorToDraw()"
+          value="#0000ff"
+        />
+        <input
+          type="color"
+          id="fillColor"
+          ng-click="pickColorToFill()"
+          ng-If="openFillColor==true"
+          value="#ffffff"
+        />
+        <div class="space15 d-md-none"></div>
+        <div>
+          <button
+            type="button"
+            class="btn btn_create_issue ripple"
+            data-dismiss="modal"
+          >
+            Skip
+          </button>
+          <button
+            type="button"
+            class="btn btn_create_issue ripple"
+            ng-click=" vm.saveMarkInfo(vm.planToMark)"
+          >
+            Save
+          </button>
+          <a id="link"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal New issue -->
+<div
+  class="modal fade popup2"
+  data-easein="slideUpBigIn"
+  id="konva_issue_marker"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  data-refresh="true"
+  aria-hidden="true"
+  data-backdrop="false"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="d-flex align-items-center justify-content-between w-100">
+          <h5 class="modal-title f500 txtwhite">Issue Images</h5>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div
+          class="d-md-flex align-items-center justify-content-between text-center text-left"
+        >
+          <p class="fsize18 txtgrey f500 mb-0">Images</p>
+          <div class="btn-group">
+            <!--
+              <a href="javascript:void(0)" class="dropdown-toggle nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            -->
+            <button
+              class="btn grn task_tag2 ripple rippleGreen
+                         dropdown-toggle nav-link"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              Add Images
+            </button>
+            <!-- </a> -->
+            <div
+              class="dropdown-menu dropdown-menu-right box-shadow border-0 bg-success"
+            >
+              <button
+                class="dropdown-item"
+                type="button"
+                ngf-select
+                ng-model="file"
+                name="file"
+                ngf-multiple="true"
+                ngf-accept="'image/*'"
+                ng-change="getFilesFromLocal(file, vm.createdIssue);"
+                aria-invalid="false"
+                data-wow-delay="0.7s"
+                style="color: #ffffff;"
+              >
+                Upload from computer
+              </button>
+              <button
+                class="dropdown-item"
+                type="button"
+                style="color: #ffffff;"
+                ng-click="getImagesInCarosel()"
+              >
+                Pick from Project Plans
+              </button>
+              <button
+                class="dropdown-item"
+                type="button"
+                style="color: #ffffff;"
+              >
+                Pick from Project Files
+              </button>
+              <button
+                class="dropdown-item"
+                type="button"
+                style="color: #ffffff;"
+              >
+                Pick from Other issues
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="space15"></div>
+
+        <div id="carousellist" class="flexslider" style="margin:0 0 0 0;">
+          <ul class="slides">
+            <li
+              class="img-box img-scale-rotate lightbox mr-2" ng-class="{'active' : plan.active}"
+              ng-repeat="plan in vm.planToMark | orderBy: reverse:true"
+            >
+              <img
+                id="id1"
+                class="slideImg "
+                src="{{plan.secure_url}}"
+                style="height:190px;width:190px;padding: 10px; object-fit: cover"
+                ng-click="vm.openSliderImage(plan)"
+                ng-init="count=0"
+              />
+              <span ng-click="vm.removeImage(plan._id)" class="removeImg"
+                >x</span
+              >
+            </li>
+          </ul>
+        </div>
+
+        <div style="float:right">
+          <button
+            type="button"
+            class="btn btn-default"
+            ng-click="UndoDrawing()"
+          >
+            <img src="/assets/images/undo-arrow.png" />
+          </button>
+          <button
+            type="button"
+            class="btn btn-primary"
+            ng-click="RedoDrawing()"
+          >
+            <img src="/assets/images/redo-arrow.png" />
+          </button>
+          <!-- <button class="mt-1 btn btn-success" ng-click="vm.addMarkedImgData(vm.currentMarkingImage)">
+            <img src="/assets/images/save-file.png" alt="" />
+          </button> -->
+        </div>
+        <div><br /></div>
+        <div><br /></div>
+        <div><br /></div>
+        <div id="markerDiv"></div>
+          <div class="row justify-content-md-center">
+            <div id="slideCanvas">
+
+            </div>
+          </div>
+       
+       
+
+        <div ng-If="textForm==true">
+          <input type="text" ng-model="TextData" />
+          <button
+            type="submit"
+            class="btn btn-primary"
+            ng-click="textSave(TextData)"
+          >
+            done
+          </button>
+        </div>
+      </div>
+      <div class="modal-footer justify-content-between flex-column flex-md-row">
+        <ul class="list-unstyled d-flex tool_list mb-0">
+          <li>
+            <button
+              type="button"
+              class="btn tool_btn wobble-vertical"
+              id="gpsbtn"
+              ng-click="vm.drawmarkerOnCanvas()"
+            >
+              <img src="{{btnMarker}}" />
+            </button>
+          </li>
+          <li>
+            <button
+              type="button"
+              class="btn  tool_btn wobble-vertical"
+              id="circlebtn"
+              ng-click="vm.drawCircleOnCanvas()"
+            >
+              <img src="{{btnCircle}}" />
+            </button>
+          </li>
+          <li>
+            <button
+              type="button"
+              class="btn tool_btn wobble-vertical"
+              id="linebutton"
+              ng-click="vm.drawLineOnCanvas()"
+            >
+              <img src="{{btnLine}}" />
+            </button>
+          </li>
+          <li>
+            <button
+              type="button"
+              class="btn  tool_btn wobble-vertical mr-auto"
+              id="txtbtn"
+              ng-click="vm.fillTextOnCanvas(vm.canvasText)"
+            >
+              <img src="{{btnText}}" />
+            </button>
+          </li>
+          <li ng-show="vm.textState">
+            <input
+              type="text"
+              class="form-control mt-2"
+              ng-model="vm.canvasText"
+              id="exampleFormControlInput1"
+              placeholder="name@example.com"
+            />
+          </li>
+        </ul>
+      
+        <color-picker options="vm.cpOptions" event-api="vm.cpEvents" ng-model="vm.markingColor"></color-picker>
+
+        
+        <div class="space15 d-md-none"></div>
+        <div>
+          <button
+            type="button"
+            class="btn btn_create_issue ripple"
+            ng-click="vm.modalClose()"
+          >
+            Skip
+          </button>
+          <button
+            type="button"
+            class="btn btn_create_issue ripple"
+            ng-click="vm.saveMarkInfo(vm.planToMark, vm.createdIssue)"
+          >
+            Save
+          </button>
+          <a id="link"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Plan picker modal -->
+
+<div class="modal fade popup2" id="chooseIssueRoofModal" data-backdrop="false">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal body -->
+      <div class="modal-header"><h5 class="modal-title">Roof Plans</h5></div>
+      <div class="modal-body">
+        <div class="row">
+          <div
+            class="col-md-3 p-2"
+            ng-repeat="plan in vm.planPickerPlans"
+            ng-click="vm.choosePlanData(plan)"
+          >
+            <div class="image-holder1">
+              <img
+                class="img_center"
+                ng-src="{{plan.assetObj.url}}"
+                alt="image caption"
+              />
+              <div class="card-body p-2">
+                <input type="checkbox" />&nbsp;&nbsp; {{ plan.assetObj.title }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">
+          Close
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          ng-click="addToDetails(vm.planToMark)"
+        >
+          next
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Test model -->
+<div class="modal fade popup2" id="localfilesmodel" data-backdrop="false">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal body -->
+      <div class="modal-header"><h5 class="modal-title">local Plans</h5></div>
+      <div class="modal-body">
+        <div class="row">
+          <div
+            class="col-md-3 p-2"
+            ng-repeat="plan in vm.localFiles"
+            ng-click="vm.choosePlanData1(plan)"
+          >
+            <div class="image-holder1">
+              <img
+                class="img_center"
+                ng-src="{{plan.url}}"
+                alt="image caption"
+              />
+              <div class="card-body p-2">
+                <input type="checkbox" />&nbsp;&nbsp; {{ plan }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">
+          Close
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          ng-click="addToDetails1(vm.planToMark)"
+        >
+          next
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Details Model -->
+<div id="issuedetail" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Issue Details</h4>
+        <button
+          type="button"
+          ng-hide="updateform==true;"
+          class="btn btn-primary"
+          ng-click="updateRequest(issueModel);"
+        >
+          Update
+        </button>
+      </div>
+      <div class="modal-body" ng-hide="updateform==true;">
+        <table>
+          <tr>
+            <td class="font-size-14"><b>ISSUE ID</b></td>
+            <td>:</td>
+            <td class="font-size-14 secondary-text">
+              {{ issueModel.systemTag }}
+            </td>
+          </tr>
+          <tr>
+            <td class="font-size-14"><b>ISSUE TITLE</b></td>
+            <td>:</td>
+            <td class="font-size-14 secondary-text">{{ issueModel.title }}</td>
+          </tr>
+          <tr>
+            <td class="font-size-14"><b>ISSUE TYPE</b></td>
+            <td>:</td>
+            <td class="font-size-14 secondary-text">
+              {{ issueModel.issueCategory }}
+            </td>
+          </tr>
+          <tr>
+            <td class="font-size-14"><b>DESCRIPTION</b></td>
+            <td>:</td>
+            <td class="font-size-14 secondary-text">
+              {{ issueModel.description }}
+            </td>
+          </tr>
+          <tr>
+            <td class="font-size-14"><b>PROJECT NAME</b></td>
+            <td>:</td>
+            <td class="font-size-14 secondary-text">
+              {{ issueModel.projectId.projectName }}
+            </td>
+          </tr>
+          <tr>
+            <td class="font-size-14"><b>ISSUE STATUS</b></td>
+            <td>:</td>
+            <td class="font-size-14 secondary-text">
+              {{ issueModel.issueStatus }}
+            </td>
+          </tr>
+          <tr>
+            <td class="font-size-14"><b>DEADLINE</b></td>
+            <td>:</td>
+            <td class="font-size-14 secondary-text">{{ deadLineDate }}</td>
+          </tr>
+
+          <tr>
+            <td class="font-size-14"><b>IMAGES</b></td>
+            <td>:</td>
+          </tr>
+        </table>
+
+        <div>
+          <table class="table" style="vertical-align:middle; margin: 0 auto;">
+            <tr
+              ng-repeat="image in issueModel.listAssets"
+              ng-switch
+              on="$index % 3"
+            >
+              <td ng-switch-when="0">
+                <a
+                  ng-href="{{issueModel.listAssets[$index].secure_url}}"
+                  target="_blank"
+                  style="display:inline-block"
+                >
+                  <img
+                    ng-src="{{issueModel.listAssets[$index].secure_url}}"
+                    width="100px"
+                    height="100px"
+                  />
+                </a>
+              </td>
+              <td ng-switch-when="0">
+                <span ng-show="issueModel.listAssets[$index+1]">
+                  <a
+                    ng-href="{issueModel.listAssets[$index+1].secure_url}}"
+                    target="_blank"
+                    style="display:inline-block"
+                  >
+                    <img
+                      ng-src="{{issueModel.listAssets[$index+1].secure_url}}"
+                      width="100px"
+                      height="100px"
+                    />
+                  </a>
+                </span>
+              </td>
+              <td ng-switch-when="0">
+                <span ng-show="issueModel.listAssets[$index+2]">
+                  <a
+                    ng-href="{{issueModel.listAssets[$index+2].secure_url}}"
+                    target="_blank"
+                    style="display:inline-block"
+                  >
+                    <img
+                      ng-src="{{issueModel.listAssets[$index+2].secure_url}}"
+                      width="100px"
+                      height="100px"
+                    />
+                  </a>
+                </span>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer" ng-hide="updateform==true;">
+        <button type="button" class="btn btn-default" data-dismiss="modal">
+          Close
+        </button>
+      </div>
+      <div class="modal-body" ng-show="updateform==true;">
+        <!-- form for issues creation here -->
+        <form
+          name="vm.updateIssuesForm"
+          ng-model="vm.updateIssue"
+          novalidate
+        ></form>
+        <div class="modal-body">
+          <!-- <div class="row mt-5"> -->
+          <div class="form-group col">
+            <label for="title">Title</label>
+            <input
+              type="text"
+              class="form-control"
+              ng-model="vm.updateIssue.title"
+              name="title"
+              maxlength="100"
+              ng-minlength="2"
+              ng-value="Title"
+              required
+            />
+          </div>
+          <div class="form-group col">
+            <label for="description">Description</label>
+            <input
+              type="textarea"
+              class="form-control"
+              ng-model="vm.updateIssue.description"
+              name="description"
+              ng-value="Description"
+              required
+            />
+          </div>
+          <!-- </div> -->
+
+          <!-- <div class="row"> -->
+
+          <div class="form-group col" ng-hide="openEdit==true">
+            <label for="status">DeadLine</label>
+            <div class="row">
+              <div class="form-group col">
+                <input
+                  type="text"
+                  class="form-control"
+                  ng-model="vm.updateIssue.deadLine"
+                  name="deadline"
+                  ng-value="deadLineDate"
+                  readonly
+                  required
+                />
+              </div>
+              <div>
+                <i ng-click="openEditDate();">
+                  <img
+                    style="height: 20px;width: 20px; color: blue;"
+                    src="../assets/images/reportimgs/VE_icon_hover.png"
+                  />
+                </i>
+              </div>
+            </div>
+          </div>
+          <div class="form-group col" ng-show="openEdit==true">
+            <label for="status">DeadLine</label>
+            <div class="row">
+              <div class="form-group col">
+                <input
+                  type="date"
+                  class="form-control"
+                  ng-model="vm.updateIssue.deadLine"
+                  name="deadline"
+                  required
+                />
+              </div>
+            </div>
+
+            <!--
+              <div class="inner-addon right-addon" ng-hide="openEdit==true">
+
+                                         <button class="glyphicon glyphicon-user" ng-click="openEditDate();">
+                                           <img  style="height: 20px;width: 20px;" src="../assets/images/reportimgs/VE_icon_hover.png"/>
+                                         </button>
+                                         <input type="text" class="form-control" ng-model="vm.updateIssue.deadLine" name="deadline" ng-value="deadLineDate" readonly required >
+                                     </div>
+            -->
+            <!--
+              <div class="inner-addon right-addon" ng-show="openEdit==true">
+
+                                         <i class="glyphicon glyphicon-user" ng-click="closeEditDate();">
+                                           <img  style="height: 20px;width: 20px;" src="../assets/images/reportimgs/cancel-icon.png"/>
+                                         </i>
+                                         <input type="date" class="form-control" ng-model="vm.updateIssue.deadLine" name="deadline" required >
+                                     </div>
+            -->
+
+            <!--
+              <input type="date" class="form-control" id="deadline" name="deadline" ng-model="vm.updateIssue.deadLine"
+                                   required />
+            -->
+          </div>
+          <div class="form-group col">
+            <label for="status">IssueStatus</label>
+            <select class="form-control" ng-model="vm.updateIssue.issueStatus">
+              <option value="">{{ Status }}</option>
+              <option style="color:red;" value="High Priority">
+                <b>High Priority</b>
+              </option>
+              <option style="color:orange" value="Medium Priority">
+                <b>Medium Priority</b>
+              </option>
+              <option style="color:yellow" value="On Hold">
+                <b>On Hold</b>
+              </option>
+              <option style="color:green" value="Completed">
+                <b>Completed</b>
+              </option>
+            </select>
+            <!--
+              <input auto-complete class="form-control" ui-items="currency" ng-init="currency='no currency selected'" ng-model="currency">
+            -->
+          </div>
+
+          <!-- </div> -->
+          <div class="form-group col"></div>
+          <div ng-show="issueModel.listAssets.length>0" class="row">
+            <div ng-repeat="file in issueModel.listAssets" class="img_wrp">
+              <img
+                height="100"
+                width="100"
+                ng-src="{{file.secure_url}}"
+                alt=""
+              />
+
+              <img
+                class="closebtn"
+                src="http://wecision.com/enterprise/images/icons/closeIcon.png"
+                ng-click="removeFiles($index,issueModel.listAssets,file._id)"
+              />
+            </div>
+          </div>
+          <div><br /></div>
+          <!-- input images design -->
+          <div ng-show="inputFiles.length>0" class="row">
+            <div ng-repeat="file in inputFiles" class="img_wrp">
+              <img
+                id="inputfile"
+                height="100"
+                width="100"
+                ng-src="{{file.source}}"
+                alt=""
+              />
+
+              <img
+                class="deleteImg"
+                src="http://wecision.com/enterprise/images/icons/closeIcon.png"
+                ng-click="deleteImg($index,inputFiles)"
+              />
+            </div>
+          </div>
+          <!-- end of design -->
+
+          <div><br /></div>
+
+          <div class="row">
+            <div class="form-group col">
+              <div
+                class="btn btn-success"
+                ngf-select
+                ng-model="file"
+                name="file"
+                ngf-multiple="false"
+                style="height: 35px;"
+                ng-change="readImg(file);"
+              >
+                Add new Images
+              </div>
+            </div>
+            <div class="form-group col">
+              <div ng-show="file" class="file-name">
+                {{ file.name }}
+                <div ng-hide="file" class="file-name">No file is selected</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Input file new dsign -->
+          <div ng-show="file">
+            <table class="table table-bordered">
+              <tr>
+                <td><img id="blah" src="#" alt="" height="50" width="50" /></td>
+
+                <td>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="comment"
+                    name="comment"
+                    ng-model="comment"
+                    placeholder="comment"
+                    required
+                  />
+                </td>
+                <td>
+                  <button
+                    type="button"
+                    class="btn btn-default"
+                    ng-click="addFile(file,comment)"
+                  >
+                    ADD
+                  </button>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <!-- input file design ends -->
+          <!--
+            <div class="row">
+                                   <div class="form-group col">
+                                           <input type="text" class="form-control" id="comment" name="comment" ng-model="comment" placeholder="comment"
+                                           required />
+                                   </div>
+                                   <div class="form-group" style="padding-left:30px">
+                                       <button type="button" class="btn btn-default" ng-click="addFile(file,comment)">ADD</button>
+                                   </div>
+                           </div>
+          -->
+          <div></div>
+          <!--
+            <div ng-show="inputFiles.length>0">
+                                   <table class="table table-bordered">
+                                       <tr>
+                                           <th>File Name</th>
+                                           <th>Comment</th>
+                                           <th></th>
+                                       </tr>
+                                       <tr ng-repeat="file in inputFiles">
+                                           <td>
+                                                   {{file.file.name}}
+                                           </td>
+                                           <td> {{file.comment}}</td>
+                                           <td><button type="button" style="text-align: center"class="close" ng-click="deleteImg($index,inputFiles)">
+                                                   <span aria-hidden="true" style="color: red">×</span>
+                                               </button>
+                                           </td>
+                                       </tr>
+
+                                   </table>
+                            </div>
+          -->
+        </div>
+        <div class="modal-footer" ng-show="updateform==true;">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            ng-click="vm.closeUpdteModel()"
+            data-dismiss="modal"
+          >
+            Close
+          </button>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            ng-click="vm.updateIssueDetails()"
+          >
+            Update
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

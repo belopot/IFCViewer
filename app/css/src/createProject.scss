@@ -1,0 +1,59 @@
+/* Dashboard -design */
+#create_project {
+  background: url(/assets/images/dashboard/BG.jpg);
+  object-fit: contain;
+  width: 100%;
+  min-height: 100vh;
+  -webkit-backdrop-filter: blur(30px);
+  backdrop-filter: blur(30px);
+  box-shadow: 0 3px 6px 0 rgba(255, 245, 245, 0.16);
+  border: solid 1px #eadada;
+}
+.addNewProject {background: #525252; border-radius: 6px; color: #fff }
+.addNewProject a {color:  #fff; font-weight: bold}
+.client {background: #0cdedd; color:#fff;}
+.client h5 {font-weight: 400;}
+.projectDetails .client .btn {border-radius:20px}
+.address, .project {background: #fff}
+.map {background: #a2bfdd}
+
+.projectDetails input.form-control, .projectDetails select.custom-select {border-radius: 20px;}
+.projectDetails select.custom-select {border-color: #fff; background-color: transparent }
+.projectDetails .form-group {margin-bottom: 0.5rem}
+.projectDetails textarea {width: 100%; border-radius: 6px; resize: none !important; border-color: #ced4da }
+.projectDetails .form-group label {font-size: .8rem}
+.projectDetails .form-control {padding: .25rem .75rem; font-size: 0.8rem;}
+
+.mapHeader {background: #1d53e9; color: #fff;}
+.projectDetails .mapHeader input {border: 1px solid #fff; border-radius: 20px; width: 100%; padding: .25rem .75rem; }
+ng-map {height: 416px;}
+.projectDetails .project-footer .btn {border-radius: 0 !important}
+
+/* responsive break points */
+@media only screen and (max-device-width : 319px) {
+
+}
+@media only screen and (min-device-width : 320px) and (max-device-width : 479px) {
+
+}
+@media only screen and (min-device-width : 480px) and (max-device-width : 567px) {
+
+}
+@media only screen and (min-device-width : 568px) and (max-device-width : 767px) {
+  
+}
+@media only screen and (min-device-width : 768px) and (max-device-width : 959px) {
+  
+}
+@media only screen and (max-device-width : 959px) {
+  
+}
+@media only screen and (min-device-width : 960px) {
+  
+}
+@media only screen and (min-device-width : 960px) and (max-device-width : 1199px) {
+
+}
+@media only screen and (min-device-width : 1200px) {
+    
+}

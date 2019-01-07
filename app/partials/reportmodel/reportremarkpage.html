@@ -1,0 +1,60 @@
+<div class="modal-dialog">
+    <div class="modal-content modal-content-one">
+        <div class="modal-header">
+                <h5 class="modal-title">Report Remark</h5>
+            <button type="button" class="close" data-dismiss="modal">
+                <span aria-hidden="true">×</span>
+                <span class="sr-only">Close</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form>
+                <div class="row" id="remarkform">
+                <div class="form-group col">
+                   <label for="remarktitle">Remark Title</label>
+                   <input type="text" class="form-control" id="remarktitle" ng-model="remarktitledata">
+                </div>
+                <div class="form-group col">
+                        <label for="remarkvalue">Remark Value</label>
+                        <input type="text" class="form-control" id="remarkvalue"ng-model="remarkvaluedata">
+                     </div>
+                     <div class="form-group col">
+                            <label for="addremark">Add More Remarks</label>
+                            <input type="button" class="form-control" id="addremark" value="ADD" ng-Click="addRemark(remarktitledata,remarkvaluedata)">
+                         </div>
+                </div>
+                <div class="container-fluid px-5 mt-3" ng-If= "remarkData.length>0" style="padding-bottom: 20px;">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table id="statictable" class="dataTable table-bordered hover">
+                                    <thead class="bg-success text-white">
+                                        <tr style="height: 40px;">
+                                            <th>Title</th>
+                                            <th>Value</th> 
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr style="height: 30px;" ng-repeat="remark in remarkData">
+                                                <td>{{remark.Title}}</td>
+                                                <td>{{remark.Value}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                 
+                <div class="form-group">
+                    <label for="authorname">Remark Author Name</label>
+                    <input type="text" class="form-control" ng-model="reportObj.authorName" id="authorname">
+                 </div>
+                 <div class="form-group">
+                    <label for="remarkdate">Remark Date</label>
+                    <input type="date" class="form-control" ng-model="reportObj.remarkDate" id="remarkdate">
+                 </div>
+                
+                <button type="submit" class="btn btn-primary mb-2" ng-click="setReportObj(reportObj)">submit</button>
+            </form>
+        </div>
+    </div>
+</div>

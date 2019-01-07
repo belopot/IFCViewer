@@ -1,0 +1,12 @@
+{
+  "name": "angular-filesaver",
+  "version": "0.1.0",
+  "description": "AngularJS Service to wrap FileSaver.js library",
+  "main": "angular-filesaver.js",
+  "keywords": [
+    "angularjs",
+    "file"
+  ],
+  "author": "Jeremy Forsythe",
+  "license": "MIT"
+}

@@ -1,0 +1,70 @@
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">List of issues in print</h5>
+                    <button class="btn btn-sm btn-warning text-white float-right" ng-click="openReportPicker()">
+                        <i class="fas fa-plus"></i> 
+                    </button>
+                </div>
+                <!-- Modal body -->
+                <div class="modal-body">
+                        <table id="statictable" class="dataTable table-bordered hover" ng-If="issueToAdd.length>0"ng-hide="EditMode==true">
+                                <thead class="bg-success text-white">
+                                    <tr style="height: 40px;">
+                                        <th>Title</th>
+                                        <th>System Tag</th> 
+                                        <th>Created Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style="height: 30px;"ng-repeat="item in issueToAdd">
+                                            <td>{{item.title}}</td>
+                                            <td>{{item.systemTag}}</td>
+                                            <td>{{item.created | date:'mediumDate'}}</td>
+                                       
+                                    </tr>
+                                </tbody>
+                            </table>
+                   
+                        <ul dnd-list="issueToAdd" ng-If="EditMode==true">
+                               <div class="row">
+                                    <div class="col"style="font-weight:bold;">Title</div>
+                                    <div class="col"style="font-weight:bold;">System Tag</div>  
+                                    <div class="col"style="font-weight:bold;">Created Date</div>
+                                    <div class="col"style="font-weight:bold;">Action</div> 
+
+                               </div>
+                                <li ng-repeat="item in issueToAdd"
+                                    dnd-draggable="item"
+                                    dnd-moved="issueToAdd.splice($index, 1)"
+                                    dnd-effect-allowed="copyMove"
+                                    dnd-selected="models.selected = item"
+                                    ng-class="{'selected': models.selected === item}"
+                                    style="padding-top: 5px;">
+                                  
+                                    <div class="row">
+                                        <div class="col">{{item.title}}</div>
+                                         <div class="col">{{item.systemTag}}</div>  
+                                         <div class="col">{{item.created | date:'mediumDate'}}</div> 
+                                         <div class="col"><i class="far fa-times-circle" style="color: red;font-size: 12px;"ng-click="removeFromIssueList($index,issueToAdd)"></i></div> 
+
+                                    </div>
+                                   
+                                </li>
+                            </ul>
+                    
+                        
+    
+                </div>
+    
+                <!-- Modal footer -->
+                <div class="modal-footer" >
+                    <button type="button" class="btn btn-primary" ng-click="EditIssueData()" ng-If="issueToAdd.length>0">Edit</button>
+                    <button type="button" class="btn btn-success" ng-click="sendIssueToPdf()" ng-If="issueToAdd.length>0">Save</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"ng-If="!issueToAdd.length>0">Close</button>
+                </div>
+            </div>
+        </div>
+
+
+       

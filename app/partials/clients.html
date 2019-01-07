@@ -1,0 +1,298 @@
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" crossorigin="anonymous">
+<div ng-include="'/partials/header.html'"></div>
+<section class="sub-contractor client-section sectionbg" id="supplier-section">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="d-flex align-items-center justify-content-between flex-wrap2">
+            <h3 class="headOne txtblack">Clients</h3>
+            <button class="btn btn_create_issue width_auto space10_mob yello_clr ripple" data-toggle="modal" data-target="#add_Client">Add Client</button>      
+          </div>
+          <div class="row issue-row">
+            <div class="col-xl-4 col-12" ng-repeat="client in vm.allClients">
+              <div class="issue-box position-relative transition flex-column  animated fadeInUp wow" data-wow-delay=".4s">
+                <div class="media align-items-end spaceup2">
+                  <div class="tree_logo d-flex align-items-center justify-content-center transition animated zoomIn wow" data-wow-delay=".8s">
+                    <div class="inner_circle d-flex align-items-center justify-content-center animated zoomIn wow" data-wow-delay="1.3s">
+                      <img ng-src="{{client.clientLogo}}" err-src="/assets/images/clientimage.png" class="img-fluid animated zoomIn wow" 
+                           style="border-radius: 50%;width:200%;object-fit: scale-down;" data-wow-delay="1.7s" alt="logo">
+                    </div>
+                  </div>
+                  <div class="media-body animated fadeIn wow" data-wow-delay="1.3s">
+                    <h2 class="headThree">{{client.clientName}}</h2>
+                    <p class="f700 fsize14 txtgrey mb-1">{{client.created | date : 'MMM dd,yyyy At HH:MM'}}</p>
+                  </div>
+                </div>
+                <div class="space30"></div>
+                <div class="input-group input_form animated fadeIn wow" data-wow-delay="1.3s">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text">
+                      <img src="/assets/images/suppliers/call.png" class="img-fluid" alt="call">
+                    </div>
+                  </div>
+                  <input type="text" class="form-control " placeholder="{{ client.clientContact.dialCode }}+{{client.clientContact.phoneNumber}}">
+                </div>
+                <div class="input-group input_form spaceup animated fadeIn wow" data-wow-delay="1.3s">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text">
+                      <img src="/assets/images/suppliers/mail.png" class="img-fluid" alt="mail">
+                    </div>
+                  </div>
+                  <input type="text" class="form-control" placeholder="{{ client.email }}">
+                </div>
+                <div class="input-group input_form spaceup animated fadeIn wow" data-wow-delay="1.3s">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text">
+                      <img src="/assets/images/suppliers/building.png" class="img-fluid" alt="building">
+                    </div>
+                  </div>
+                  <input type="text" class="form-control" placeholder="{{client.address1.line1 }},{{client.address1.postalCode }},{{client.address1.countryCode}}">
+                </div>
+                <div class="space20"></div>                    
+                <div>
+                  <!-- <span class="lbl_stat complete transition mt-0  animated fadeIn wow" data-wow-delay="1.3s">2 staff members</span> -->
+                  <a href="#!clients_detail/{{client._id}}" class="float-right txtred f500 d-flex align-items-center view_tag  animated fadeIn wow" data-wow-delay="1.3s"
+                     style="font-size: 18px;"><b>View Detail</b> <i class="fa fa-angle-right ml-3"></i></a>
+                </div>                  
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="pagination" class="mt-3" ></div>
+      </div>
+    </div>
+  </section>
+
+ <!-- <div class="modal fade" id="addClient" tabindex="-1" role="dialog">
+<div ng-include="'/partials/addclient.html'"></div>
+  </div> -->
+<div class="modal fade popup2 client_modal" data-easein="slideUpBigIn" id="add_Client" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+        
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <div class="d-flex align-items-center justify-content-between w-100">
+                  <h5 class="modal-title f500 txtwhite">Add Client</h5>
+                </div>
+              </div>
+              <div class="modal-body pad0">
+                    <div class="d-md-flex">
+                      <div class="col-lg-6 col-md-6 pad0">
+                        <div class="issue_form">
+                          <div class="f_block">
+                            <p class="fsize18 f500 txtgrey c_space mb-2">Client Name</p>
+                            <input type="text" class="form-control animated zoomIn wow" ng-model="vm.clientData.clientName" maxlength="100" ng-minlength="2"
+                              required>
+                          </div>
+                          <div class="f_block">
+                              <p class="fsize18 f500 txtgrey c_space mb-2 mt-4">Description</p>
+                              <input type="number" class="form-control animated zoomIn wow" ng-model="vm.clientData.description" 
+                                min="1" max="1000" />
+                          </div>
+                          <div class="f_block">
+                            <p class="fsize18 f500 txtgrey c_space mb-2 mt-4">Contact</p>
+                            <div class="row">
+                                <div class="form-group col">
+                                    <select ui-select2 ng-model="vm.clientData.clientContact.dialCode" class="form-control"
+                                   placeholder="dial Code">
+                                   <option ng-repeat="currency in vm.getCountryCode" value="{{currency.dialCode}}">{{currency.dialCode}} - {{currency.name}}</option>
+                                  </select>
+                                </div>
+                                <div class="form-group col">
+                                    <input type="number" class="form-control animated zoomIn wow" ng-model="vm.clientData.clientContact.phoneNumber" 
+                                    min="1" max="10" />
+                                </div>
+                            </div>
+                            
+                          </div>
+                          <div class="f_block">
+                            <p class="fsize18 f500 txtgrey c_space mb-2 mt-4">Email</p>
+                            <input type="number" class="form-control animated zoomIn wow" ng-model="vm.clientData.email" 
+                              min="1" max="1000" />
+                          </div>
+                          <div class="f_block">
+                              <p class="fsize18 f500 txtgrey c_space mb-2 mt-4">Primary Address</p>
+                            <div class="row">
+                              <div class="form-group col">
+                                  <input type="text" class="form-control animated zoomIn wow" ng-model="vm.clientData.address1.line1" 
+                                   placeholder="line1"/>
+                              </div>
+                              <div class="form-group col">
+                                  <input type="text" class="form-control animated zoomIn wow" ng-model="vm.clientData.address1.line3" 
+                                  placeholder="line2"/>
+                              </div>
+                              
+                            </div>
+                            <div class="row">
+                                <div class="form-group col">
+                                    <input type="text" class="form-control animated zoomIn wow" ng-model="vm.clientData.address1.line3" 
+                                     placeholder="line3"/>
+                                </div>
+                                <div class="form-group col">
+                                    <input type="text" class="form-control animated zoomIn wow" ng-model="vm.clientData.address1.city" 
+                                     placeholder="city"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col">
+                                    <input type="text" class="form-control animated zoomIn wow" ng-model="vm.clientData.address1.postalCode" 
+                                     placeholder="postal code"/>
+                                </div>
+                                <div class="form-group col">
+                                    <select ui-select2 ng-model="vm.clientData.address1.countryCode" class="form-control"
+                                    placeholder="country code">
+                                    <option ng-repeat="currency in vm.getCountryCode" value="{{currency.code}}">{{currency.code}} - {{currency.name}}</option>
+                                   </select>
+                                </div>
+                            </div>
+                           
+                          </div>
+                          <div class="f_block">
+                            <p class="fsize18 f500 txtgrey c_space mb-2 mt-4">Secondary Address</p>
+                            <div class="row">
+                                <div class="form-group col">
+                                    <input type="text" class="form-control animated zoomIn wow" ng-model="vm.clientData.address2.line1" 
+                                     placeholder="line1"/>
+                                </div>
+                                <div class="form-group col">
+                                    <input type="text" class="form-control animated zoomIn wow" ng-model="vm.clientData.address2.line3" 
+                                    placeholder="line2"/>
+                                </div>
+                             
+                              </div>
+                              <div class="row">
+                                  <div class="form-group col">
+                                      <input type="text" class="form-control animated zoomIn wow" ng-model="vm.clientData.address2.line3" 
+                                       placeholder="line3"/>
+                                  </div>
+                                  <div class="form-group col">
+                                      <input type="text" class="form-control animated zoomIn wow" ng-model="vm.clientData.address2.city" 
+                                       placeholder="city"/>
+                                  </div>
+                              </div>
+                              <div class="row">
+                                  <div class="form-group col">
+                                      <input type="text" class="form-control animated zoomIn wow" ng-model="vm.clientData.address2.postalCode" 
+                                       placeholder="postal code"/>
+                                  </div>
+                                  <div class="form-group col">
+                                      <select ui-select2 ng-model="vm.clientData.address2.countryCode" class="form-control"
+                                      placeholder="country code">
+                                      <option ng-repeat="currency in vm.getCountryCode" value="{{currency.code}}">{{currency.code}} - {{currency.name}}</option>
+                                     </select>
+                                  </div>
+                             </div>
+                          </div>
+                          <div class="f_block">
+                              <p class="fsize18 f500 txtgrey c_space mb-2 mt-4">Website</p>
+                              <input type="number" class="form-control animated zoomIn wow" ng-model="vm.clientData.clientWebsite" 
+                                min="1" max="1000" />
+                          </div>
+                          <div class="f_block">
+                              <p class="fsize18 f500 txtgrey c_space mb-2 mt-4">Year Founded</p>
+                              <input type="number" class="form-control animated zoomIn wow" ng-model="vm.clientData.yearFounded" 
+                                min="1" max="1000" />
+                          </div>
+                          <div class="f_block">
+                              <p class="fsize18 f500 txtgrey c_space mb-2 mt-4">select Industries</p>
+                                 <select  multiple ui-select2 ng-model="vm.clientData.industry" class="form-control animated zoomIn wow" data-wow-delay="0.7s"
+                                   ng-options="industry.type for industry in vm.getIndustries"required></select>
+                          </div>
+                          <div class="f_block">
+                              <p class="fsize18 f500 txtgrey c_space mb-2 mt-4">Annual Revenue</p>
+                              <div class="row">
+                                  <div class="form-group col">
+                                      <select ui-select2 ng-model="vm.clientData.annualRevenue.currencyCode"  placeholder="select Currency"
+                                      class="form-control" ng-options="cc.symbol +' - '+cc.name for cc in vm.getCurrencies"></select>
+                                  </div>
+                                  <div class="form-group col">
+                                      <input type="number" class="form-control animated zoomIn wow" ng-model="vm.clientData.annualRevenue.value" 
+                                      min="1" max="1000" />
+                                  </div>
+                              </div>
+                              
+                          </div>
+                          <div class="f_block">
+                              <p class="fsize18 f500 txtgrey c_space mb-2 mt-4">Client Contact</p>
+                              <input type="text" class="form-control animated zoomIn wow" ng-model="vm.clientData.clientContactPerson.firstName" 
+                                placeholder="first name" /><br>
+                                <input type="text" class="form-control animated zoomIn wow" ng-model="vm.clientData.clientContactPerson.middleName" 
+                                placeholder="midddle name" /><br>
+                                <input type="text" class="form-control animated zoomIn wow" ng-model="vm.clientData.clientContactPerson.lastName" 
+                                placeholder="last name" /><br>
+                                <input type="email" class="form-control animated zoomIn wow" ng-model="vm.clientData.clientContactPerson.email" 
+                                placeholder="last name" /><br>
+                                <div class="row">
+                                    <div class="form-group col">
+                                        <select ui-select2 ng-model="vm.clientData.clientContactPerson.dialCode" class="form-control"
+                                       placeholder="dial Code">
+                                       <option ng-repeat="currency in vm.getCountryCode" value="{{currency.dialCode}}">{{currency.dialCode}} - {{currency.name}}</option>
+                                      </select>
+                                    </div>
+                                    <div class="form-group col">
+                                        <input type="number" class="form-control animated zoomIn wow" ng-model="vm.clientData.clientContactPerson.phoneNumber"
+                                        min="1" max="10" />
+                                    </div>
+                                </div>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div class="col-lg-6 col-md-6 pad0">
+                        <div class="bg_grey">
+                          <div class="d-lg-flex">
+                            <div class="col-lg-6 padleft0">
+                              <div class="blockOne d-block align-items-end ">
+                                <div class="w_100">
+                                  <p class="f500 txtgrey fsize18 c_space">Upload Images</p>
+                                  <div class="img_box white_block ">
+                                    <ul class="list-unstyled mb-0 uploaded_img">
+                                      <!-- ngRepeat: img in img_upload -->
+                                      <li class="ng-scope" ng-repeat="f in vm.inputFiles">
+                                        <div class="img_height">
+                                          <img ngf-src="f" class="img-fluid animated zoomIn wow" data-wow-delay=".7s" alt="image">
+                                        </div>
+                                      </li>
+                                      <!-- end ngRepeat: img in img_upload -->
+                                    </ul>
+                                    <hr class="bottom-line">
+                                    <div class="btn btn_red btn_create_issue ripple  mt-4" type="file" ngf-select ng-model="vm.inputFiles" ngf-change="vm.fileUpdated($files, $event, vm.inputFiles)"
+                                      name="file" ngf-pattern="'image/*'" ngf-multiple="true" ngf-accept="'image/*'">Browse</div>
+        
+                                    <!-- <button class="btn btn_red btn_create_issue ripple animated zoomIn wow" data-wow-delay=".7s">Browse</button> -->
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-lg-6 padright0">
+                              <div class="blockOne d-block align-items-end ">
+                                <div class="w_100">
+                                  <p class="f500 txtgrey fsize18 c_space">Upload Documents</p>
+                                  <div class="img_box white_block ">
+                                   
+                                    <hr class="bottom-line">
+                                    <button class="btn btn_create_issue ripple animated zoomIn wow" data-wow-delay=".7s">browse</button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                
+                  
+                
+              </div>
+              <div class="modal-footer align-items-center">
+                  <div>
+                    <button type="button" class="btn btn_create_issue ripple" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn_create_issue ripple" data-ng-click="vm.tabChange(1)">Next</button>
+                  </div>
+                </div>
+             
+            </div>
+          </div>
+</div>

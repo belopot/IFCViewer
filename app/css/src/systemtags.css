@@ -1,0 +1,30 @@
+.sidebarcon {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.sidebarnav {
+    margin-top: 0px !important;
+}
+
+.sidebarnav a {
+    border-bottom: 1px solid #ccc;
+    color:#0366D6!important;
+}
+
+.sidebarnav a.active {
+    border-left: 3px solid #E36209;
+}
+
+.sidebarnav :last-child {
+    border-bottom: 0px solid #ccc;
+    border-radius: 5px;
+}
+
+.sidebarnav a:hover {
+    background-color: 1px solid #ccc !important;
+}
+
+.menu-heading{
+  border:1px solid #ccc;
+}

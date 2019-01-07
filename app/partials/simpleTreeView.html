@@ -1,0 +1,31 @@
+<div class="row no-gutters">
+    <div class="col-10">
+        <a href="" class="file-listing text-truncate">
+            <i class="fas" ng-class="{'fa-folder' : this.collapsed, 'fa-folder-open' : !this.collapsed}"></i>&nbsp;&nbsp;
+            <span>{{node.name}}</span>
+        </a>
+    </div>
+    <div class="col-2 addChildFolder">
+    </div>
+</div>
+
+<ol ui-tree-nodes="" ng-model="node.children">
+    <li ng-repeat="node in node.children" ui-tree-node ng-include="'/partials/simpleTreeView.html'">
+    </li>
+    <!-- <li ui-tree-node ng-repeat="file in node.files">
+
+        <div class="row">
+            <div class="col-10">
+                <a href="" class="file-listing text-truncate">
+                    <i class="fas fa-equals mr-2" ui-tree-handle ng-show="vm.editEnabled"></i>
+                    <span>
+                        <i class="fas fa-file mr-2"></i> {{file.assetName}}
+                    </span>
+                </a>
+            </div>
+            <div class="col-2">
+                &nbsp;
+            </div>
+        </div>
+    </li> -->
+</ol>

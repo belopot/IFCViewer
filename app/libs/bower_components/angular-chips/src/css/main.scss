@@ -1,0 +1,54 @@
+$default-color: rgb(224, 224, 224);
+$focus-color: rgb(16, 108, 200);
+$chip-tmpl-focus-color: rgb(158, 158, 158);
+
+chip-tmpl {
+    display: inline-block;
+    margin: 0 5px 5px 0;
+}
+
+.default-chip {
+    border: 2px solid $default-color;
+    border-radius: 5px;
+    background: $default-color;
+    padding: 5px;
+}
+
+chip-tmpl:focus {
+    outline: none;
+    .default-chip {
+        border: 2px solid $chip-tmpl-focus-color;
+        background: $chip-tmpl-focus-color;
+        color: white;
+    }
+}
+
+.chip-failed {
+    .default-chip {
+        color: red;
+    }
+}
+
+chips {
+    display: block;
+    padding: 5px;
+    > div {
+        display: inline;
+        > input {
+            height: 100%;
+            border: none;
+            font-size: 14px;
+        }
+        > input:focus {
+            outline: none;
+        }
+    }
+}
+
+.chip-out-focus {
+    border-bottom: 1px solid $default-color;
+}
+
+.chip-in-focus {
+    border-bottom: 1px solid $focus-color;
+}

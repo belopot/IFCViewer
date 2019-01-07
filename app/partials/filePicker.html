@@ -1,0 +1,50 @@
+<div class="modal fade p-0 m-0" id="moveTo" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content modal-content-one">
+            <div class="modal-header">
+                <h5>
+                    <i class="fa fa-arrow-left mr-3" ng-if="!backBtnView" ng-click="back()"></i> {{folderName}}</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>×</span>
+                    <span class="sr-only">Close</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                {{temp}}
+                <ul class="rootFolder p-0">
+                    <li ng-repeat="folder in folders" ng-click="viewFolder(folder)">
+                        <i class="fas fa-folder mr-3"></i> {{folder.name}}</li>
+                    <li class="file" ng-repeat="file in files">
+                        <i class="fas fa-file mr-3"></i> {{file.assetName}}</li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-cyan py-1 px-3" ng-click="moveTo(selectedFolder, source)">Move To</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade p-0 m-0" id="chooseFile" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content modal-content-one">
+            <div class="modal-header">
+                <h5>
+                    <i class="fa fa-arrow-left mr-3" ng-if="!backBtnView" ng-click="back()"></i> {{folderName}}</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>×</span>
+                    <span class="sr-only">Close</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                {{temp}}
+                <ul class="rootFolder p-0">
+                    <li ng-repeat="folder in folders" ng-click="viewFolder(folder)">
+                        <i class="fas fa-folder mr-3"></i> {{folder.name}}</li>
+                    <li ng-repeat="file in files | filter: {format: options.filter}" ng-click="selectFile(file, breadCrumbs)">
+                        <i class="fas fa-file mr-3"></i> {{file.assetName}}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

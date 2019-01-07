@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <title>Evaporate Example</title>
+
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.css" crossorigin="anonymous">
+   <link rel="stylesheet" type="text/css" href="assets/example.css">
+
+   <script language="javascript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.6.4/jquery.js"></script>
+   <script language="javascript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/aws-sdk/2.22.0/aws-sdk.min.js"></script>
+   <script language="javascript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.1.3/js.cookie.js"></script>
+   <script language="javascript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/progressbar.js/1.0.1/progressbar.min.js"></script>
+   <script language="javascript" type="text/javascript" src="../evaporate.js"></script>
+
+</head>
+<body>
+<div class="container-fluid">
+   <h1 id="header">EvaporateJS Example</h1>
+   <dl>
+      <dt>AWS Key</dt>
+      <dd><input id="awsKey" type="text" placeholder="AWS Key"/></dd>
+      <dt>S3 Bucket</dt>
+      <dd><input id="s3Bucket" type="text" placeholder="S3 Bucket"/></dd>
+      <dt id="signerLabel">Signer Url</dt>
+      <dd><input id="signerUrl" type="text" placeholder="Signer URL"/></dd>
+      <dt>Signing</dt>
+      <dd><label><input id="signingMethod" type="checkbox"/>&nbsp;Use unsafe JavaScript custom auth method</label></dd>
+      <dt class="awsRegion">AWS Region</dt>
+      <dd class="awsRegion"><input id="awsRegion" type="text" placeholder="us-east-1"/></dd>
+      <dt>Persist values</dt>
+      <dd class="cookie">
+         <label><input name="persist" type="radio" value="off" checked="true"/>&nbsp;No</label>
+         <label><input name="persist" type="radio" value="1d"/>&nbsp;1 Day</label>
+      </dd>
+      <div class="errors"></div>
+   </dl>
+   <input type="file" id="files"  multiple />
+   <button type="button" id="pause-all" class="btn btn-warning btn-sm glyphicon glyphicon-pause" title="Pause All"></button>
+   <button type="button" id="pause-all-force" class="btn btn-primary btn-sm glyphicon glyphicon-off" title="Force Pause All"></button>
+   <button type="button" id="resume" class="btn btn-success btn-sm glyphicon glyphicon-play" title="Resume All"></button>
+   <button type="button" id="cancel-all" class="btn btn-danger btn-sm glyphicon glyphicon-stop" title="Cancel All"></button>
+   <div><br/>Total parts in-progress: <span id="totalParts">0</span></div>
+   <div id="progress-container"></div>
+</div>
+
+<script language="javascript">
+
+   var files, file_id = 0, file_ids = [];
+   var filePromises = [], allCompleted
+       COOKIE = 'evaporate_example',
+       cookie_data = { persist: "off" },
+       cookie_options = { expires: 1 };
+
+   // Change these to reflect your local settings
+   var persist = $("input[name=persist]").val();
+   if (persist) {
+     try {
+       cookie_data = JSON.parse(Cookies.get(COOKIE) || '{ "persist": "off" }');
+
+       $("input[type=radio][name=persist][value=" + cookie_data.persist + "]").attr("checked", true);
+
+       updateSignerUi(cookie_data.useUnsafeJavaScript);
+
+       $("#awsKey").val(decodeURIComponent(cookie_data.awsKey || ''));
+       $("#awsRegion").val(decodeURIComponent(cookie_data.awsRegion || ''));
+       $("#s3Bucket").val(decodeURIComponent(cookie_data.s3Bucket || ''));
+       $("#signerUrl").val(decodeURIComponent(cookie_data.signerUrl || ''));
+     } catch (e) {
+       console.log(e);
+     }
+   }
+   var customAuth = $("#signingMethod")[0].checked;
+   Evaporate.create({
+      signerUrl: customAuth ? undefined : $("#signerUrl").val(),
+      aws_key: $("#awsKey").val(),
+      bucket: $("#s3Bucket").val(),
+      cloudfront: true,
+      computeContentMd5: true,
+      cryptoMd5Method: function (data) { return AWS.util.crypto.md5(data, 'base64'); },
+      cryptoHexEncodedHash256: function (data) { return AWS.util.crypto.sha256(data, 'hex'); },
+      logging: false,
+      s3FileCacheHoursAgo: 1,
+      allowS3ExistenceOptimization: true,
+      customAuthMethod: customAuth? doNotUseUnsafeJavaScriptV4Signer : undefined,
+      evaporateChanged: function (file, evaporatingCount) {
+         $('#totalParts').text(evaporatingCount);
+         if (evaporatingCount > 0) {
+            $("#pause-all, #pause-all-force, #cancel-all").show();
+         } else if (evaporatingCount === 0) {
+            $("#pause-all, #pause-all-force, #resume, #cancel-all").hide();
+         }
+      }
+   })
+     .then(function (_e_) {
+        $('#files').change(function (evt) {
+           files = evt.target.files;
+
+           for (var i = 0; i < files.length; i++) {
+              var name = files[i].name + Math.random() * 100;
+
+               var fileKey = $("#s3Bucket").val() + '/' + name;
+
+               callback_methods = callbacks(files[i], fileKey, i);
+
+              var promise = _e_.add({
+                         name: name,
+                         file: files[i],
+                         started: callback_methods.started,
+                         complete: callback_methods.complete,
+                         cancelled: callback_methods.cancelled,
+                         progress: callback_methods.progress,
+                         error: callback_methods.error,
+                         warn: callback_methods.warn,
+                         paused: callback_methods.paused,
+                         pausing: callback_methods.pausing,
+                         resumed: callback_methods.resumed,
+                         nameChanged: callback_methods.nameChanged
+                      },
+                      {
+                         bucket: $("#s3Bucket").val(), // Shows that the bucket can be changed per
+                         aws_key: $("#awsKey").val() // Shows that aws_key can be changed per
+                      }
+              )
+              .then((function (requestedName) {
+                 return function (awsKey) {
+                       if (awsKey === requestedName) {
+                          console.log(awsKey, 'successfully uploaded!');
+                       } else {
+                          console.log('Did not re-upload', requestedName, 'because it exists as', awsKey);
+                       }
+                    }
+                 })(name)
+              );
+
+              filePromises.push(promise);
+
+              callback_methods.progress_clock.attr('file_id', file_id);
+
+              ["#pause-all",  "#pause-all-force", "#cancel-all"].forEach(function (v) { $(v).show(); });
+           }
+
+           allCompleted = Promise.all(filePromises)
+                   .then(function () {
+                      console.log('All files were uploaded successfully.');
+                   }, function (reason) {
+                      console.log('All files were not uploaded successfully:', reason);
+                   })
+
+           $(evt.target).val('');
+
+        });
+
+        $("#pause-all").hide().click(function () {
+           _e_.pause();
+        });
+
+        $("#cancel-all").hide().click(function () {
+           _e_.cancel();
+        });
+
+        $("#pause-all-force").hide().click(function () {
+            _e_.pause(undefined, {force: true});
+        });
+
+        $("#resume").hide().click(function () {
+           _e_.resume();
+           $("#resume").hide();
+        });
+
+        function callbacks(file, fileKey, idx) {
+
+           var progress_clock = $('<div class="progress-clock"/>'),
+                   clock,
+                   progress,
+                   file_id;
+
+           $('#progress-container')
+                   .append(progress_clock);
+
+           progress_clock
+                   .append('<span>' + file.name + '</span>')
+                   .append('<div class="circle"/>');
+           var cancel = $('<button class="cancel btn btn-danger btn-xs glyphicon glyphicon-stop" title="Cancel"></button>')
+                   .click(function () {
+                       console.log('canceling', fileKey);
+                      _e_.cancel(fileKey);
+                   });
+           progress_clock.append(cancel);
+
+           var pause = $('<button class="pause btn btn-warning btn-xs glyphicon glyphicon-pause" title="Pause"></button>')
+                   .click(function () {
+                       console.log('pausing', fileKey);
+                      _e_.pause(fileKey);
+                   });
+           progress_clock.append(pause);
+
+           var forcePause = $('<button class="pause btn btn-primary btn-xs glyphicon glyphicon glyphicon-off" title="Force Pause"></button>')
+                   .click(function () {
+                      console.log('force pausing', fileKey);
+                      _e_.pause(fileKey, {force: true});
+                   });
+           progress_clock.append(forcePause);
+
+           var resume = $('<button class="resume btn btn-success btn-xs glyphicon glyphicon-play" title="Resume"></button>').hide()
+                   .hide()
+                   .click(function () {
+                       console.log('resuming', fileKey);
+                      _e_.resume(fileKey);
+                   });
+           progress_clock.append(resume);
+
+           var status = $('<span class="status"></span>');
+           progress_clock.append(status);
+           var speed = $('<span class="speed">786 Kbs</span>');
+           progress_clock.append(speed);
+
+           clock = new ProgressBar.Circle(progress_clock.find('.circle')[0], {
+              strokeWidth: 3,
+              trailWidth: 1,
+              duration: 350,
+              text: {
+                 value: ''
+              },
+              step: function(state, bar) {
+                 bar.setText((bar.value() * 100).toFixed(0) + '%');
+              }
+           });
+
+           progress_clock.find('svg path').removeAttr('stroke');
+           progress_clock.find('.progressbar-text').css('color', '');
+
+
+           function markComplete(className) {
+                progress_clock.addClass(className);
+                status.text(className);
+           }
+
+           return {
+              progress: function (progressValue, data) {
+                 progress = progressValue;
+                 console.log(
+                     'Total Loaded:', data && data.loaded ? data.loaded : '',
+                     'Speed:', data && data.speed ? data.speed : '',
+                     'Formatted speed:', data && data.speed ? data.readableSpeed + 's' : '',
+                     'Minutes left:', data && data.secondsLeft ? Math.round(data.secondsLeft / 60) : '')
+                 clock.animate(progressValue);
+                 if(data) {
+                   var xferRate = data.speed ? '<br />' + data.readableSpeed + "s" : '',
+                       remaining = data.secondsLeft ? '<br />' + Math.round(data.secondsLeft / 60) + 'm left' : '';
+                   speed.html(xferRate + remaining);
+                 }
+              },
+              started: function (fid) {
+                  console.log('started', fid)
+                 file_id = fid;
+                 pause.show();
+                 forcePause.show();
+                 resume.hide();
+                 progress_clock.addClass('evaporating');
+                 status.text('evaporating');
+              },
+              error: function (msg) {
+                 var m = $('<div/>').append(msg);
+                 var html = $('<small/>').html(m);
+                 markComplete('error');
+                 clock.animate(progress);
+                 progress_clock.removeClass('evaporating warning');
+              },
+              cancelled: function () {
+                 clock.animate(progress);
+                 markComplete('canceled');
+                 progress_clock.removeClass('evaporating warning paused pausing');
+                 cancel.hide();
+                 resume.hide();
+                 pause.hide();
+                 forcePause.hide();
+              },
+              pausing: function () {
+                 clock.animate(progress);
+                 markComplete('pausing');
+                 $("#resume").show();
+                 pause.hide();
+                 forcePause.hide();
+
+                 progress_clock.removeClass('evaporating warning');
+              },
+              paused: function () {
+                 clock.animate(progress);
+                 markComplete('paused');
+                 pause.hide();
+                 forcePause.hide();
+
+                 resume.show();
+                 $("#resume").show();
+                 progress_clock.removeClass('evaporating warning pausing');
+              },
+              resumed: function () {
+                 clock.animate(progress);
+                 markComplete('');
+                 resume.hide();
+                 progress_clock.removeClass('pausing paused');
+              },
+              warn: function (msg) {
+                 var m = $('<small/>').html(msg);
+                 var html = $('<div/>').append(m);
+                 clock.animate(progress)
+              },
+              nameChanged: function (awsKey) {
+                 console.log('Evaporate will use existing S3 upload for', awsKey,
+                         'rather than the requested object name', file_id)
+              },
+              complete: function (_xhr, awsKey, stats){
+                 var m = $('<small/>').html(awsKey + ' - Completed');
+                 var html = $('<div/>').append(m);
+                 clock.animate(1);
+                 progress_clock.removeClass('evaporating warning');
+                 markComplete('completed');
+                 console.log('Stats for', decodeURIComponent(awsKey), stats);
+              },
+              progress_clock: progress_clock
+           }
+        }
+     },
+     function (reason) {
+        $("div.errors").html('Evaporate failed to initialize: ' + reason + '. Change parameters and refresh page.');
+     });
+
+   $(document).ready(function() {
+     $("#signingMethod").change(function () { updateSignerUi(this.checked); });
+
+     $("input[type=text]").change(function () {
+       cookie_data[this.id] = this.value;
+       setDevCookie();
+     });
+
+     $("input[type=radio][name=persist], #signingMethod").change(setDevCookie);
+
+     function setDevCookie() {
+       Cookies.remove(COOKIE, cookie_options);
+
+       var v = $("input[type=radio][name=persist]:checked").val();
+       if (v === "off") { return; }
+
+       cookie_data.persist = v;
+       cookie_data.useUnsafeJavaScript = $("#signingMethod")[0].checked;
+       cookie_data.awsKey = encodeURIComponent($("#awsKey").val().trim());
+       cookie_data.awsRegion = encodeURIComponent($("#awsRegion").val().trim());
+       cookie_data.s3Bucket = encodeURIComponent($("#s3Bucket").val().trim());
+       cookie_data.signerUrl = encodeURIComponent($("#signerUrl").val().trim());
+
+       Cookies.set(COOKIE, JSON.stringify(cookie_data), cookie_options);
+     }
+   });
+
+   function updateSignerUi(checked) {
+     $("#signingMethod")[0].checked = checked;
+     $("#signerLabel").html(checked ? "AWS Secret" : "Signer URL");
+     $("#signerUrl").attr('placeholder', checked ? "AWS Secret" : "Signer URL");
+     $(".awsRegion")[checked ? 'show' : 'hide']();
+   }
+
+   function doNotUseUnsafeJavaScriptV4Signer(_signParams, _signHeaders, stringToSign, dateString) {
+     // http://docs.aws.amazon.com/general/latest/gr/sigv4-calculate-signature.html
+     // DO NOT USE JavaScript to sign requests as it risks exposing your AWS secret
+     // This method is provided for development testing and learning
+     return new Promise(function (resolve, reject) {
+       var hmac = function (k, v) { return AWS.util.crypto.hmac(k, v, 'buffer'); },
+           awsSecret = $("#signerUrl").val().trim(),
+           awsRegion = ($("#awsRegion").val() || '').trim() || "us-east-1",
+           date = hmac(["AWS4", awsSecret].join(""), dateString.substr(0, 8)),
+           region = hmac(date, awsRegion),
+           service = hmac(region, "s3"),
+           signing = hmac(service, "aws4_request"),
+           signingKey = AWS.util.crypto.hmac(signing, decodeURIComponent(stringToSign), 'hex');
+
+       resolve(signingKey);
+     });
+   }
+</script>
+
+</body>
+</html>

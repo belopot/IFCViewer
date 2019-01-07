@@ -1,0 +1,69 @@
+<div class="row no-gutters py-2">
+        <div class="col-10 calc-treechild">
+            <a href="" class="file-listing text-truncate d-flex align-items-center opentree"ng-click="openTree($index,this)">
+              <img alt="icon" src="/assets/images/Calc/add.png" ng-if="this.collapsed" width="10">
+              <img alt="icon" src="/assets/images/Calc/minus.png"ng-if="!this.collapsed"width="10">
+              <div class="flex-one ml-3 wordWrap">Level {{$index+1}}</div>
+            </a>
+        </div>
+      
+</div>
+ <ol ui-tree-nodes="" ng-model="items" ng-class="{'angular-ui-tree-hidden': collapsed}">
+     <li ng-repeat="subItem in items" ui-tree-node>
+        <div class="row no-gutters py-2">
+             <div class="col-10 calc-treechild" >
+                 <a href="" class="file-listing text-truncate d-flex align-items-center"ng-click="openSubTree($index,this)">
+                      <img alt="icon" src="/assets/images/Calc/add.png" ng-if="this.collapsed" width="10">
+                      <img alt="icon" src="/assets/images/Calc/minus.png"ng-if="!this.collapsed"width="10">
+                   <div class="flex-one ml-3 wordWrap">{{subItem.name}}</div>
+                 </a>
+             </div>
+        </div>
+        <ol ui-tree-nodes="" ng-model="subItem" ng-class="{'angular-ui-tree-hidden': collapsed}">
+            <li ng-repeat="sub in subItem.cost" ui-tree-node>
+               <div class="row no-gutters py-2">
+                    <div class="col-10 calc-treechild" >
+                        <a href="" class="file-listing text-truncate d-flex align-items-center"ng-click="openSubTree($index,this)">
+                             <img alt="icon" src="/assets/images/Calc/add.png" ng-if="this.collapsed" width="10">
+                             <img alt="icon" src="/assets/images/Calc/minus.png"ng-if="!this.collapsed"width="10">
+                          <div class="flex-one ml-3 wordWrap">{{sub.code1}}</div>
+                        </a>
+                    </div>
+               </div>
+               <ol ui-tree-nodes="" ng-model="sub" ng-class="{'angular-ui-tree-hidden': collapsed}">
+                <li ng-repeat="subdata in sub.code3" ui-tree-node>
+                   <div class="row no-gutters py-2">
+                        <div class="col-10 calc-treechild" >
+                            <a href="" class="file-listing text-truncate d-flex align-items-center"ng-click="openSubTree($index,this)">
+                                 <img alt="icon" src="/assets/images/Calc/add.png" ng-if="this.collapsed" width="10">
+                                 <img alt="icon" src="/assets/images/Calc/minus.png"ng-if="!this.collapsed"width="10">
+                              <div class="flex-one ml-3 wordWrap">{{subdata.naming}}</div>
+                            </a>
+                        </div>
+                   </div>
+                   <ol ui-tree-nodes="" ng-model="sub" ng-class="{'angular-ui-tree-hidden': collapsed}">
+                    <li ng-repeat="subdatacodes in subdata.codesubject" ui-tree-node>
+                       <div class="row no-gutters py-2">
+                            <div class="col-10 calc-treechild" >
+                                <a href="" class="file-listing text-truncate d-flex align-items-center"ng-click="openSubTree($index,this)">
+                                     <img alt="icon" src="/assets/images/Calc/add.png" ng-if="this.collapsed" width="10">
+                                     <img alt="icon" src="/assets/images/Calc/minus.png"ng-if="!this.collapsed"width="10">
+                                  <div class="flex-one ml-3 wordWrap">{{subdatacodes.codesubject}}</div>
+                                </a>
+                            </div>
+                       </div>
+               
+                       
+                     </li>
+                </ol>
+                   
+                 </li>
+            </ol>
+    
+               
+             </li>
+        </ol>
+
+
+      </li>
+ </ol>

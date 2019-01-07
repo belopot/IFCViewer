@@ -1,0 +1,286 @@
+/* common style */
+#visual_planner header p {margin-bottom: 0px !important}
+#visual_planner .slidecontainer { width: 100%; }
+#visual_planner .slider {
+  -webkit-appearance: none;
+  width: 50%;
+  height: 8px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+  position: relative;
+  bottom: 15px;
+}
+#visual_planner .slider:hover { opacity: 1; }
+#visual_planner .slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+#visual_planner .slider::-moz-range-thumb {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+/* New Visual Planer */
+#stage {
+  position: absolute;
+  height: calc(100vh - 70px);
+  width: 100%;
+  top: 70px;
+  background: #f5f5f5;
+  z-index: 1;
+}
+#stage_tools { position: relative; }
+
+#stage_tools header {
+  position: absolute;
+  width: 100%;
+  height: 70px;
+  z-index: 2;
+}
+#stage_tools .redoundo li {
+  list-style: none;
+  float: left;
+  margin: 0 5px;
+}
+#stage_tools .window_info {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+  padding: 5px;
+  margin-top: 8px;
+}
+#stage_tools .window_info p span {
+  display: block;
+  font-size: 90%;
+}
+#stage_tools .window_info p small {
+  font-size: 90%;
+  min-width: 60px;
+  display: inline-block;
+}
+#stage_tools .ve_icon {
+  background: url(/assets/images/VE_icon.png) no-repeat;
+  width: 30px;
+  height: 30px;
+  display: inline-block;
+  margin: 10px 0 0px;
+  cursor: pointer;
+}
+#stage_tools .ve_icon.active,
+#stage_tools .ve_icon:hover {
+  background: url(/assets/images/VE_icon_hover.png) no-repeat;
+}
+#stage_tools .ve_icon.undo {
+  background-position: 0 0;
+}
+#stage_tools .ve_icon.redo {
+  background-position: -36px 0;
+}
+#stage_tools .ve_icon.recenter {
+  background-position: -72px 0;
+  top: -2px;
+  position: relative;
+}
+#stage_tools .ve_icon.save {
+  background-position: -112px 0;
+}
+#stage_tools .ve_icon.download {
+  background-position: -150px 0;
+}
+#stage_tools .ve_icon.image {
+  background-position: -150px 0;
+}
+#stage_tools .ve_icon.grab {
+  background-position: 0px -32px;
+}
+#stage_tools .ve_icon.hand {
+  background-position: -36px -32px;
+}
+#stage_tools .ve_icon.ruler {
+  background-position: -100px -32px;
+}
+#stage_tools .ve_icon.pencil {
+  background-position: -135px -32px;
+}
+#stage_tools .ve_icon.square {
+  background-position: -175px -32px;
+}
+#stage_tools .ve_icon.circle {
+  background-position: -210px -32px;
+}
+#stage_tools .ve_icon.line {
+  background-position: -245px -32px;
+}
+#stage_tools .ve_icon.polygon {
+  background-position: -280px -32px;
+}
+#stage_tools .ve_icon.text {
+  background-position: -320px -32px;
+}
+#stage_tools .ve_icon.close {
+  background-position: -350px -32px;
+}
+#stage_tools .ve_icon.back {
+  background-position: -286px 0px;
+}
+#stage_tools .closeVE {
+  position: absolute;
+  right: 90px;
+  top: 90px;
+  z-index: 2;
+}
+
+#stage_tools header .zoomRange md-slider {
+  height: 0;
+  min-width: 60px;
+  width: 60px;
+  margin-top: 10px;
+  position: absolute;
+}
+.zoomRange p {
+  padding-left: 75px;
+}
+.zoomRange .zoomRangeTxt {
+  width: 45px;
+  top: -15px;
+  position: relative;
+  padding-left: 10px;
+}
+
+.strokeFill p,
+#stage_tools .slidecontainer {
+  display: inline-block;
+  font-size: 13px;
+}
+#stage_tools .slidecontainer {width: 50%; margin-left: 8px}
+#stage_tools .slidecontainer .slider {width: 75%; top: -7px} /* bottom: 7px; */
+#stage_tools .slidecontainer .strokeWidthSize {position: relative; bottom: 7px}
+#stage_tools .slidecontainer .strokeWidthTxt {position: relative; bottom: 13px; left: 5px; font-size: 13px;}
+#stage_tools p color-picker {display: block;}
+#stage_tools p.fill { margin-left: 10px; }
+#stage_tools .color-picker-wrapper {
+  display: inline-block;
+  position: relative;
+  top: 5px;
+}
+#stage_tools .color-picker-wrapper .input-group .input-group-addon:first-child {
+  width: 25px;
+  height: 25px;
+  display: inline-block;
+  border: 1px solid #aaa;
+  border-radius: 6px;
+}
+.shapeStyle .color-picker-wrapper .color-picker-input,
+#stage_tools .color-picker-wrapper .input-group .color-picker-input-swatch { display: none; }
+.shapeStyle .color-picker-wrapper .color-picker-input-wrapper {height: 38px; width: 38px;}
+
+#stage_tools .shapeStyle .slidecontainer {width: 90% !important;}
+#stage_tools .zoomRange .slidecontainer {width: 100%; margin-left: 8px}
+#stage_tools .zoomRange .slidecontainer .slider {width: 50%; top: -15px !important;}
+
+#chooseRoofModal .modal-body {height: 80vh; overflow: auto}
+
+
+#stage_tools header .cursorPointer {
+  position: relative;
+  margin: 3px 6px;
+  top: -12px;
+  display: inline-block;
+  min-width: 50px;
+}
+
+#stage_tools .ve_tools {
+  background: #fff;
+  border-radius: 6px;
+  box-shadow: 0 0 8px #ccc;
+  position: absolute;
+  top: 90px;
+  left: calc(50% - 240px);
+  z-index: 3;
+}
+.ve_tools ul {
+  margin: 0;
+  padding: 5px;
+  overflow: hidden;
+}
+.ve_tools li {
+  float: left;
+  height: 30px;
+  margin: 0 3px;
+  padding: 0 3px;
+  list-style: none;
+}
+.ve_tools li.line {
+  margin: 0;
+  padding: 0 1px;
+  background: #efefef;
+}
+.ve_tools li .ve_icon {
+  margin: 2px !important;
+}
+.info-widget,
+.layerPanel,
+#mydiv {
+  position: absolute;
+  width: 250px;
+  z-index: 9;
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 6px;
+  top: 90px;
+  left: 5%;
+}
+#drag_element,
+#mydivheader {
+  cursor: move;
+  z-index: 3;
+}
+.info-widget{
+  top: 6%;
+  left: 75%;
+  padding: 5px 10px;
+}   
+.layerPanel .layerShapeList, .layerPanel .childLayer {
+  margin: 0;
+  padding: 0;
+}
+.layerPanel p,
+.layerPanel li {
+  padding: 5px 10px;
+  list-style: none;
+}
+.layerPanel li md-checkbox {
+  margin: 0;
+}
+.drag_element {cursor: move;}
+/* custom chk box */
+/* Hide the browser's default checkbox */
+.checkallShape {position: relative;}
+.checkallShape input[type=checkbox] {
+    visibility: hidden;
+    position: absolute;
+}
+.checkallShape label {
+  padding: 5px;
+  background: #2196F3;
+  color: #fff;
+}
+.childShapeSelect {display: none}
+  
+#loadMaterial .modal-body {max-height: 500px;}
+.card.materialItem img {max-height: 110px; object-fit: cover; object-position: center;  overflow: hidden;}
+.card.materialItem .card-body {padding: 0.5rem}
+#loadMaterial .modal-body .tab-content {overflow-y: scroll; height: 250px;}
+.tab-pane .container-fluid {position: relative;}
+.tab-pane .searchMaterial {position: fixed; width: 82.5%; z-index: 100; background: #fff; height: 85px; padding-top: 15px;}
+.tab-pane .materialList {position: relative; top: 85px}

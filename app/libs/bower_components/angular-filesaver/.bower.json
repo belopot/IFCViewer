@@ -1,0 +1,32 @@
+{
+  "name": "angular-filesaver",
+  "main": "angular-filesaver.js",
+  "version": "0.1.0",
+  "homepage": "https://github.com/jdforsythe/angular-filesaver",
+  "authors": [
+    "Jeremy Forsythe <jforsythe@churchbudget.com>"
+  ],
+  "description": "Angular service wrapping FileSaver.js",
+  "keywords": [
+    "angular",
+    "file"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "_release": "0.1.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "0.1.0",
+    "commit": "2430c722e0ea26d172ca61b4bb6acdb329ec2a4d"
+  },
+  "_source": "https://github.com/jdforsythe/angular-filesaver.git",
+  "_target": "^0.1.0",
+  "_originalSource": "angular-filesaver",
+  "_direct": true
+}

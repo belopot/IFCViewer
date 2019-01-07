@@ -1,0 +1,17 @@
+<div class="row no-gutters">
+    <div class="col-10">
+        <a href="" class="file-listing text-truncate d-flex align-items-center">
+
+
+            <i class="fas" ng-class="{'fa-folder' : this.collapsed, 'fa-folder-open' : !this.collapsed}" ng-click="this.toggle()"></i>&nbsp;&nbsp;
+            <div class="flex-one" ng-click="vm.toggleFolder(this, true, node)">{{node.name}}</div>
+        </a>
+    </div>
+
+</div>
+
+<ol ui-tree-nodes="" ng-model="node.children" ng-class="{'angular-ui-tree-hidden': collapsed}">
+    <li ng-repeat="node in node.children" ui-tree-node ng-include="'/partials/backupTreeView.html'">
+    </li>
+
+</ol>
