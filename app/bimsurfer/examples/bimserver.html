@@ -1,0 +1,468 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light" rel="stylesheet"
+	 type="text/css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
+
+	<link rel="stylesheet" href="css/demo.css" />
+	<link rel="stylesheet" href="css/apiref.css" />
+	<link rel="stylesheet" href="css/tree.css">
+	<link rel="stylesheet" href="css/metadata.css" />
+	<link rel="stylesheet" href="css/theme.css" />
+	<link rel="stylesheet" href="css/newtree.css">
+	<link rel="stylesheet" href="css/default.css" />
+	<link rel="stylesheet" href="css/style.css" />
+	<link rel="stylesheet" href="css/annotation-style.css" />
+
+
+	<script type="text/javascript" src="js/utils.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+
+	<script>
+		var address = QueryString.address;
+		var token = QueryString.token;
+
+		/* Generating a new version based on the current time, this way resources are never cached
+		 When building a version of BIMsurfer V2 this should be replaced by an actual version number in order
+		 To facilitate proper caching
+		*/
+		var version = new Date().getTime();
+
+		// This has been moved to bimserverapi, can be removed in a day
+		String.prototype.firstUpper = function () {
+			return this.charAt(0).toUpperCase() + this.slice(1);
+		}
+
+		// Because the demo is in a subfolder compared to the BIMsurfer API, we tell require JS to use the "../" baseUrl
+		var require = {
+			baseUrl: "../",
+			urlArgs: "bust=" + version
+		};
+	</script>
+
+	<script src="js/jquery.js"></script>
+	<script src="js/jstree.js"></script>
+	<script src="js/mytree.js"></script>
+	<script type="text/javascript" src="../lib/require.js"></script>
+	<script type="text/javascript">
+		var o = this;
+		o.modelLoader = null;
+		o.bimSurfer = null;
+		if (!address) {
+			// New Project
+			require(["src/BimSurfer"
+				],
+				function (BimSurfer) {
+					o.bimSurfer = new BimSurfer({
+						domNode: "viewerContainer",
+						plan: "3D"
+					});
+					// o.bimSurfer.settingViewerFor2DPlan();
+					o.bimSurfer.settingViewerFor3DPlan();
+					// Lets us play with the Surfer in the console
+					window.bimSurfer = o.bimSurfer;
+				});
+		} else {
+			// Loads a model from BIMServer, builds an explorer tree UI.
+			// Clicking on a tree node fits the view to its scene object.
+
+			var apiVersion = new Date().getTime();
+
+			var p = new Promise(function (resolve, reject) {
+				var str =
+					`
+		import("${address}/apps/bimserverjavascriptapi/bimserverclient.js?_v=${apiVersion}").then((bimserverapi) => {
+			window.BimServerClient = bimserverapi.default;
+			window.BimServerApiPromise = bimserverapi.BimServerApiPromise;
+			resolve(bimserverapi);
+		});`;
+				eval(str);
+			});
+			p.then(() => {
+				require(["src/BimSurfer", "src/BimServerModelLoader", "src/StaticTreeRenderer", "src/DynamicTreeRenderer",
+						"src/MetaDataRenderer"
+					],
+					function (BimSurfer, BimServerModelLoader, StaticTreeRenderer, DynamicTreeRenderer, MetaDataRenderer) {
+
+						function processBimSurferModel(roid, bimSurferModel) {
+							bimSurferModel.getTree().then(function (tree) {
+								// Build a tree view of the elements in the model. The fact that it
+								// is 'static' refers to the fact that all branches are loaded and
+								// rendered immediately.
+								var domtree = new DynamicTreeRenderer({
+									domNode: 'dlg_structures_content'
+								});
+								domtree.addModel({
+									name: "",
+									id: roid,
+									tree: tree
+								});
+								domtree.build();
+
+								treeTheme(parent.document.getElementById('dlg_structures_content'));
+								domtree.addAction();
+
+								// Add a widget that displays metadata (IfcPropertySet and instance
+								// attributes) of the selected element.
+								// var metadata = new MetaDataRenderer({
+								// 	domNode: 'dlg_components_content'
+								// });
+								// metadata.addModel({
+								// 	name: "",
+								// 	id: roid,
+								// 	model: bimSurferModel
+								// });
+
+								// o.bimSurfer.on("selection-changed", function (params) {
+								// 	domtree.setSelected(params.objects, domtree.SELECT_EXCLUSIVE);
+								// 	metadata.setSelected(params.objects);
+								// });
+
+								domtree.on("click", function (oid, selected) {
+									// Clicking an explorer node fits the view to its object and selects
+									// console.log(selected);
+									if (selected.length) {
+										o.bimSurfer.viewFit({
+											ids: selected,
+											animate: true
+										});
+									}
+									o.bimSurfer.setSelection({
+										ids: selected,
+										clear: true,
+										selected: true
+									});
+								});
+							});
+						}
+
+						o.bimSurfer = new BimSurfer({
+							domNode: "viewerContainer"
+						});
+						//Type Viewer
+						o.bimSurfer.on("loading-finished", function () {
+							//Import type 
+							parent.document.getElementById("viewerStatus").innerHTML = "Loading finished";
+							var typeNode = parent.document.getElementById("dlg_types_content");
+							typeNode.innerHTML = "";
+							o.bimSurfer.getTypes().forEach(function (ifc_type) {
+								var tr = document.createElement("tr");
+								tr.className = "layertr";
+								var td1 = document.createElement("td");
+								td1.className = "layertd";
+								td1.innerText = ifc_type.name;
+								tr.appendChild(td1);
+
+								var td2 = document.createElement("td");
+								td2.className = "layertd";
+								var eye = document.createElement("div");
+
+								var on = ifc_type.visible;
+								var setClass = function () {
+									eye.className = "eye " + ["eyeclosed", "eyeopen"][on * 1];
+								};
+								setClass();
+								eye.onclick = function () {
+									on = !on;
+									setClass();
+									bimSurfer.setVisibility({
+										types: [ifc_type.name],
+										visible: on
+									});
+								};
+								td2.appendChild(eye);
+								var span = document.createElement("span");
+								span.className = "badge";
+								var objs = bimSurfer.getObjectsByType();
+								span.innerText = objs[ifc_type.name].length;
+								td2.appendChild(span);
+								tr.appendChild(td2);
+								typeNode.appendChild(tr);
+							});
+						});
+
+						o.bimSurfer.on("loading-started", function () {
+							parent.document.getElementById("viewerStatus").innerHTML = "Loading...";
+						});
+
+						// Lets us play with the Surfer in the console
+						window.bimSurfer = o.bimSurfer;
+
+						// Create a BIMserver API, we only need one of those for every server we connect to
+						var bimServerClient = new BimServerClient(address, null);
+						bimServerClient.init(function () {
+							bimServerClient.setToken(token, function () {
+								// Create a model loader, this one is able to load models from a BIMserver and therefore can have BIMserver specific calls
+								o.modelLoader = new BimServerModelLoader(bimServerClient, o.bimSurfer);
+
+								var models = {}; // roid -> Model
+
+								// For this example, we'll fetch all the latest revisions of all the subprojects of the main project
+								var poid = QueryString.poid;
+
+								var nrProjects;
+
+								function loadModels(models, totalBounds) {
+									var center = [
+										(totalBounds.min[0] + totalBounds.max[0]) / 2,
+										(totalBounds.min[1] + totalBounds.max[1]) / 2,
+										(totalBounds.min[2] + totalBounds.max[2]) / 2
+									];
+
+									var globalTransformationMatrix = [
+										1, 0, 0, 0,
+										0, 1, 0, 0,
+										0, 0, 1, 0,
+										-center[0], -center[1], -center[2], 1
+									];
+									//console.log(totalBounds, models);
+
+									//layer viewer
+									parent.document.getElementById("dlg_layers_content").innerHTML = '';
+									for (var roid in models) {
+										var model = models[roid];
+										// Example 1: Load a full model
+										o.modelLoader.setGlobalTransformationMatrix(globalTransformationMatrix);
+										o.modelLoader.loadFullModel(model, parent.document.getElementById("dlg_layers_content")).then(function (
+											bimSurferModel) {
+											processBimSurferModel(roid, bimSurferModel);
+										});
+									}
+								}
+
+								bimServerClient.call("ServiceInterface", "getAllRelatedProjects", {
+									poid: poid
+								}, function (projects) {
+									nrProjects = projects.length;
+
+									var totalBounds = {
+										min: [Number.MAX_VALUE, Number.MAX_VALUE, Number.MAX_VALUE],
+										max: [-Number.MAX_VALUE, -Number.MAX_VALUE, -Number.MAX_VALUE]
+									};
+
+									projects.forEach(function (project) {
+										if (project.lastRevisionId != -1 && (project.nrSubProjects == 0 || project.oid != poid)) {
+											bimServerClient.getModel(project.oid, project.lastRevisionId, project.schema, false, function (
+												model) {
+												models[project.lastRevisionId] = model;
+
+												//loadLayers(project, model);
+
+												bimServerClient.call("ServiceInterface", "getModelMinBounds", {
+													roid: project.lastRevisionId
+												}, function (minBounds) {
+													bimServerClient.call("ServiceInterface", "getModelMaxBounds", {
+														roid: project.lastRevisionId
+													}, function (maxBounds) {
+														if (minBounds.x < totalBounds.min[0]) {
+															totalBounds.min[0] = minBounds.x;
+														}
+														if (minBounds.y < totalBounds.min[1]) {
+															totalBounds.min[1] = minBounds.y;
+														}
+														if (minBounds.z < totalBounds.min[2]) {
+															totalBounds.min[2] = minBounds.z;
+														}
+														if (maxBounds.x > totalBounds.max[0]) {
+															totalBounds.max[0] = maxBounds.x;
+														}
+														if (maxBounds.y > totalBounds.max[1]) {
+															totalBounds.max[1] = maxBounds.y;
+														}
+														if (maxBounds.z > totalBounds.max[2]) {
+															totalBounds.max[2] = maxBounds.z;
+														}
+														nrProjects--;
+														if (nrProjects == 0) {
+															loadModels(models, totalBounds);
+														}
+													});
+												});
+											});
+										} else {
+											nrProjects--;
+											if (nrProjects == 0) {
+												loadModels(models, totalBounds);
+											}
+										}
+									});
+
+								});
+
+							});
+						});
+					});
+			});
+		}
+
+		//control camera view
+		window.setCameraView = function (type) {
+			switch (type) {
+				case "perspective":
+					o.bimSurfer.setCamera({
+						type: type
+					});
+					break;
+				case "ortho":
+					o.bimSurfer.setCamera({
+						type: type
+					});
+					break;
+				case "top":
+					o.bimSurfer.setCameraView(type);
+					break;
+				case "bottom":
+					o.bimSurfer.setCameraView(type);
+					break;
+				case "front":
+					o.bimSurfer.setCameraView(type);
+					break;
+				case "back":
+					o.bimSurfer.setCameraView(type);
+					break;
+				case "left":
+					o.bimSurfer.setCameraView(type);
+					break;
+				case "right":
+					o.bimSurfer.setCameraView(type);
+					break;
+			}
+		}
+		//control view method
+		var oldViewMethod = "shaded";
+		var _isTransp = false;
+		var _isEdges = false;
+		window.setViewMethod = function (type) {
+
+			switch (type) {
+				case "shaded":
+					o.bimSurfer.setWireframeView({
+						ids: o.modelLoader.allObjectIds,
+						wireframe: false
+					});
+					o.bimSurfer.setEdgesView({
+						ids: o.modelLoader.allObjectIds,
+						edges: _isEdges ? true : false
+					});
+					break;
+				case "transp":
+					o.bimSurfer.setTransparentView({
+						ids: o.modelLoader.allObjectIds,
+						opacity: _isTransp ? 1 : 0.6
+					});
+					_isTransp = !_isTransp;
+					break;
+				case "wire":
+					o.bimSurfer.setWireframeView({
+						ids: o.modelLoader.allObjectIds,
+						wireframe: true
+					});
+					break;
+				case "edge":
+					o.bimSurfer.setEdgesView({
+						ids: o.modelLoader.allObjectIds,
+						edges: _isEdges ? false : true
+					});
+					_isEdges = !_isEdges;
+					break;
+			}
+		}
+		//show hide grid
+		window.showGrid = function (show) {
+			o.bimSurfer.showGrid(show);
+		}
+		//set pan move
+		window.setDefaultDragAction = function (type) {
+			o.bimSurfer.setDefaultDragAction(type);
+		}
+		//set dimensions
+		window.newDimensions = function (actionName) {
+			o.bimSurfer.newDimensions(actionName);
+		}
+		//delete all dimensions
+		window.deleteDimensions = function () {
+			o.bimSurfer.deleteDimensions();
+		}
+
+		window.newStraightLine = function () {
+			o.bimSurfer.newStraightLine();
+		}
+
+		window.newFreeLine = function () {
+			o.bimSurfer.newFreeLine();
+		}
+
+		window.newSeveralLine = function () {
+			o.bimSurfer.newSeveralLine();
+		}
+
+		window.newCircle = function () {
+			o.bimSurfer.newCircle();
+		}
+
+		window.newRect = function () {
+			o.bimSurfer.newRect();
+		}
+
+		window.newText = function (action, txt, size) {
+			o.bimSurfer.newText(action, txt, size);
+		}
+
+		window.setDrawAction = function (action) {
+			o.bimSurfer.setDrawAction(action);
+		}
+
+		window.initDrawingTools = function () {
+			o.bimSurfer.initDrawingTools();
+		}
+
+		window.onPushPull = function () {
+			o.bimSurfer.onPushPull();
+		}
+
+		window.onConnectCorner = function () {
+			o.bimSurfer.onConnectCorner();
+		}
+
+		window.onSquareMarker = function () {
+			o.bimSurfer.onSquareMarker();
+		}
+
+		window.onRotateEntity = function () {
+			o.bimSurfer.onRotateEntity();
+		}
+
+		window.onBucket = function () {
+			o.bimSurfer.onBucket();
+		}
+
+		window.getScene = function () {
+			return o.bimSurfer.getScene();
+		}
+
+		//Get selected material
+		window.getSelectedMaterial = function () {
+			return o.bimSurfer.getSelectedMaterial();
+		}
+		//Change selected material
+		window.changeSelectedMaterial = function (material) {
+			o.bimSurfer.changeSelectedMaterial(material);
+		}
+	</script>
+</head>
+
+<body>
+	<div id="maincontainer">
+		<div id="topsection">
+		</div>
+		<div id="contentwrapper">
+			<div id="viewerContainer">
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

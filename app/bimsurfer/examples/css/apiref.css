@@ -1,0 +1,26 @@
+textarea, pre {
+    padding: 20px;
+    border: solid 1px #ddd;
+    background: #f4f4f4;
+    height: 12px;
+    line-height: 12px;
+    font-size: 12px;
+    width: 1200px;
+    display: block;
+}
+
+pre {
+    background: white;
+    overflow: hidden;
+    white-space: pre-wrap;
+}
+
+button {
+    margin: 10px 10px;
+    width: 100px;
+}
+
+#apirefContainer {  
+    padding: 30px 10px;
+    clear: both;
+}
